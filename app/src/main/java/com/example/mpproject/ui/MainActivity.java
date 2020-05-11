@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-// commit 실험
+// branch에 commit 실험
 
 public class MainActivity extends AppCompatActivity {
     NavigationView mNv;
