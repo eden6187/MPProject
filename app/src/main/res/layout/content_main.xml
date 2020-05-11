@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/app_bar_layout">
+    tools:showIn="@layout/app_bar_main">
 
 
     <Button
         android:id="@+id/button_main_gotocareactivity"
         android:layout_width="104dp"
         android:layout_height="59dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="124dp"
         android:text="돌봄 서비스"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
