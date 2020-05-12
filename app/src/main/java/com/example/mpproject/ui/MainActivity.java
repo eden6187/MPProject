@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 mDl.openDrawer(mNv); //Drawer의 NavigationView가 튀어나오도록 해준다.
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 }

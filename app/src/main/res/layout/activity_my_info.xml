@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_myinfo"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/holo_green_light"
+        app:popupTheme="@style/PopupOverlay"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_myinfo"
+        tools:context=".ui.MyInfoActivity">
+
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_user" />
+
+<!--            <TextView-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:text="@string/nav_header_userid"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                />-->
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:background="@drawable/stroke_gray"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:paddingStart="10dp"
+                    android:text="@string/nav_header_userid"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:background="@android:color/transparent"
+                    android:layout_height="wrap_content"/>
+                <Button
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_close_cross"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+            <LinearLayout
+                android:background="@android:color/transparent"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:layout_weight="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:text="이메일"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:text="@string/sample_emailaddress"
+                        android:padding="10dp"
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:padding="10dp"
+                    android:layout_weight="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@android:color/black"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:text="비밀번호"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"/>
+
+                    <LinearLayout
+                        android:weightSum="3"
+                        android:layout_weight="3"
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:background="@drawable/stroke_gray"
+                            android:layout_weight="2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"/>
+
+                        <Button
+                            android:layout_marginStart="5dp"
+                            android:textColor="@android:color/white"
+                            android:background="@android:color/darker_gray"
+                            android:textStyle="bold"
+                            android:text="변경"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"/>
+                    </LinearLayout>
+
+                    
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="휴대폰 인증" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingBottom="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:weightSum="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="----" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="----" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="----" />
+
+                <EditText
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="재인증" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:background="@android:color/darker_gray"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="마케팅 정보 수신 동의" />
+
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:gravity="bottom"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="이벤트 및 혜택에 대한 정보를 받으실 수 있어요" />
+                
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="메일 수신동의"
+                        android:textColor="@android:color/black"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SMS 수신동의"
+                        android:textColor="@android:color/black"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:paddingEnd="10dp"
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
