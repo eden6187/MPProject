@@ -1,9 +1,11 @@
 package com.example.mpproject.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ public class ReservationActivity extends AppCompatActivity {
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
+    Button mBtnReserve;
 
     private int mReserved_year = 0;
     private int mReserved_month = 0;
@@ -40,6 +43,8 @@ public class ReservationActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger_menu);
         //햄버거 메뉴 아이콘 설정
 
+        mBtnReserve = findViewById(R.id.button_DoReservation);
+
         mNv = findViewById(R.id.nav_view);
         mDl = findViewById(R.id.drawer_layout);
     }
@@ -47,7 +52,7 @@ public class ReservationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main);
+        setContentView(R.layout.activity_reservation);
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
@@ -69,10 +74,13 @@ public class ReservationActivity extends AppCompatActivity {
                 mReserved_minute = minute;
             }
         });
-    }
 
-    public void onClick(View v){ // 예약하기 버튼 클릭시, 발생하는 이벤트 메소드
-        open(v);
+        mBtnReserve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                open(v);
+            }
+        });
     }
 
     public void open(View w){
@@ -83,6 +91,8 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // 결제하기 창으로 이동하는 이벤트 구현 필요
+                Intent intent = new Intent(ReservationActivity.this, PaymentActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.ReservationActivity"></activity>
+        <activity android:name=".ui.PaymentActivity"></activity>
+        <activity android:name=".ui.TestActivity"></activity>
     </application>
 
 </manifest>
