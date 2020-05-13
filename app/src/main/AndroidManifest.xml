@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".ui.SettingActivity"></activity>
+        <activity android:name=".ui.PetCareActivity"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"

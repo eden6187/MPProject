@@ -1,7 +1,9 @@
 package com.example.mpproject.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.mpproject.R;
@@ -43,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
+
+        mBtnGotoCareService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PetCareActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
