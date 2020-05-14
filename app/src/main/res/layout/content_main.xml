@@ -8,24 +8,102 @@
     tools:showIn="@layout/app_bar_main">
 
 
-    <Button
-        android:id="@+id/button_main_gotocareactivity"
-        android:layout_width="104dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="124dp"
-        android:text="돌봄 서비스"
+    <LinearLayout
+        android:id="@+id/linearLayout_main_selectService"
+        android:layout_width="403dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.919">
+
+        <Button
+            android:id="@+id/button_main_gotocareactivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#FFC107"
+            android:text="돌봄 서비스"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_main_gotoabandoneddog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#CDDC39"
+            android:text="유기견 매칭"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_main_title"
+        android:layout_width="336dp"
+        android:layout_height="148dp"
+        android:layout_marginTop="72dp"
+        android:background="#1C39DA"
+        android:backgroundTint="#673AB7"
+        android:gravity="center"
+        android:text="맡 기 개"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="70sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_main_gotoabandoneddog"
-        android:layout_width="111dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="188dp"
-        android:text="유기견 매칭"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="288dp"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout_main_selectService"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_main_gotocareactivity" />
+        app:layout_constraintTop_toBottomOf="@+id/text_main_title"
+        app:layout_constraintVertical_bias="0.63">
+
+        <ImageView
+            android:id="@+id/imageView_main_userIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:gravity="center"
+            android:text="사용자 ID"
+            android:textSize="25dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_main_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="환영합니다!"
+        android:textColor="@color/design_default_color_on_secondary"
+        android:textSize="25sp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.216"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_main_title"
+        app:layout_constraintVertical_bias="0.92" />
 </androidx.constraintlayout.widget.ConstraintLayout>
