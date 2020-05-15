@@ -29,6 +29,12 @@ public class PetcareListFragment extends ListFragment {
 
     PetcareListViewAdapter adapter;
 
+    public interface onShopSelectedListener{
+        public void onShopSelected(int position);
+    }
+
+    onShopSelectedListener mShopSelListener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +54,6 @@ public class PetcareListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
-        PetcareListViewItem item = (PetcareListViewItem) l.getItemAtPosition(position);
+        mShopSelListener.onShopSelected(position);
     }
 }

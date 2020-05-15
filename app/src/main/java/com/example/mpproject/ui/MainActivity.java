@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnGotoCareService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReservationActivity.class);
+                Intent intent = new Intent(MainActivity.this, PetCareActivity.class);
                 startActivity(intent);
             }
         });
