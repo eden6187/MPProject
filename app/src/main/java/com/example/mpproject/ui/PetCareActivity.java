@@ -12,6 +12,7 @@ import com.example.mpproject.Fragments.ShopinfoFragment;
 import com.example.mpproject.R;
 
 public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.onShopSelectedListener{
+    PetcareListFragment mPetcareListFragment = new PetcareListFragment();
 
     public void initView(){
 
@@ -23,7 +24,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         setContentView(R.layout.activity_petcare);
 
         if(findViewById(R.id.petcare_fragment_container)!=null){
-            PetcareListFragment mPetcareListFragment = new PetcareListFragment();
+            mPetcareListFragment = new PetcareListFragment();
+            mPetcareListFragment.setOnShopSelectedListener(this);
             FragmentManager fm = getSupportFragmentManager();
             fm.beginTransaction().add(R.id.petcare_fragment_container, mPetcareListFragment).commit();
             if(savedInstanceState != null){

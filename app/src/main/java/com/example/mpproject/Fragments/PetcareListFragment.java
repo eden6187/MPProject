@@ -21,10 +21,15 @@ import com.example.mpproject.ui.PetCareActivity;
  * A simple {@link Fragment} subclass.
  */
 public class PetcareListFragment extends ListFragment {
+    onShopSelectedListener mCallback;
 
     public PetcareListFragment() {
         // Required empty public constructor
 
+    }
+
+    public void setOnShopSelectedListener(onShopSelectedListener listener){
+        this.mCallback = listener;
     }
 
     PetcareListViewAdapter adapter;
@@ -32,8 +37,6 @@ public class PetcareListFragment extends ListFragment {
     public interface onShopSelectedListener{
         public void onShopSelected(int position);
     }
-
-    onShopSelectedListener mShopSelListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +57,6 @@ public class PetcareListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(@NonNull ListView l, @NonNull View v, int position, long id) {
-        mShopSelListener.onShopSelected(position);
+        mCallback.onShopSelected(position);
     }
 }

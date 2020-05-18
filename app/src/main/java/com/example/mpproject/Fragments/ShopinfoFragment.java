@@ -1,5 +1,6 @@
 package com.example.mpproject.Fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -8,14 +9,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mpproject.R;
+import com.example.mpproject.ui.ReservationActivity;
 
 
 public class ShopinfoFragment extends Fragment {
-
+    Button mBtnGotoRerevation;
 
     public ShopinfoFragment() {
         // Required empty public constructor
@@ -26,7 +29,17 @@ public class ShopinfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopinfo, container, false);
+        View view = inflater.inflate(R.layout.fragment_shopinfo, container, false);
+        mBtnGotoRerevation = view.findViewById(R.id.button_shop_reservation);
+        mBtnGotoRerevation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ReservationActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+        return view;
+
     }
 
     @Override

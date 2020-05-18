@@ -44,15 +44,6 @@ public class MainActivity extends AppCompatActivity {
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
-////        임시 테스트
-//        mBtnGotoCareService.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, TestActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-        // 이하는 예약하기 창으로 이동하기 위한 버튼 이벤트 처리
         mBtnGotoCareService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
