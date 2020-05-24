@@ -12,7 +12,7 @@ import com.example.mpproject.R;
 public class LoginActivity extends AppCompatActivity {
     Button mBtnLogin;
 
-    public void init(){
+    public void initView(){
         mBtnLogin = (Button)findViewById(R.id.button_login_signin);
     }
 
@@ -20,7 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        init();
+        initView();
 
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override

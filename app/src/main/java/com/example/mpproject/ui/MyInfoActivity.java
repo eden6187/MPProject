@@ -6,15 +6,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.mpproject.R;
 
-public class SettingActivity extends AppCompatActivity {
+public class MyInfoActivity extends AppCompatActivity {
     Toolbar mTb;
 
     private void initView(){
-        mTb = findViewById(R.id.toolbar_settings);
+        mTb = findViewById(R.id.toolbar_myinfo);
         setSupportActionBar(mTb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -22,7 +21,7 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_my_info);
         initView();
     }
 
@@ -31,10 +30,10 @@ public class SettingActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case android.R.id.home: // 백버튼이 눌렸을 때
-                Toast.makeText(this,"onClicked",Toast.LENGTH_SHORT).show();
                 finish();
-                break;
+                return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
+
     }
 }

@@ -8,4 +8,11 @@
         android:title="@string/menu_settings"
         android:id="@+id/drawer_item_settings"
         />
+
+    <item
+        android:icon="@drawable/ic_myinfo"
+        android:title="@string/menu_myinfo"
+        android:id="@+id/drawer_item_myinfo"
+        />
+
 </menu>

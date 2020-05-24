@@ -21,7 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.PetCareActivity"></activity>
         <activity android:name=".ui.ReservationActivity"></activity>
+        <activity android:name=".ui.MyInfoActivity"></activity>
         <activity android:name=".ui.PaymentActivity"></activity>
         <activity android:name=".ui.TestActivity"></activity>
     </application>
