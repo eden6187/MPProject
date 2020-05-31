@@ -1,6 +1,8 @@
 package com.example.mpproject.ui;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
@@ -11,13 +13,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mpproject.Fragments.PetcareListFragment;
+import com.example.mpproject.Fragments.PetcareMapFragment;
 import com.example.mpproject.Fragments.ShopinfoFragment;
 import com.example.mpproject.R;
 import com.example.mpproject.listeners.NavigationViewItemListener;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.onShopSelectedListener{
     PetcareListFragment mPetcareListFragment = new PetcareListFragment();
+    PetcareMapFragment mPetcareMapFragment = new PetcareMapFragment();
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
@@ -56,6 +61,13 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.petcare_mode, menu);
+        return true;
+    }
+
     public void onShopSelected(int position){
 
         if(findViewById(R.id.petcare_fragment_container)!=null){
@@ -80,10 +92,29 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         int id = item.getItemId();
 
         switch (id){
+            case R.id.petcare_option_list_mode:
+                if(findViewById(R.id.petcare_fragment_container)!=null){
+                    mPetcareListFragment = new PetcareListFragment();
+                    mPetcareListFragment.setOnShopSelectedListener(this);
+                    FragmentManager fm = getSupportFragmentManager();
+                    fm.beginTransaction().replace(R.id.petcare_fragment_container, mPetcareListFragment).commit();
+                }
+                break;
+
+            case R.id.petcare_option_map_mode:
+                mPetcareMapFragment = new PetcareMapFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.petcare_fragment_container, mPetcareMapFragment);
+                transaction.commit();
+                break;
+
             case android.R.id.home: // 좌측의 햄버거 메뉴 버튼을 눌렀을 때
                 mDl.openDrawer(mNv); //Drawer의 NavigationView가 튀어나오도록 해준다.
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }
