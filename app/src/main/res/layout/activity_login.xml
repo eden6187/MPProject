@@ -7,16 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.LoginActivity">
 
-    <Button
-        android:id="@+id/button_login_signup"
-        android:layout_width="280dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="16dp"
-        android:text="회원가입"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login_signin" />
+<!--    <com.google.android.gms.common.SignInButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button_login_signin" />-->
 
     <TextView
         android:id="@+id/textview_login_ID"
@@ -54,15 +51,14 @@
         android:src="@drawable/ic_app_icon"
          />
 
-    <Button
-        android:id="@+id/button_login_signin"
-        android:layout_width="280dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="36dp"
-        android:text="로그인"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/button_login_googlesignin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_login_password" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

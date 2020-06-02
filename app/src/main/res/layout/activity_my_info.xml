@@ -17,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:orientation="vertical"
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -316,7 +317,33 @@
             </LinearLayout>
 
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
 
+            <Button
+                android:id="@+id/button_myinfo_logout"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:text="@string/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/button_myinfo_withdrawal"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:background="@android:color/transparent"
+                android:text="@string/withdrawal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
 
     </LinearLayout>
 
