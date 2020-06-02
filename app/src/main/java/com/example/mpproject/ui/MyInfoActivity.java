@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.mpproject.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MyInfoActivity extends AppCompatActivity {
     Toolbar mTb;
     private FirebaseAuth mAuth;
+    TextView mTvUserEmailAddress;
     Button mBtnLogout;
     Button mBtnWithdraw;
 
@@ -27,6 +29,8 @@ public class MyInfoActivity extends AppCompatActivity {
 
         mBtnLogout = findViewById(R.id.button_myinfo_logout);
         mBtnWithdraw = findViewById(R.id.button_myinfo_withdrawal);
+        mTvUserEmailAddress = findViewById(R.id.textview_loginactivity_useremail);
+        mTvUserEmailAddress.setText(mAuth.getCurrentUser().getEmail());
     }
 
     @Override
