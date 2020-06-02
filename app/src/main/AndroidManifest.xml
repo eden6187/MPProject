@@ -14,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+
+
         <activity android:name=".ui.SettingActivity"></activity>
         <activity
             android:name=".ui.MainActivity"
@@ -31,10 +34,12 @@
         <activity android:name=".ui.MyInfoActivity"></activity>
         <activity android:name=".ui.PaymentActivity"></activity>
         <activity android:name=".ui.TestActivity"></activity>
+        <activity android:name=".ui.MapActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBQT4rx_1v9o51T30FwhSevThcySbMzuqY" />
+            android:value="AIzaSyAny2r6TT_IbixfcCjNk23t8FeTgMd29ic" />
+
     </application>
 
 </manifest>
