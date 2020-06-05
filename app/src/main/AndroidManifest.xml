@@ -26,6 +26,9 @@
         <activity android:name=".ui.MyInfoActivity"></activity>
         <activity android:name=".ui.PaymentActivity"></activity>
         <activity android:name=".ui.TestActivity"></activity>
+        <activity android:name=".ui.Reservation2Activity"></activity>
     </application>
+
+    <uses-permission android:name="com.android.vending.BILLING" />
 
 </manifest>

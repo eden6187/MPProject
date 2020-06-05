@@ -20,7 +20,7 @@ import com.example.mpproject.R;
 import com.example.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
-public class ReservationActivity extends AppCompatActivity {
+public class Reservation2Activity extends AppCompatActivity {
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
@@ -84,8 +84,27 @@ public class ReservationActivity extends AppCompatActivity {
     }
 
     public void open(View w){
-        Intent intent = new Intent(ReservationActivity.this, Reservation2Activity.class);
-        startActivity(intent);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // 알림창 띄우기위한 객체
+        alertDialogBuilder.setMessage(mReserved_year + "년 " + mReserved_month + "월" + mReserved_day + "일, " + mReserved_hour + "시" +
+                mReserved_minute + "분에 예약하시겠습니까?"); // 예약 확인 알림창 띄우기
+        alertDialogBuilder.setPositiveButton("예약", new DialogInterface.OnClickListener() { // 예약하기 결정되었을 때 이벤트 처리
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 결제하기 창으로 이동하는 이벤트 구현 필요
+                Intent intent = new Intent(Reservation2Activity.this, PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() { // 예약 취소했을 때 이벤트 처리
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(Reservation2Activity.this, "예약이 취소되었습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
 
     }
 
