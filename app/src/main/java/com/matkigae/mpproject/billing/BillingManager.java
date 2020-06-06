@@ -6,9 +6,15 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.SkuDetailsParams;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.SkuDetails;
 import com.anjlab.android.iab.v3.TransactionDetails;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.Object;
 
 public class BillingManager implements BillingProcessor.IBillingHandler {
     private Context context;
@@ -75,4 +81,18 @@ public class BillingManager implements BillingProcessor.IBillingHandler {
             // 해당 부분 처리. 또는 이미 구매 시 광고 제거 구매를 애초에 막는다.
         }
     }
+
+//    public void get_Sku_detail_List() {
+//
+//        // 구글의 상춤 정보들의 ID를 만들어줍니다.
+//        List<String> SKU_ID_LIST = new ArrayList<>();
+//        SKU_ID_LIST.add("payment_1000");
+//
+//        // SKUdetailsParam 객체를 만들어 줍니다. (1회성 소모품에 대한)
+//        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+//        params.setSkusList(SKU_ID_LIST).setType(BillingClient.SkuType.INAPP);
+//        mBillingProcessor.
+//
+//    }
+
 }
