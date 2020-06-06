@@ -1,4 +1,4 @@
-package com.example.mpproject;
+package com.matkigae.mpproject;
 
 import org.junit.Test;
 

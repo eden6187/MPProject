@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
 
     defaultConfig {
-        applicationId "com.example.mpproject"
+        applicationId "com.matkigae.mpproject"
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
@@ -36,4 +36,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.android.support:design:28.0.0'
+    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+    implementation 'com.android.support:support-annotations:28.0.0'
+
 }

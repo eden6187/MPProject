@@ -1,17 +1,14 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.mpproject.R;
-import com.example.mpproject.listeners.NavigationViewItemListener;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
 public class TestActivity extends AppCompatActivity {

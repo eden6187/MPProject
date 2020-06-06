@@ -1,4 +1,4 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.mpproject.R;
+import com.matkigae.mpproject.R;
 
 public class SettingActivity extends AppCompatActivity {
     Toolbar mTb;

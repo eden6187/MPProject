@@ -1,4 +1,4 @@
-package com.example.mpproject;
+package com.matkigae.mpproject;
 
 import android.content.Context;
 

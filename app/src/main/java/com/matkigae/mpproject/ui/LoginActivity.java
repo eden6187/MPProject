@@ -1,4 +1,4 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.mpproject.R;
+import com.matkigae.mpproject.R;
 
 public class LoginActivity extends AppCompatActivity {
     Button mBtnLogin;
