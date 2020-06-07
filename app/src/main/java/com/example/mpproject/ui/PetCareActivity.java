@@ -1,9 +1,9 @@
 package com.example.mpproject.ui;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,21 +13,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.mpproject.Fragments.PetcareListFragment;
-import com.example.mpproject.Fragments.PetcareMapFragment;
-import com.example.mpproject.Fragments.ShopinfoFragment;
+import com.example.mpproject.fragments.PetcareListFragment;
+import com.example.mpproject.fragments.PetcareinfoFragment;
 import com.example.mpproject.R;
 import com.example.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
-public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.onShopSelectedListener,
+public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.OnShopSelectedListener,
         OnMapReadyCallback
 {
     PetcareListFragment mPetcareListFragment = new PetcareListFragment();
@@ -121,7 +119,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     public void onShopSelected(int position){
 
         if(findViewById(R.id.petcare_fragment_container)!=null){
-            ShopinfoFragment newFragment = new ShopinfoFragment();
+            PetcareinfoFragment newFragment = new PetcareinfoFragment();
             Bundle args = new Bundle();
             args.putInt("position", position);
             newFragment.setArguments(args);
@@ -131,11 +129,22 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             transaction.addToBackStack(null);
             transaction.commit();
         }else{
-            ShopinfoFragment newFragment = new ShopinfoFragment();
+            PetcareinfoFragment newFragment = new PetcareinfoFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.petcare_fragment_container, newFragment);
             newFragment.updateShopinfoView(position);
         }
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        switch (id){
+            case android.R.id.home: // 좌측의 햄버거 메뉴 버튼을 눌렀을 때
+                mDl.openDrawer(mNv); //Drawer의 NavigationView가 튀어나오도록 해준다.
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

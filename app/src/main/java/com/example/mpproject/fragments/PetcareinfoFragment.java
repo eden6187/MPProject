@@ -1,12 +1,13 @@
-package com.example.mpproject.Fragments;
+package com.example.mpproject.fragments;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,12 +16,16 @@ import android.widget.TextView;
 
 import com.example.mpproject.R;
 import com.example.mpproject.ui.ReservationActivity;
+import com.google.android.material.navigation.NavigationView;
 
 
-public class ShopinfoFragment extends Fragment {
+public class PetcareinfoFragment extends Fragment {
     Button mBtnGotoRerevation;
+    DrawerLayout mDl;
+    NavigationView mNv;
 
-    public ShopinfoFragment() {
+
+    public PetcareinfoFragment() {
         // Required empty public constructor
     }
 
@@ -56,8 +61,7 @@ public class ShopinfoFragment extends Fragment {
         ImageView mShopImage = (ImageView) getView().findViewById(R.id.imageView_shop_image);
         TextView mShopinfo = (TextView) getView().findViewById(R.id.textView_shop_info);
         TextView mShopintro = (TextView) getView().findViewById(R.id.textView_shop_introduce);
-        mShopImage.setImageDrawable(getResources().getDrawable(R.drawable.dog1));
-        mShopinfo.setText(Data.info[position]);
-        mShopintro.setText(Data.introduces[position]);
     }
+
+
 }

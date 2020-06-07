@@ -78,7 +78,6 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:padding="10dp"
                     android:layout_weight="4"
                     android:layout_width="match_parent"
@@ -124,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:text="마케팅 정보 수신 동의" />
+                    android:text="권한 사용 동의" />
 
                 <TextView
                     android:layout_marginStart="10dp"
@@ -167,38 +166,69 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="위치 정보 제공 동의"
+                        android:textColor="@android:color/black"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingStart="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Switch
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
-                
+
 
             </LinearLayout>
 
         </LinearLayout>
+
+
         <LinearLayout
-            android:orientation="horizontal"
+            android:weightSum="4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_myinfo_logout"
-                android:textColor="@android:color/black"
+                android:layout_weight="2"
                 android:textStyle="bold"
+                android:backgroundTint="@color/app_theme_color"
+                android:layout_width="0dp"
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content"
+                android:text="서비스 제공하기">
+            </Button>
+
+            <Button
+                android:layout_weight="1"
+                android:id="@+id/button_myinfo_logout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:text="@string/logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
 
             <Button
+                android:layout_weight="1"
                 android:id="@+id/button_myinfo_withdrawal"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:text="@string/withdrawal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
