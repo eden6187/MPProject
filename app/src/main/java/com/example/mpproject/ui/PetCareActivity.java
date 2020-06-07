@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.mpproject.Fragments.PetcareListFragment;
-import com.example.mpproject.Fragments.PetcareMapFragment;
 import com.example.mpproject.Fragments.ShopinfoFragment;
 import com.example.mpproject.R;
 import com.example.mpproject.listeners.NavigationViewItemListener;
