@@ -12,10 +12,12 @@ import android.widget.ListView;
 
 import com.example.mpproject.data.Data;
 import com.example.mpproject.listeners.PetcareListViewAdapter;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class PetcareListFragment extends ListFragment {
     OnShopSelectedListener mCallback;
     PetcareListViewAdapter mAdapter;
+    FirebaseDatabase mDb = FirebaseDatabase.getInstance();
 
     public PetcareListFragment() {
         // Required empty public constructor
@@ -24,7 +26,6 @@ public class PetcareListFragment extends ListFragment {
     public void setOnShopSelectedListener(OnShopSelectedListener listener){
         this.mCallback = listener;
     }
-
 
     public interface OnShopSelectedListener {
         public void onShopSelected(int position);

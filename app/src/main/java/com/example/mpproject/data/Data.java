@@ -1,7 +1,6 @@
 package com.example.mpproject.data;
 
 import com.example.mpproject.R;
-import com.example.mpproject.fragments.PetcareInfo;
 
 public class Data {
     Data(){
@@ -19,7 +18,6 @@ public class Data {
             private String mPetcareReviewcount = "0";
             private String mPetcareDistance = "0";
              **/
-
 
             new PetcareInfo(R.drawable.ic_shopinfo_default,R.drawable.star_image,"SHOP1","0","0","0"),
             new PetcareInfo(R.drawable.ic_shopinfo_default,R.drawable.star_image,"SHOP2","0","0","0"),

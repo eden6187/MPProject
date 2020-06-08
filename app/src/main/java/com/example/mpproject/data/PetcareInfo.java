@@ -1,4 +1,4 @@
-package com.example.mpproject.fragments;
+package com.example.mpproject.data;
 
 public class PetcareInfo {
 
@@ -8,6 +8,8 @@ public class PetcareInfo {
     private String mPetcareRatingnum = "0";
     private String mPetcareReviewcount = "0";
     private String mPetcareDistance = "0";
+
+    public PetcareInfo(){ }
 
     public PetcareInfo(int icon, int star, String title, String ratingnum, String reviewcnt,
                        String distance)

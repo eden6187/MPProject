@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.example.mpproject.fragments.PetcareInfo;
+import com.example.mpproject.data.PetcareInfo;
 import com.example.mpproject.R;
 
 import java.util.ArrayList;
