@@ -1,4 +1,4 @@
-package com.example.mpproject.fragments;
+package com.matkigae.mpproject.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,15 +7,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mpproject.R;
-import com.example.mpproject.ui.ReservationActivity;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.ui.ReservationActivity;
 import com.google.android.material.navigation.NavigationView;
 
 

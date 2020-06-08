@@ -1,4 +1,4 @@
-package com.example.mpproject.data;
+package com.matkigae.mpproject.data;
 
 public class PetcareInfo {
 

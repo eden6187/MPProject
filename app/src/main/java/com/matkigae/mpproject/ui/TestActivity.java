@@ -1,4 +1,4 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -7,14 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.mpproject.R;
-import com.example.mpproject.listeners.NavigationViewItemListener;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
-public class PaymentActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
+
 
     private void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -34,9 +35,10 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payment);
+        setContentView(R.layout.activity_test);
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

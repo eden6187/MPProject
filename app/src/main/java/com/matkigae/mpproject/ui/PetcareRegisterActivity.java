@@ -1,16 +1,13 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
 import android.os.Bundle;
 
-import com.example.mpproject.R;
-import com.example.mpproject.data.PetcareInfo;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.data.PetcareInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;

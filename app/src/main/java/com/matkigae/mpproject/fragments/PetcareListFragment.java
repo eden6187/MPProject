@@ -1,4 +1,4 @@
-package com.example.mpproject.fragments;
+package com.matkigae.mpproject.fragments;
 
 import android.os.Bundle;
 
@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.mpproject.data.Data;
-import com.example.mpproject.listeners.PetcareListViewAdapter;
+import com.matkigae.mpproject.data.Data;
+import com.matkigae.mpproject.listeners.PetcareListViewAdapter;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class PetcareListFragment extends ListFragment {

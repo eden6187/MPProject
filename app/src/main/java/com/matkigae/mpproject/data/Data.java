@@ -1,6 +1,6 @@
-package com.example.mpproject.data;
+package com.matkigae.mpproject.data;
 
-import com.example.mpproject.R;
+import com.matkigae.mpproject.R;
 
 public class Data {
     Data(){

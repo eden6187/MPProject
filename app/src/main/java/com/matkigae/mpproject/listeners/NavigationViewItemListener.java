@@ -1,18 +1,15 @@
-package com.example.mpproject.listeners;
+package com.matkigae.mpproject.listeners;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mpproject.R;
-import com.example.mpproject.ui.MyInfoActivity;
-import com.example.mpproject.ui.SettingActivity;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.ui.MyInfoActivity;
+import com.matkigae.mpproject.ui.SettingActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class NavigationViewItemListener implements NavigationView.OnNavigationItemSelectedListener {

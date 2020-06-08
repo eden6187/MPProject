@@ -1,4 +1,4 @@
-package com.example.mpproject.fragments;
+package com.matkigae.mpproject.fragments;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.mpproject.R;
+import com.matkigae.mpproject.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;

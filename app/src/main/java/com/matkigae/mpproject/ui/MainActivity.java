@@ -1,4 +1,4 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.mpproject.R;
-import com.example.mpproject.data.UserInfo;
-import com.example.mpproject.listeners.NavigationViewItemListener;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.data.UserInfo;
+import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;

@@ -1,11 +1,10 @@
-package com.example.mpproject.ui;
+package com.matkigae.mpproject.ui;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,12 +15,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.mpproject.data.PetcareInfo;
-import com.example.mpproject.data.UserInfo;
-import com.example.mpproject.fragments.PetcareListFragment;
-import com.example.mpproject.fragments.PetcareinfoFragment;
-import com.example.mpproject.R;
-import com.example.mpproject.listeners.NavigationViewItemListener;
+import com.matkigae.mpproject.data.PetcareInfo;
+import com.matkigae.mpproject.fragments.PetcareListFragment;
+import com.matkigae.mpproject.fragments.PetcareinfoFragment;
+import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,9 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.OnShopSelectedListener,
         OnMapReadyCallback {
@@ -75,12 +70,12 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         switch (criteria) {
             case NEAREST:
                 for(int i = 0 ; i < 1; i++) {
-                    Query query = ref.limitToFirst(1);
+                    Query query = ref.limitToFirst(10);
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            PetcareInfo infos = (PetcareInfo) dataSnapshot.getValue(PetcareInfo.class);
-                            Log.d("0000 : ", infos.getTitle());
+                            // 여기서 DataSnapshot을 한번에 여러개 가져오는 방법 없을까요
+//                            PetcareInfo infos = (PetcareInfo) dataSnapshot.getValue(PetcareInfo.class);
                         }
 
                         @Override

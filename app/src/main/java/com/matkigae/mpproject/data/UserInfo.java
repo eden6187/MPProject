@@ -1,6 +1,4 @@
-package com.example.mpproject.data;
-
-import android.hardware.usb.UsbRequest;
+package com.matkigae.mpproject.data;
 
 public class UserInfo {
     private static UserInfo instance = null;
