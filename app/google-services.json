@@ -50,7 +50,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:160316708291:android:ec97b74cd90b18776a1976",
         "android_client_info": {
-          "package_name": "com.example.mpproject"
+          "package_name": "com.matkigae.mpproject"
         }
       },
       "oauth_client": [
@@ -58,7 +58,7 @@
           "client_id": "160316708291-mfa71d75vfbhvaimblnqu9c518nv99bi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mpproject",
+            "package_name": "com.matkigae.mpproject",
             "certificate_hash": "d435db46df6665da4347db040027c7b27674d22e"
           }
         },
@@ -66,7 +66,7 @@
           "client_id": "160316708291-b9up4psaka5rt1jk65st2pah4pefhef8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mpproject",
+            "package_name": "com.matkigae.mpproject",
             "certificate_hash": "a6d05a4e572f9c72042ce6a94e327d919b7e3ad1"
           }
         },
@@ -74,7 +74,7 @@
           "client_id": "160316708291-q9kmqiu19op0e3qt8t5m8sqe2kg1cio0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mpproject",
+            "package_name": "com.matkigae.mpproject",
             "certificate_hash": "89a625d611fec0fffe1632d6808be7ff1315ce99"
           }
         },
