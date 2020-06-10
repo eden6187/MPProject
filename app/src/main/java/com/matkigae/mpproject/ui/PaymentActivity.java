@@ -67,6 +67,10 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnDoPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (bp.isPurchased("payment_1000")) {
+                    bp.consumePurchase("payment_1000");
+                }
                 bp.purchase(PaymentActivity.this, "payment_1000");
             }
         });

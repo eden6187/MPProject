@@ -51,11 +51,11 @@
             android:id="@+id/edittext_priceTag"
             android:layout_width="228dp"
             android:layout_height="57dp"
-            android:layout_weight="1"
             android:layout_marginStart="10dp"
+            android:layout_weight="1"
             android:gravity="center"
             android:inputType="number"
-            android:text="3,0000"
+            android:text="30,000"
             android:textSize="30sp" />
 
         <TextView
