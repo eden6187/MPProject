@@ -1,5 +1,6 @@
 package com.matkigae.mpproject.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
     DrawerLayout mDl;
     Toolbar mTb;
     Button mBtnDoPayment;
+    Button mBtnCancelPayment;
 
     private BillingProcessor bp;
     public static ArrayList<SkuDetails> products;
@@ -50,6 +52,7 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mNv = findViewById(R.id.nav_view);
         mDl = findViewById(R.id.drawer_layout);
         mBtnDoPayment = findViewById(R.id.button_payment_confirmPayment);
+        mBtnCancelPayment = findViewById(R.id.button_payment_cancelPayment);
 
     }
 
@@ -67,11 +70,18 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnDoPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (bp.isPurchased("payment_1000")) {
-                    bp.consumePurchase("payment_1000");
+                if (bp.isPurchased("payment_2000")) {
+                    bp.consumePurchase("payment_2000");
                 }
-                bp.purchase(PaymentActivity.this, "payment_1000");
+                bp.purchase(PaymentActivity.this, "payment_2000");
+            }
+        });
+
+        mBtnCancelPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PaymentActivity.this, PetCareActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -111,9 +121,16 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         // details: 결제 관련 정보
         SkuDetails sku = bp.getPurchaseListingDetails(productId);
         // 하트 100개 구매에 성공하였습니다! 메세지 띄우기
-        String purchaseMessage = sku.title + "결제가 완료되었습니다!";
+        String purchaseMessage = sku.title + "결제가 완료되었습니다!\n결제확인 페이지로 넘어갑니다.";
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("예약 알림").setMessage(purchaseMessage);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(PaymentActivity.this, PaidActivity.class);
+                startActivity(intent);
+            }
+        });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
@@ -140,7 +157,5 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
     @Override
     public void onBillingInitialized() {
         // * 처음에 초기화됬을때.
-
-
     }
 }

@@ -52,6 +52,7 @@
         <activity android:name="com.matkigae.mpproject.ui.MyInfoActivity" />
         <activity android:name="com.matkigae.mpproject.ui.PaymentActivity" />
         <activity android:name="com.matkigae.mpproject.ui.TestActivity" />
+        <activity android:name="com.matkigae.mpproject.ui.PaidActivity" />
     </application>
 
 </manifest>
