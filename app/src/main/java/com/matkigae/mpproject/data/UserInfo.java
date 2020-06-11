@@ -1,8 +1,10 @@
 package com.matkigae.mpproject.data;
 
+import java.util.HashMap;
+
 public class UserInfo {
     private static UserInfo instance = null;
-    private String mEmailAddress = "ANONYMOUS";
+    private static String emailAddress = "ANONYMOUS";
 
     private UserInfo(){ }
 
@@ -14,15 +16,22 @@ public class UserInfo {
     }
 
     public String getmEmailAddress() {
-        return this.mEmailAddress;
+        return this.emailAddress;
     }
 
     public boolean setEmailAddress(String address){
-        if (mEmailAddress.equals("ANONYMOUS")){
-            mEmailAddress = address;
+        if (emailAddress.equals("ANONYMOUS")){
+            emailAddress = address;
             return true;
         }else{
             return false;
         }
+    }
+
+    public static HashMap<String, Object> getFirebasePost(){
+        HashMap<String, Object> post = new HashMap<String, Object>();
+        post.put("emailAddress", UserInfo.emailAddress);
+
+        return post;
     }
 }

@@ -18,10 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ui.PetcareinfoActivity"></activity>
         <activity
-            android:name="com.matkigae.mpproject.ui.PetcareRegisterActivity"
+            android:name=".ui.PetcareRegisterActivity"
             android:label="@string/title_activity_pecare_register"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -34,23 +35,22 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name="com.matkigae.mpproject.ui.SettingActivity" />
+        <activity android:name=".ui.SettingActivity" />
         <activity
-            android:name="com.matkigae.mpproject.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/NoActionBar" />
-        <activity android:name="com.matkigae.mpproject.ui.LoginActivity">
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.matkigae.mpproject.ui.PetCareActivity" />
-        <activity android:name="com.matkigae.mpproject.ui.ReservationActivity" />
-        <activity android:name="com.matkigae.mpproject.ui.MyInfoActivity" />
-        <activity android:name="com.matkigae.mpproject.ui.PaymentActivity" />
-        <activity android:name="com.matkigae.mpproject.ui.TestActivity" />
+        <activity android:name=".ui.PetCareActivity" />
+        <activity android:name=".ui.ReservationActivity" />
+        <activity android:name=".ui.MyInfoActivity" />
+        <activity android:name=".ui.PaymentActivity" />
     </application>
 
 </manifest>

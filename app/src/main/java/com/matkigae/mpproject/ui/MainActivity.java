@@ -63,19 +63,20 @@ public class MainActivity extends AppCompatActivity {
 
         //DataBase 초기화 User 정보 초기화 및 기존 사용자에 대한 정보는 추가하지 않도록 Query 작성
         mDb = FirebaseDatabase.getInstance();
-        DatabaseReference ref = mDb.getReference().child("userinfo");
+        final DatabaseReference ref = mDb.getReference().child("userinfo");
 
-        Query query = ref.orderByChild("mEmailAddress").equalTo(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        Query query = ref.orderByChild("emailAddress").equalTo(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Object info = dataSnapshot.getValue();
                 if (info == null){
-                    addUserInfo();
+                    ref.push().setValue(UserInfo.getFirebasePost());
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
+
         });
 
         initView();
@@ -98,10 +99,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void addUserInfo(){
-        DatabaseReference ref = mDb.getReference();
-        ref.child("userinfo").push().setValue(mUserInfo);
-    }
 
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
