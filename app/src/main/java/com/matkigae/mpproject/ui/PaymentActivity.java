@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -83,26 +84,16 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnDoPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bp.isPurchased("payment_1")) {
-                    bp.consumePurchase("payment_1");
-                }
-                bp.purchase(PaymentActivity.this, "payment_1");
+//                if (bp.isPurchased("payment_1")) {
+//                    bp.consumePurchase("payment_1");
+//                }
+//                bp.purchase(PaymentActivity.this, "payment_1");
 
-//                DatabaseReference ref = mDb.getReference().child("providers");
-//                Query query = ref.orderByChild("mUserId");
-//                query = query.equalTo(mPetcareInfo.getmUserId());
-//                query.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmPetcareTitle(),UserInfo.getInstance().getmEmailAddress()));
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-
+                mPetcareInfo = new PetcareInfo();
+                mPetcareInfo.setmPetcareTitle("final");
+                MatchingInfo matchingInfo = new MatchingInfo( mPetcareInfo, "0101", "0102");
+                DatabaseReference ref = mDb.getReference().child("matchinginfo");
+                ref.child(mPetcareInfo.getmUserId()).push().setValue(matchingInfo);
             }
 
         });

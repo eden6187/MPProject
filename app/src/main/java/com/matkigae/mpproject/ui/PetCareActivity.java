@@ -29,6 +29,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.util.MapUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.fragments.PetcareListFragment;
 import com.matkigae.mpproject.R;
@@ -106,6 +112,25 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mBtnShowList = findViewById(R.id.button_petcare_showlist);
         mBtnShowMap = findViewById(R.id.button_petcare_showmap);
 
+    }
+
+    ArrayList<PetcareInfo> mInfos = new ArrayList<PetcareInfo>();
+    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("providers");
+        Query query = ref;
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    mInfos.add(data.getValue(PetcareInfo.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(PetCareActivity.this,"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -453,8 +478,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     @Override
     public void onShopSelected(PetcareInfo item) {
-        Intent intent = new Intent(this,PetcareinfoActivity.class);
-        intent.putExtra("petcareinfo",item);
+        Intent intent = new Intent(this, PetcareinfoActivity.class);
+        intent.putExtra("petcareinfo", item);
         startActivity(intent);
     }
 }

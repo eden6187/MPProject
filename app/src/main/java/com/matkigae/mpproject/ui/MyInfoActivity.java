@@ -3,6 +3,8 @@ package com.matkigae.mpproject.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,8 +12,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.matkigae.mpproject.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.matkigae.mpproject.data.MatchingInfo;
+import com.matkigae.mpproject.listeners.PetcareRegisterRecyclerViewAdapter;
+
+import java.util.ArrayList;
 
 public class MyInfoActivity extends AppCompatActivity {
     Toolbar mTb;
@@ -19,17 +27,26 @@ public class MyInfoActivity extends AppCompatActivity {
     TextView mTvUserEmailAddress;
     Button mBtnLogout;
     Button mBtnWithdraw;
+    RecyclerView mRv;
+    PetcareRegisterRecyclerViewAdapter mRvAdapter;
+    ArrayList<MatchingInfo> mRequests = new ArrayList<MatchingInfo>();
 
 
     private void initView(){
         mTb = findViewById(R.id.toolbar_myinfo);
         setSupportActionBar(mTb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mRv = findViewById(R.id.recyclerview_myinfo);
 
         mBtnLogout = findViewById(R.id.button_myinfo_logout);
         mBtnWithdraw = findViewById(R.id.button_myinfo_withdrawal);
         mTvUserEmailAddress = findViewById(R.id.textview_loginactivity_useremail);
         mTvUserEmailAddress.setText(mAuth.getCurrentUser().getEmail());
+    }
+
+    public void initializeData(){
+        Query query = FirebaseDatabase.getInstance().getReference("/matchinginfo");
+//        query.orderByChild()
     }
 
     @Override
@@ -38,7 +55,11 @@ public class MyInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_info);
         mAuth = FirebaseAuth.getInstance();
 
+
+        mRvAdapter = new PetcareRegisterRecyclerViewAdapter(mRequests);
         initView();
+
+        mRv.setLayoutManager(new LinearLayoutManager(this));
 
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override

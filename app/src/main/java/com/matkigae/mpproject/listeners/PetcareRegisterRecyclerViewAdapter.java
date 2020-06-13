@@ -31,7 +31,7 @@ public class PetcareRegisterRecyclerViewAdapter extends RecyclerView.Adapter {
         }
 
         private void onBind(MatchingInfo info){
-            textView.setText(info.getConsumerId());
+//            textView.setText(info.getConsumerId());
         }
     }
 

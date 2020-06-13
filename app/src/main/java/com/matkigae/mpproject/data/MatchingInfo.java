@@ -3,40 +3,41 @@ package com.matkigae.mpproject.data;
 import java.util.HashMap;
 
 public class MatchingInfo {
-    String providerTitle;
-    String consumerId;
-    String date;
+    PetcareInfo info;
+    //년도 4자리 월 2자리 일 2자리 시 2자리 분 2자리
     String startTime;
     String endTime;
     
 
     public MatchingInfo(){ }
 
-    public MatchingInfo(String providerId, String consumerId) {
-        this.providerTitle = providerId;
-        this.consumerId = consumerId;
+    public MatchingInfo(PetcareInfo info , String startTime, String endTime) {
+        this.info = info;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
-    public String getProviderTitle() {
-        return providerTitle;
+    public PetcareInfo getInfo() {
+        return info;
     }
 
-    public void setProviderTitle(String providerTitle) {
-        this.providerTitle = providerTitle;
+    public void setInfo(PetcareInfo info) {
+        this.info = info;
     }
 
-    public String getConsumerId() {
-        return consumerId;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setConsumerId(String consumerId) {
-        this.consumerId = consumerId;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public HashMap<String, Object> toMap(){
-        HashMap<String, Object> post = new HashMap<>();
-        post.put("providerTitle", this.providerTitle);
-        post.put("consumerId",this.consumerId);
-        return post;
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }
