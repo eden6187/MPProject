@@ -34,7 +34,7 @@
         app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.474" />
+        app:layout_constraintVertical_bias="0.819" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18">
+        app:layout_constraintVertical_bias="0.22000003">
 
         <EditText
             android:id="@+id/edittext_priceTag"
@@ -62,8 +62,8 @@
             android:id="@+id/text_tellPrice"
             android:layout_width="134dp"
             android:layout_height="57dp"
-            android:layout_weight="1"
             android:layout_marginEnd="10dp"
+            android:layout_weight="1"
             android:gravity="center|left"
             android:text="원 입니다."
             android:textColor="@color/design_default_color_on_secondary"
@@ -78,79 +78,22 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.465">
+        app:layout_constraintVertical_bias="0.598">
 
         <Button
             android:id="@+id/button_payWithKakao"
             android:layout_width="113dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
-            android:backgroundTint="#F1D90A"
-            android:gravity="center"
             android:layout_marginStart="10dp"
-            android:text="카카오 페이"
+            android:layout_weight="1"
+            android:backgroundTint="#FFB300"
+            android:gravity="center"
+            android:text="구글 플레이로 결제"
             android:textColor="@color/design_default_color_on_secondary"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/button_WithCard"
-            android:layout_width="113dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/design_default_color_secondary_variant"
-            android:text="신용/체크 카드"
-            android:textColor="@color/design_default_color_background" />
-
-        <Button
-            android:id="@+id/button_payWithPhone"
-            android:layout_width="113dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            android:backgroundTint="@color/design_default_color_secondary_variant"
-            android:text="핸드폰 결제"
-            android:textColor="@color/design_default_color_background" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_payment_discount"
-        android:layout_width="410dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="28dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_payment_payMethod"
-        app:layout_constraintVertical_bias="0.042">
-
-        <EditText
-            android:id="@+id/edittext_payment_discount"
-            android:layout_width="263dp"
-            android:layout_height="45dp"
-            android:layout_weight="3"
-            android:layout_marginStart="10dp"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:text="쿠폰 번호"
-            android:textColor="#6B000000" />
-
-        <TextView
-            android:id="@+id/text_payment_discount"
-            android:layout_width="95dp"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
-            android:text="할인 쿠폰"
-            android:textColor="@color/design_default_color_on_secondary"
-            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -162,7 +105,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_payment_discount">
+        app:layout_constraintTop_toBottomOf="@+id/layout_payment_payMethod">
 
         <Button
             android:id="@+id/button_payment_confirmPayment"
@@ -178,8 +121,8 @@
             android:id="@+id/button_payment_cancelPayment"
             android:layout_width="190dp"
             android:layout_height="50dp"
-            android:layout_weight="1"
             android:layout_marginEnd="10dp"
+            android:layout_weight="1"
             android:backgroundTint="#E31F1F"
             android:text="결제 취소"
             android:textColor="#EACECE"
