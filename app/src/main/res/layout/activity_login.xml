@@ -3,66 +3,40 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/app_theme_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.LoginActivity">
 
-    <Button
-        android:id="@+id/button_login_signup"
-        android:layout_width="280dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="16dp"
-        android:text="회원가입"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login_signin" />
-
-    <TextView
-        android:id="@+id/textview_login_ID"
-        android:layout_width="280dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="48dp"
-        android:gravity="center_vertical"
-        android:hint="ID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageview_login_appicon" />
-
-    <TextView
-        android:id="@+id/textview_login_password"
-        android:layout_width="280dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center_vertical"
-        android:hint="Password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_login_ID" />
+<!--    <com.google.android.gms.common.SignInButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/button_login_signin" />-->
 
     <ImageView
         android:id="@+id/imageview_login_appicon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="177dp"
+        android:layout_height="218dp"
         android:layout_marginTop="152dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_app_icon"
-         />
-
-    <Button
-        android:id="@+id/button_login_signin"
-        android:layout_width="280dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="36dp"
-        android:text="로그인"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_login_password" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/button_login_googlesignin"
+        android:layout_width="164dp"
+        android:layout_height="67dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageview_login_appicon"
+        app:layout_constraintVertical_bias="0.5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
