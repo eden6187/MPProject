@@ -2,6 +2,7 @@ package com.matkigae.mpproject.ui;
 
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +18,9 @@ import com.matkigae.mpproject.listeners.PetcareRegisterRecyclerViewAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +30,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,103 +41,76 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class PetcareRegisterActivity extends AppCompatActivity {
     FirebaseDatabase mDb = FirebaseDatabase.getInstance();
-    EditText mEtShopId;
-    Switch mSwtichGPS;
-    Spinner mSpinnerServiceType;
-    RecyclerView mRv;
+    Button mBtnRegister;
+    EditText mEtPrice;
+    EditText mEtPetcareInfo;
+    EditText mEtPetcareIntro;
+    EditText mEtPetcareTitle;
+    ActionBar mActiobar;
+    ToggleButton[] toggleButtons= new ToggleButton[7];
     PetcareRegisterRecyclerViewAdapter mPetcareRegisterRecyclerViewAdapter;
 
     private void initView(){
-        mEtShopId = findViewById(R.id.edittext_register_servicename);
-        mSwtichGPS = findViewById(R.id.switch_register_gpspermission);
-        mSpinnerServiceType = findViewById(R.id.spinner_regsiter_servicetype);
-        mRv = findViewById(R.id.recyclerview_petcare_register);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mActiobar = getSupportActionBar();
+        mActiobar.setHomeButtonEnabled(true);
+
+        mBtnRegister = findViewById(R.id.button_regsiter_registertodb);
+        mEtPetcareInfo = findViewById(R.id.edittext_register_petcareinfo);
+        mEtPetcareIntro = findViewById(R.id.edittext_register_petcareinfointro);
+        mEtPetcareTitle = findViewById(R.id.edittext_register_petcareinfotitle);
+        mEtPrice = findViewById(R.id.edittext_register_price);
+        toggleButtons[0] = findViewById(R.id.togglebutton_register_mon);
+        toggleButtons[1] = findViewById(R.id.togglebutton_register_tue);
+        toggleButtons[2] = findViewById(R.id.togglebutton_register_wend);
+        toggleButtons[3] = findViewById(R.id.togglebutton_register_thur);
+        toggleButtons[4] = findViewById(R.id.togglebutton_register_fri);
+        toggleButtons[5] = findViewById(R.id.togglebutton_register_sat);
+        toggleButtons[6] = findViewById(R.id.togglebutton_register_sun);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_petcare_register);
+
+
         initView();
 
-        ArrayList<MatchingInfo> dummy_data = new ArrayList<MatchingInfo>();
-
-//        dummy_data.add(new MatchingInfo("prd1","b"));
-//        dummy_data.add(new MatchingInfo("prd2","b"));
-//        dummy_data.add(new MatchingInfo("prd3","b"));
-
-        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        mPetcareRegisterRecyclerViewAdapter = new PetcareRegisterRecyclerViewAdapter(dummy_data);
-        mRv.setAdapter(mPetcareRegisterRecyclerViewAdapter);
-        mRv.setLayoutManager(layoutManager);
-
-        Button btn = findViewById(R.id.button_regsiter_registertodb);
-
-        Query query = mDb.getReference().child("matching");
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()) {
-                    MatchingInfo info = data.getValue(MatchingInfo.class);
-                    if (info != null) {
-                        if (info.getProviderTitle().equals(UserInfo.getMyProviderId())) {
-                            mPetcareRegisterRecyclerViewAdapter.addItem(info);
-                        }
-                    }
-                }
-                mPetcareRegisterRecyclerViewAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        btn.setOnClickListener(new View.OnClickListener() {
+        mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String shopId = mEtShopId.getText().toString();
-                int shopImage = R.drawable.ic_shopinfo_default;
-                /** 여기다 해당 상점에 대한 정보를 얻어 오는 코드를 넣어주면 된다. **/
 
-                PetcareInfo newInfo = new PetcareInfo(R.drawable.ic_shopinfo_default, shopId,1.1,0,1.1,1.1, UserInfo.getInstance().getmEmailAddress().toString());
-                DatabaseReference ref = mDb.getReference();
-                HashMap<String,Object> post = new HashMap<String,Object>();
-                post.put("/providers/" + newInfo.getmPetcareTitle(),newInfo.toMap());
-                ref.updateChildren(post);
-
-                /** Toast Message 띄어 줄 것 **/
-            }
-        });
-
-
-
-        /** matching 정보 새로 발생 시 Adapter 에 ITEM 추**/
-        DatabaseReference ref_matching = mDb.getReference().child("matching");
-        ref_matching.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()) {
-                    Log.d("data:", data.getValue().toString());
-//                    MatchingInfo info = data.getValue(MatchingInfo.class);
-//                    if (info != null) {
-//                        if (info.getProviderTitle().equals(UserInfo.getMyProviderId())) {
-//                            mPetcareRegisterRecyclerViewAdapter.addItem(info);
-//                        }
-//                    }
+                String availableDate = "";
+                for(ToggleButton button : toggleButtons){
+                    if(button.isChecked()){ availableDate = availableDate + "1"; }
+                    else{ availableDate = availableDate + "0"; }
                 }
-                mPetcareRegisterRecyclerViewAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
+                Toast.makeText(PetcareRegisterActivity.this,availableDate,Toast.LENGTH_SHORT).show();
 
+                String petCareTitle = mEtPetcareTitle.getText().toString();
+                String petCareInfo = mEtPetcareInfo.getText().toString();
+                String petCareIntro = mEtPetcareIntro.getText().toString();
+                String petCarePrice = mEtPrice.getText().toString();
+
+                PetcareInfo newInfo = new PetcareInfo();
+                newInfo.setmUserId(FirebaseAuth.getInstance().getUid());
+                newInfo.setmAvailableDate(availableDate);
+                newInfo.setmPetcareInfo(petCareInfo);
+                newInfo.setmPetcareIntro(petCareIntro);
+                newInfo.setmPetcareTitle(petCareTitle);
+                newInfo.setmPrice(petCarePrice);
+
+                registerPetCareInfo(newInfo);
+            }
+        });
+    }
+    private void registerPetCareInfo(PetcareInfo newInfo){
+        DatabaseReference ref = mDb.getReference();
+        HashMap<String,Object> post = new HashMap<String,Object>();
+        post.put("/providers/" + newInfo.getmPetcareTitle(), newInfo.toMap());
+        ref.updateChildren(post);
     }
 
 

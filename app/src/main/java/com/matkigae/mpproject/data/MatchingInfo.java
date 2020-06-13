@@ -5,6 +5,10 @@ import java.util.HashMap;
 public class MatchingInfo {
     String providerTitle;
     String consumerId;
+    String date;
+    String startTime;
+    String endTime;
+    
 
     public MatchingInfo(){ }
 
