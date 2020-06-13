@@ -35,18 +35,17 @@ import com.matkigae.mpproject.data.UserInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PaymentActivity extends AppCompatActivity {
-    FirebaseDatabase mDb = FirebaseDatabase.getInstance();
-import java.util.ArrayList;
-
 public class PaymentActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+    FirebaseDatabase mDb = FirebaseDatabase.getInstance();
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
     Button mBtnDoPayment;
     Button mBtnCancelPayment;
+    PetcareInfo mPetcareInfo;
 
     private BillingProcessor bp;
     public static ArrayList<SkuDetails> products;
@@ -84,11 +83,28 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnDoPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bp.isPurchased("payment_2000")) {
-                    bp.consumePurchase("payment_2000");
+                if (bp.isPurchased("payment_1")) {
+                    bp.consumePurchase("payment_1");
                 }
-                bp.purchase(PaymentActivity.this, "payment_2000");
+                bp.purchase(PaymentActivity.this, "payment_1");
+
+//                DatabaseReference ref = mDb.getReference().child("providers");
+//                Query query = ref.orderByChild("mUserId");
+//                query = query.equalTo(mPetcareInfo.getmUserId());
+//                query.addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmPetcareTitle(),UserInfo.getInstance().getmEmailAddress()));
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+
             }
+
         });
 
         mBtnCancelPayment.setOnClickListener(new View.OnClickListener() {
@@ -102,25 +118,6 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
 
         mPetcareInfo = getIntent().getParcelableExtra("petcareinfo");
 
-        mBtnConfirmPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatabaseReference ref = mDb.getReference().child("providers");
-                Query query = ref.orderByChild("mUserId");
-                query = query.equalTo(mPetcareInfo.getmUserId());
-                query.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmPetcareTitle(),UserInfo.getInstance().getmEmailAddress()));
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-            }
-        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

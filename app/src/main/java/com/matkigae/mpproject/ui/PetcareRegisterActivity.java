@@ -95,7 +95,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                 int shopImage = R.drawable.ic_shopinfo_default;
                 /** 여기다 해당 상점에 대한 정보를 얻어 오는 코드를 넣어주면 된다. **/
 
-                PetcareInfo newInfo = new PetcareInfo(R.drawable.ic_shopinfo_default,shopId,1.1,0,1.1,1.1, UserInfo.getInstance().getmEmailAddress().toString());
+                PetcareInfo newInfo = new PetcareInfo(R.drawable.ic_shopinfo_default, shopId,1.1,0,1.1,1.1, UserInfo.getInstance().getmEmailAddress().toString());
                 DatabaseReference ref = mDb.getReference();
                 HashMap<String,Object> post = new HashMap<String,Object>();
                 post.put("/providers/" + newInfo.getmPetcareTitle(),newInfo.toMap());

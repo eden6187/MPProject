@@ -65,6 +65,7 @@ public class PetcareListFragment extends ListFragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 for(DataSnapshot provider : dataSnapshot.getChildren()){
                     PetcareInfo info = provider.getValue(PetcareInfo.class);
                     adapter.addItem(info);
@@ -91,7 +92,7 @@ public class PetcareListFragment extends ListFragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 for(DataSnapshot data : dataSnapshot.getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
+//                    adapter.addItem(data.getValue(PetcareInfo.class));
                 }
                 adapter.notifyDataSetChanged();
             }

@@ -105,7 +105,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 mReserved_year = year;
-                mReserved_month = (month + 1);
+                mReserved_month = (month);
                 mReserved_day = dayOfMonth;
             }
         });
@@ -123,12 +123,14 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    mSelectedTime = ("" + mReserved_year + mReserved_month + mReserved_day + mReserved_hour + mReserved_minute);
-                    Date currdate = new Date(System.currentTimeMillis());
+
+                    mSelectedTime = String.format("%04d%02d%02d%02d%02d", mReserved_year, mReserved_month+1,
+                            mReserved_day, mReserved_hour, mReserved_minute);
+                    Date currdate = Calendar.getInstance().getTime();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
-                    String selected = dateFormat.format(mSelectedTime);
                     String now = dateFormat.format(currdate);
                     int compare = now.compareTo(mSelectedTime);
+//                    Log.d("TEST", "compare 값 : " + compare + "선택 값 : " + mSelectedTime + "오늘 날짜 : " + now);
                     if (compare <= 0){
                         availableTime = true;
                     } else {
@@ -145,10 +147,10 @@ public class ReservationActivity extends AppCompatActivity {
     public void open(View w){
         if (availableTime != true) {
             mtextViewIfAvailable.setText("예약이 불가능한 시간입니다.");
-            initView();
+            mtextViewIfAvailable.invalidate();
         } else {
             mtextViewIfAvailable.setText("예약 가능한 시간입니다!");
-            initView();
+            mtextViewIfAvailable.invalidate();
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // 알림창 띄우기위한 객체
             alertDialogBuilder.setMessage(mReserved_year + "년 " + (mReserved_month+1) + "월" + mReserved_day + "일, " + mReserved_hour + "시" +
                     mReserved_minute + "분에 예약하시겠습니까?"); // 예약 확인 알림창 띄우기
