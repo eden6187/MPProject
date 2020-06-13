@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.common.util.MapUtils;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.fragments.PetcareListFragment;
 import com.matkigae.mpproject.R;
@@ -51,6 +52,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -83,6 +85,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     private Location location;
 
     private View mLayout;
+
+    private ArrayList<PetcareInfo> mShopInfo = new ArrayList<>();
 
 
 
@@ -143,6 +147,17 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
+//        PetcareInfo info = new PetcareInfo();
+//        info.setmAvailableDate("a");
+//        info.setmPetcareInfo("abc");
+//        info.setmPetcareIntro("aba");
+//        info.setmPetcareTitle("holy");
+//        info.setmPrice("100");
+//        info.setmUserId("id");
+//        info.setmXcoordinate(37.2763);
+//        info.setmYcoordinate(127.0440);
+//        mShopInfo.add(info);
+
     }
 
 
@@ -173,7 +188,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        setDefaultLocation();
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -196,6 +210,19 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+
+        setShopMarkers(mShopInfo);
+
+        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
+                mMap.animateCamera(cameraUpdate);
+                return false;
+            }
+        });
     }
 
     LocationCallback locationCallback = new LocationCallback(){
@@ -209,7 +236,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 String markerTitle = getCurrentAddress(currentPosition);
                 String markerSnippet = "위도:"+ location.getAltitude() +"\n경도:"+ location.getLongitude();
 
-                setCurrentLocation(location, markerTitle, markerSnippet);
                 mCurrentLocation = location;
             }
         }
@@ -283,45 +309,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-    }
-
-    public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
-
-        if (currentMarker != null) currentMarker.remove();
-
-        LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentLatLng);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-
-        currentMarker = mMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
-        mMap.moveCamera(cameraUpdate);
-    }
-
-    public void setDefaultLocation() {
-
-        //디폴트 위치, Seoul
-        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
-        String markerTitle = "위치정보 가져올 수 없음";
-        String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
-
-        if (currentMarker != null) currentMarker.remove();
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(DEFAULT_LOCATION);
-        markerOptions.title(markerTitle);
-        markerOptions.snippet(markerSnippet);
-        markerOptions.draggable(true);
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        currentMarker = mMap.addMarker(markerOptions);
-
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
-        mMap.moveCamera(cameraUpdate);
     }
 
     // 아래부턴 런타임 퍼미션 처리를 위한 메소드.
@@ -439,10 +426,29 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
+    public void setShopMarkers(ArrayList<PetcareInfo> Info){
+        for(int i=0;i<Info.size();i++){
+            MarkerOptions markerOptions = new MarkerOptions();
+            LatLng mLocation = new LatLng(Info.get(i).getmXcoordinate(), Info.get(i).getmYcoordinate());
+            markerOptions.position(mLocation);
+            markerOptions.title(Info.get(i).getmPetcareTitle());
+            markerOptions.draggable(true);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            mMap.addMarker(markerOptions);
+        }
+    }
+
     @Override
     public boolean onMarkerClick(Marker marker) {
-
-        return true;
+        for(int i=0;i<mShopInfo.size();i++){
+            if(marker.getTitle() == mShopInfo.get(i).getmPetcareTitle()){
+                Intent intent = new Intent(this, PetcareinfoActivity.class);
+                intent.putExtra("petcareinfo", mShopInfo.get(i));
+                startActivity(intent);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
