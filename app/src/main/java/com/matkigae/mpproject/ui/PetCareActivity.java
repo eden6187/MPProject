@@ -1,12 +1,11 @@
 package com.matkigae.mpproject.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.fragments.PetcareListFragment;
-import com.matkigae.mpproject.fragments.PetcareinfoFragment;
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,14 +25,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.OnShopSelectedListener,
+public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.onShopSelectedListener,
         OnMapReadyCallback {
 
     public static final int NEAREST = 1;
@@ -66,28 +60,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     }
 
-    public void getDataFromDataBase(int criteria){
-        switch (criteria) {
-            case NEAREST:
-                for(int i = 0 ; i < 1; i++) {
-                    Query query = ref.limitToFirst(10);
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            // 여기서 DataSnapshot을 한번에 여러개 가져오는 방법 없을까요
-//                            PetcareInfo infos = (PetcareInfo) dataSnapshot.getValue(PetcareInfo.class);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                    break;
-                }
-        }
-
-        return;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,14 +69,14 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
+        mPetcareListFragment = new PetcareListFragment();
+        mPetcareListFragment.setOnShopSelectedListener(this);
+
         initView();
+
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
-        if(findViewById(R.id.petcare_fragment_container)!=null){
-            mPetcareListFragment = new PetcareListFragment();
-            mPetcareListFragment.setOnShopSelectedListener(this);
-            replaceFragment(mPetcareListFragment);
-        }
+        replaceFragment(mMapFragment);
 
         mBtnShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +92,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             }
         });
 
-        getDataFromDataBase(NEAREST);
     }
 
     public void replaceFragment(Fragment fragment){
@@ -129,6 +100,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         transaction.replace(R.id.petcare_fragment_container, fragment);
         transaction.commit();
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -148,24 +120,11 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     }
 
 
-    public void onShopSelected(int position){
 
-        if(findViewById(R.id.petcare_fragment_container)!=null){
-            PetcareinfoFragment newFragment = new PetcareinfoFragment();
-            Bundle args = new Bundle();
-            args.putInt("position", position);
-            newFragment.setArguments(args);
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.petcare_fragment_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }else{
-            PetcareinfoFragment newFragment = new PetcareinfoFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.petcare_fragment_container, newFragment);
-            newFragment.updateShopinfoView(position);
-        }
+    public void onShopSelected(PetcareInfo item){
+        Intent intent = new Intent(this,PetcareinfoActivity.class);
+        intent.putExtra("petcareinfo",item);
+        startActivity(intent);
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

@@ -9,12 +9,19 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.SkuDetails;
@@ -22,9 +29,16 @@ import com.anjlab.android.iab.v3.TransactionDetails;
 import com.google.android.gms.common.internal.service.Common;
 import com.google.android.material.dialog.MaterialDialogs;
 import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.data.MatchingInfo;
+import com.matkigae.mpproject.data.PetcareInfo;
+import com.matkigae.mpproject.data.UserInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.HashMap;
+
+public class PaymentActivity extends AppCompatActivity {
+    FirebaseDatabase mDb = FirebaseDatabase.getInstance();
 import java.util.ArrayList;
 
 public class PaymentActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
@@ -86,6 +100,27 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         });
 
 
+        mPetcareInfo = getIntent().getParcelableExtra("petcareinfo");
+
+        mBtnConfirmPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = mDb.getReference().child("providers");
+                Query query = ref.orderByChild("mUserId");
+                query = query.equalTo(mPetcareInfo.getmUserId());
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmPetcareTitle(),UserInfo.getInstance().getmEmailAddress()));
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

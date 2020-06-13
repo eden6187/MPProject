@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
@@ -36,6 +37,7 @@ public class ReservationActivity extends AppCompatActivity {
     Toolbar mTb;
     Button mBtnReserve;
     EditText mtextViewIfAvailable;
+    PetcareInfo mPetcreInfo;
 
     private int mReserved_year = 0;
     private int mReserved_month = 0;
@@ -93,6 +95,9 @@ public class ReservationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
         initView();
+        Intent intent = getIntent();
+        mPetcreInfo = (PetcareInfo) intent.getParcelableExtra("petcareinfo");
+
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
         CalendarView cal = (CalendarView)findViewById(R.id.Widget_Select_Date); // 예약 선택 달력에 리스너 달아주기 위한 CalendarView 객체 생성
@@ -100,7 +105,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 mReserved_year = year;
-                mReserved_month = (month);
+                mReserved_month = (month + 1);
                 mReserved_day = dayOfMonth;
             }
         });
@@ -114,27 +119,6 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
 
-
-
-//        if (mReserved_year<mCurr_year) {
-//            availableTime = false;
-//        } else {
-//            if (mReserved_month<mCurr_month) {
-//                availableTime = false;
-//            } else {
-//                if (mReserved_day<mCurr_day) {
-//                    availableTime = false;
-//                } else {
-//                    if(mReserved_hour<mCurr_hour) {
-//                        availableTime = false;
-//                    } else {
-//                        if(mReserved_minute<mCurr_minute){
-//                            availableTime = false;
-//                        }
-//                    }
-//                }
-//            }
-//        }
         mBtnReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

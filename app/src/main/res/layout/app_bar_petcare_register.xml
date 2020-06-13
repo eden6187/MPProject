@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.TestActivity">
+    tools:context=".ui.ReservationActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -15,11 +15,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/holo_green_light"
+            android:background="@color/app_theme_color"
             app:popupTheme="@style/PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_test" />
+    <include layout="@layout/content_petcare_register" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

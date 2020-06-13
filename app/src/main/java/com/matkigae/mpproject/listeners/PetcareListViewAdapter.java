@@ -16,11 +16,11 @@ import com.matkigae.mpproject.R;
 import java.util.ArrayList;
 
 public class PetcareListViewAdapter extends BaseAdapter {
-    private ArrayList<PetcareInfo> ItemList = new ArrayList<PetcareInfo>();
+    private ArrayList<PetcareInfo> itemList = new ArrayList<PetcareInfo>();
 
     @Override
     public int getCount() {
-        return ItemList.size();
+        return itemList.size();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class PetcareListViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.petcarelistview_item, parent, false);
         }
 
-        PetcareInfo listViewItem = ItemList.get(position);
+        PetcareInfo listViewItem = itemList.get(position);
 
         ImageView iconImageView = (ImageView) view.findViewById(R.id.petcare_image_petcarelistview_item);
         ImageView starImageView = (ImageView) view.findViewById(R.id.petcare_star_petcarelistview_item);
@@ -42,12 +42,8 @@ public class PetcareListViewAdapter extends BaseAdapter {
         TextView reviewCountTextView = (TextView) view.findViewById(R.id.petcare_reviewcount_petcarelistview_item);
         TextView distanceTextView = (TextView) view.findViewById(R.id.petcare_distance_petcarelistview_item);
 
-        iconImageView.setImageResource(listViewItem.getIcon());
-        starImageView.setImageResource(listViewItem.getStar());
-        titleTextView.setText(listViewItem.getTitle());
-        ratingnumTextView.setText(listViewItem.getRatingnum());
-        reviewCountTextView.setText(listViewItem.getReviewcount());
-        distanceTextView.setText(listViewItem.getDistance());
+        iconImageView.setImageResource((int)listViewItem.getmIcon());
+        titleTextView.setText(listViewItem.getmPetcareTitle());
 
         return view;
     }
@@ -59,10 +55,10 @@ public class PetcareListViewAdapter extends BaseAdapter {
 
     @Override
     public PetcareInfo getItem(int position) {
-        return ItemList.get(position);
+        return itemList.get(position);
     }
 
     public void addItem(PetcareInfo item){
-        ItemList.add(item);
+        itemList.add(item);
     }
 }
