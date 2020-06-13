@@ -80,8 +80,24 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnCancelPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaymentActivity.this, PetCareActivity.class);
-                startActivity(intent);
+                String cancelMessage = "예약이 취소됩니다.\n취소하고 서비스 제공 페이지로 넘어가겠습니까?";
+                final AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this);
+                builder.setTitle("취소 알림").setMessage(cancelMessage);
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(PaymentActivity.this, PetCareActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
