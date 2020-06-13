@@ -1,5 +1,6 @@
 package com.matkigae.mpproject.ui;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -77,6 +78,11 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
+        Intent intent = getIntent();
+        intent.getParcelableExtra("petcareinfo");
+        String start = intent.getStringExtra("startdate");
+        String end = intent.getStringExtra("enddate");
+        System.out.println("데이터 전달 확인용 : " + start + "~" + end);
 
         bp = new BillingProcessor(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZIEcCAx7aRVH0Cz9d95oz+96cKc/Op/Yg87KZnhSAz3uajnfr3XJ9r5a9RzGBImRPt/18HIyn1N8zussnijARvj8CfgPCVriOI0LP8sPJYnD6+sSnnUrzKYMdsGDy4YUEOETfn05TXPT68nqF05aXInEYjMu9NPKFI5tI7zyqmKUNgsgnY38y2SIwrEQqfysaZhEuOXdn+lUB/9ZTSYP+yoLi45yUwgZ2XAsfoOJQjtYnWBnNs3gpba5f2yg0X4OvceN26DPlhWEM57LSmqCXFIYL78cOhbb3mVSBF/8SpAgxSTH2VyMH6RkgdPVS0oe8smyumybu9DmaPO3SeYAQIDAQAB", this);
         bp.initialize();
