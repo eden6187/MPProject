@@ -41,7 +41,7 @@ public class PetcareListViewAdapter extends BaseAdapter {
         TextView ratingnumTextView = (TextView) view.findViewById(R.id.petcare_rating_num_petcarelistview_item);
         TextView reviewCountTextView = (TextView) view.findViewById(R.id.petcare_reviewcount_petcarelistview_item);
         TextView distanceTextView = (TextView) view.findViewById(R.id.petcare_distance_petcarelistview_item);
-        
+
 
         return view;
     }

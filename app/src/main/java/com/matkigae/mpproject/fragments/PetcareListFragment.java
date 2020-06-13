@@ -53,32 +53,32 @@ public class PetcareListFragment extends ListFragment {
         // Inflate the layout for this fragment
         adapter = new PetcareListViewAdapter();
         setListAdapter(adapter);
-        initializeDataFromDB();
+//        initializeDataFromDB();
         setDataBaseAdapter();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
-        DatabaseReference ref = mDb.getReference().child("providers");
-        Query query = ref;
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for(DataSnapshot provider : dataSnapshot.getChildren()){
-                    PetcareInfo info = provider.getValue(PetcareInfo.class);
-                    adapter.addItem(info);
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+//    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
+//        DatabaseReference ref = mDb.getReference().child("providers");
+//        Query query = ref;
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                for(DataSnapshot provider : dataSnapshot.getChildren()){
+//                    PetcareInfo info = provider.getValue(PetcareInfo.class);
+//                    adapter.addItem(info);
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
 
     /**
