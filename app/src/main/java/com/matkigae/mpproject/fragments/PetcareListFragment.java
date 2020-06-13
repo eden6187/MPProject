@@ -3,6 +3,8 @@ package com.matkigae.mpproject.fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.fragment.app.ListFragment;
 
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +25,7 @@ import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.data.Data;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.listeners.PetcareListViewAdapter;
+import com.matkigae.mpproject.ui.PetCareActivity;
 
 public class PetcareListFragment extends ListFragment {
     onShopSelectedListener mCallback;
@@ -49,32 +53,72 @@ public class PetcareListFragment extends ListFragment {
         // Inflate the layout for this fragment
         adapter = new PetcareListViewAdapter();
         setListAdapter(adapter);
-        getDataFromDataBase();
-
+        initializeDataFromDB();
+        setDataBaseAdapter();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    /**
-    ** 현재 Provider tree에 있는 정보를 전부 가져와서 Adapter에 추가시켜주는 Method
-    **/
-    DatabaseReference ref = mDb.getReference("providers");
-    public void getDataFromDataBase(){
+    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
+        DatabaseReference ref = mDb.getReference().child("providers");
         Query query = ref;
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for( DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        PetcareInfo data = snapshot.getValue(PetcareInfo.class);
-                        addItem(data);
-                        adapter.notifyDataSetChanged();
-                        setListAdapter(adapter);
-                    }
+                for(DataSnapshot provider : dataSnapshot.getChildren()){
+                    PetcareInfo info = provider.getValue(PetcareInfo.class);
+                    adapter.addItem(info);
                 }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
+    /**
+    ** 현재 Provider tree에 있는 정보를 전부 가져와서 Adapter에 추가시켜주는 Method
+     * 정상작
+    **/
+    public void setDataBaseAdapter(){
+        DatabaseReference ref = mDb.getReference().child("providers");
+        ref.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    adapter.addItem(data.getValue(PetcareInfo.class));
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    adapter.addItem(data.getValue(PetcareInfo.class));
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    adapter.addItem(data.getValue(PetcareInfo.class));
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    adapter.addItem(data.getValue(PetcareInfo.class));
+                }
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
             }
         });
     }

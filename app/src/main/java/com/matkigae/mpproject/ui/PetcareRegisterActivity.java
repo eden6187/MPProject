@@ -13,7 +13,7 @@ import com.matkigae.mpproject.data.PetcareInfo;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.matkigae.mpproject.data.UserInfo;
-import com.matkigae.mpproject.listeners.RvAdapter;
+import com.matkigae.mpproject.listeners.PetcareRegisterRecyclerViewAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,9 +27,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -40,7 +40,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
     Switch mSwtichGPS;
     Spinner mSpinnerServiceType;
     RecyclerView mRv;
-    RvAdapter mRvAdapter;
+    PetcareRegisterRecyclerViewAdapter mPetcareRegisterRecyclerViewAdapter;
 
     private void initView(){
         mEtShopId = findViewById(R.id.edittext_register_servicename);
@@ -57,91 +57,83 @@ public class PetcareRegisterActivity extends AppCompatActivity {
 
         ArrayList<MatchingInfo> dummy_data = new ArrayList<MatchingInfo>();
 
-        dummy_data.add(new MatchingInfo("prd1","b"));
-        dummy_data.add(new MatchingInfo("prd2","b"));
-        dummy_data.add(new MatchingInfo("prd3","b"));
+//        dummy_data.add(new MatchingInfo("prd1","b"));
+//        dummy_data.add(new MatchingInfo("prd2","b"));
+//        dummy_data.add(new MatchingInfo("prd3","b"));
 
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
-        mRvAdapter = new RvAdapter(dummy_data);
-        mRv.setAdapter(mRvAdapter);
+        mPetcareRegisterRecyclerViewAdapter = new PetcareRegisterRecyclerViewAdapter(dummy_data);
+        mRv.setAdapter(mPetcareRegisterRecyclerViewAdapter);
         mRv.setLayoutManager(layoutManager);
 
         Button btn = findViewById(R.id.button_regsiter_registertodb);
+
+        Query query = mDb.getReference().child("matching");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()) {
+                    MatchingInfo info = data.getValue(MatchingInfo.class);
+                    if (info != null) {
+                        if (info.getProviderTitle().equals(UserInfo.getMyProviderId())) {
+                            mPetcareRegisterRecyclerViewAdapter.addItem(info);
+                        }
+                    }
+                }
+                mPetcareRegisterRecyclerViewAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String shopId = mEtShopId.getText().toString();
                 int shopImage = R.drawable.ic_shopinfo_default;
-                int cooridnate = 0;
+                /** 여기다 해당 상점에 대한 정보를 얻어 오는 코드를 넣어주면 된다. **/
 
-                PetcareInfo newInfo = new PetcareInfo(R.drawable.ic_shopinfo_default,shopId,0,0,0,0, UserInfo.getInstance().getmEmailAddress().toString());
-                registerNewPetcareProvider(newInfo);
+                PetcareInfo newInfo = new PetcareInfo(R.drawable.ic_shopinfo_default,shopId,1.1,0,1.1,1.1, UserInfo.getInstance().getmEmailAddress().toString());
+                DatabaseReference ref = mDb.getReference();
+                HashMap<String,Object> post = new HashMap<String,Object>();
+                post.put("/providers/" + newInfo.getmPetcareTitle(),newInfo.toMap());
+                ref.updateChildren(post);
+
+                /** Toast Message 띄어 줄 것 **/
             }
         });
 
-        DatabaseReference mRef_matching = mDb.getReference().child("matching");
-        mRef_matching.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    MatchingInfo candidate = snapshot.getValue(MatchingInfo.class);
-                    if(candidate.getProviderId().equals(UserInfo.getInstance().getmEmailAddress())){
-                        mRvAdapter.addItem(candidate);
-                    }
-                }
-                mRvAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
+        /** matching 정보 새로 발생 시 Adapter 에 ITEM 추**/
         DatabaseReference ref_matching = mDb.getReference().child("matching");
         ref_matching.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                dataSnapshot.getValue().toString();
-//                mRvAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d(TAG,"Succees");
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Log.d(TAG,"Succees");
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d(TAG,"Succees");
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG,"Succees");
-            }
-        });
-    }
-
-    DatabaseReference ref = mDb.getReference().child("providers");
-    public void registerNewPetcareProvider(PetcareInfo info){
-        final PetcareInfo newInfo = info;
-        Query query = ref.orderByChild("mUserId").equalTo(info.getmUserId());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    Toast.makeText(PetcareRegisterActivity.this,"현재는 하나의 Service만 제공하실 수 있습니다.",Toast.LENGTH_LONG).show();
-                }else{
-                    ref.push().setValue(newInfo);
-                    Toast.makeText(PetcareRegisterActivity.this, " 등록이 완료 되었습니다.",Toast.LENGTH_SHORT).show();
+                for(DataSnapshot data : dataSnapshot.getChildren()) {
+                    Log.d("data:", data.getValue().toString());
+//                    MatchingInfo info = data.getValue(MatchingInfo.class);
+//                    if (info != null) {
+//                        if (info.getProviderTitle().equals(UserInfo.getMyProviderId())) {
+//                            mPetcareRegisterRecyclerViewAdapter.addItem(info);
+//                        }
+//                    }
                 }
+                mPetcareRegisterRecyclerViewAdapter.notifyDataSetChanged();
             }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) { }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+
     }
+
 
 }

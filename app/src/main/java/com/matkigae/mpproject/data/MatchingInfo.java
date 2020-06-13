@@ -1,24 +1,24 @@
 package com.matkigae.mpproject.data;
 
+import java.util.HashMap;
+
 public class MatchingInfo {
-    String providerId;
+    String providerTitle;
     String consumerId;
 
-    public MatchingInfo(){
-
-    }
+    public MatchingInfo(){ }
 
     public MatchingInfo(String providerId, String consumerId) {
-        this.providerId = providerId;
+        this.providerTitle = providerId;
         this.consumerId = consumerId;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public String getProviderTitle() {
+        return providerTitle;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setProviderTitle(String providerTitle) {
+        this.providerTitle = providerTitle;
     }
 
     public String getConsumerId() {
@@ -27,5 +27,12 @@ public class MatchingInfo {
 
     public void setConsumerId(String consumerId) {
         this.consumerId = consumerId;
+    }
+
+    public HashMap<String, Object> toMap(){
+        HashMap<String, Object> post = new HashMap<>();
+        post.put("providerTitle", this.providerTitle);
+        post.put("consumerId",this.consumerId);
+        return post;
     }
 }

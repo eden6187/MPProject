@@ -13,10 +13,10 @@ import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.data.MatchingInfo;
 import java.util.ArrayList;
 
-public class RvAdapter extends RecyclerView.Adapter {
+public class PetcareRegisterRecyclerViewAdapter extends RecyclerView.Adapter {
     public ArrayList<MatchingInfo> infos = new ArrayList<MatchingInfo>();
 
-    public RvAdapter(ArrayList<MatchingInfo> infos) {
+    public PetcareRegisterRecyclerViewAdapter(ArrayList<MatchingInfo> infos) {
         this.infos = infos;
     }
 

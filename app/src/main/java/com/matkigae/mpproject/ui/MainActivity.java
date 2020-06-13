@@ -24,6 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     NavigationView mNv;
     DrawerLayout mDl;
@@ -63,21 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
         //DataBase 초기화 User 정보 초기화 및 기존 사용자에 대한 정보는 추가하지 않도록 Query 작성
         mDb = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = mDb.getReference().child("userinfo");
-
-        Query query = ref.orderByChild("emailAddress").equalTo(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Object info = dataSnapshot.getValue();
-                if (info == null){
-                    ref.push().setValue(UserInfo.getFirebasePost());
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-
-        });
+        final DatabaseReference ref = mDb.getReference();
+        HashMap<String,Object> post = new HashMap<String, Object>();
+        post.put("/user_list/" + FirebaseAuth.getInstance().getUid(),UserInfo.toMap());
+        ref.updateChildren(post);
 
         initView();
 

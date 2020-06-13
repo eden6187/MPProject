@@ -69,7 +69,7 @@ public class PaymentActivity extends AppCompatActivity {
                 query.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmUserId(),UserInfo.getInstance().getmEmailAddress()));
+                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmPetcareTitle(),UserInfo.getInstance().getmEmailAddress()));
                     }
 
                     @Override

@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class UserInfo {
     private static UserInfo instance = null;
     private static String emailAddress = "ANONYMOUS";
+    private static String myProviderId = "NONE";
 
     private UserInfo(){ }
 
@@ -28,10 +29,17 @@ public class UserInfo {
         }
     }
 
-    public static HashMap<String, Object> getFirebasePost(){
-        HashMap<String, Object> post = new HashMap<String, Object>();
-        post.put("emailAddress", UserInfo.emailAddress);
+    public static void setMyProviderId(String newID){
+        UserInfo.myProviderId = newID;
+    }
 
-        return post;
+    public static String getMyProviderId() {
+        return myProviderId;
+    }
+
+    public static HashMap<String, Object> toMap(){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("emailAddress", UserInfo.emailAddress);
+        return map;
     }
 }

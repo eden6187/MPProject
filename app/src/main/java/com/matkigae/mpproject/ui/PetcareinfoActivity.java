@@ -34,7 +34,7 @@ public class PetcareinfoActivity extends AppCompatActivity {
         initView();
 
         mPetcareInfo = getIntent().getParcelableExtra("petcareinfo");
-        mIvShopIcon.setImageResource(mPetcareInfo.getmIcon());
+        mIvShopIcon.setImageResource((int)mPetcareInfo.getmIcon());
         mBtnGotoReservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

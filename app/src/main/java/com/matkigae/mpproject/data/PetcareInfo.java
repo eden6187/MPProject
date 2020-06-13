@@ -3,23 +3,27 @@ package com.matkigae.mpproject.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.matkigae.mpproject.R;
+
+import java.util.HashMap;
+
 public class PetcareInfo implements Parcelable {
 
     private String mUserId = "ANONYMOUS";
-    private int mIcon = -1;
-    private int mStar = -1;
-    private double mPetcareRatingnum = 0;
-    private double mXcoordinate = 0;
-    private double mYcoordinate = 0;
+    private Long mIcon = (long)R.drawable.ic_shopinfo_default;
+    private Long mStar = (long)R.drawable.star_image;
+    private double mPetcareRatingnum = 0.1;
+    private double mXcoordinate = 0.1;
+    private double mYcoordinate = 0.1;
     private String mPetcareTitle = "ANONYMOUS";
-    private int mPetcareReviewcount = 0;
+    private Long mPetcareReviewcount = new Long(0);
 
     private PetcareInfo(Parcel src){
         this.mUserId = src.readString();
-        this.mIcon = src.readInt();
-        this.mStar = src.readInt();
+        this.mIcon = src.readLong();
+        this.mStar = src.readLong();
         this.mPetcareRatingnum = src.readDouble();
-        this.mPetcareReviewcount = src.readInt();
+        this.mPetcareReviewcount = src.readLong();
         this.mPetcareTitle = src.readString();
         this.mXcoordinate = src.readDouble();
         this.mYcoordinate = src.readDouble();
@@ -31,9 +35,9 @@ public class PetcareInfo implements Parcelable {
                        double xcor, double ycor, String userId)
     {
         this.mUserId = userId;
-        this.mIcon = icon;
+        this.mIcon = (long)icon;
         this.mPetcareRatingnum = ratingnum;
-        this.mPetcareReviewcount = reviewcnt;
+        this.mPetcareReviewcount = (long)reviewcnt;
         this.mPetcareTitle = title;
         this.mXcoordinate = xcor;
         this.mYcoordinate = ycor;
@@ -48,16 +52,16 @@ public class PetcareInfo implements Parcelable {
         mUserId = userId;
     }
 
-    public int getmIcon() { return mIcon; }
+    public long getmIcon() { return mIcon; }
 
     public void setmIcon(int mIcon) {
-        this.mIcon = mIcon;
+        this.mIcon = (long)mIcon;
     }
 
-    public int getmStar() { return mStar; }
+    public long getmStar() { return mStar; }
 
     public void setmStar(int mStar) {
-        this.mStar = mStar;
+        this.mStar = (long)mStar;
     }
 
     public double getmPetcareRatingnum() {
@@ -90,11 +94,11 @@ public class PetcareInfo implements Parcelable {
         this.mPetcareTitle = mPetcareTitle;
     }
 
-    public int getmPetcareReviewcount() {
-        return mPetcareReviewcount;
+    public long getmPetcareReviewcount() {
+        return (long)mPetcareReviewcount;
     }
 
-    public void setmPetcareReviewcount(int mPetcareReviewcount) { this.mPetcareReviewcount = mPetcareReviewcount; }
+    public void setmPetcareReviewcount(int mPetcareReviewcount) { this.mPetcareReviewcount = (long)(int)mPetcareReviewcount; }
 
     /*** Parcelabel methods ***/
 
@@ -118,12 +122,27 @@ public class PetcareInfo implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.mUserId);
-        dest.writeInt(this.mIcon);
-        dest.writeInt(this.mStar);
+        dest.writeLong(this.mIcon);
+        dest.writeLong(this.mStar);
         dest.writeDouble(this.mPetcareRatingnum);
-        dest.writeInt(this.mPetcareReviewcount);
+        dest.writeLong(this.mPetcareReviewcount);
         dest.writeString(this.mPetcareTitle);
         dest.writeDouble(this.mXcoordinate);
         dest.writeDouble(this.mYcoordinate);
+    }
+
+    public HashMap<String,Object> toMap(){
+        HashMap<String, Object> post = new HashMap<String,Object>();
+
+        post.put("mUserId",this.mUserId);
+        post.put("mIcon",this.mIcon);
+        post.put("mStar",this.mStar);
+        post.put("mPetcareRatingnum",this.mPetcareRatingnum);
+        post.put("mXcoordinate",this.mXcoordinate);
+        post.put("mYcoordinate", this.mYcoordinate);
+        post.put("mPetcareTitle",this.mPetcareTitle);
+        post.put("mPetcareReviewcount",this.mPetcareReviewcount);
+
+        return post;
     }
 }
