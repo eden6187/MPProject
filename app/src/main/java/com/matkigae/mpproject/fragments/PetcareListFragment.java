@@ -28,7 +28,7 @@ import com.matkigae.mpproject.listeners.PetcareListViewAdapter;
 import com.matkigae.mpproject.ui.PetCareActivity;
 
 public class PetcareListFragment extends ListFragment {
-    onShopSelectedListener mCallback;
+    OnShopSelectedListener mCallback;
     PetcareListViewAdapter adapter;
     FirebaseDatabase mDb = FirebaseDatabase.getInstance();
 
@@ -38,12 +38,12 @@ public class PetcareListFragment extends ListFragment {
 
     }
 
-    public void setOnShopSelectedListener(onShopSelectedListener listener){
+    public void setOnShopSelectedListener(OnShopSelectedListener listener){
         this.mCallback = listener;
     }
 
 
-    public interface onShopSelectedListener{
+    public interface OnShopSelectedListener{
         public void onShopSelected(PetcareInfo item);
     }
 
