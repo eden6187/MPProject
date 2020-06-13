@@ -49,6 +49,7 @@
         </activity>
         <activity android:name="com.matkigae.mpproject.ui.PetCareActivity" />
         <activity android:name="com.matkigae.mpproject.ui.ReservationActivity" />
+        <activity android:name="com.matkigae.mpproject.ui.Reservation2Activity" />
         <activity android:name="com.matkigae.mpproject.ui.MyInfoActivity" />
         <activity android:name="com.matkigae.mpproject.ui.PaymentActivity" />
         <activity android:name="com.matkigae.mpproject.ui.PaidActivity" />

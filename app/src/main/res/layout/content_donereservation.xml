@@ -11,8 +11,9 @@
 
     <Button
         android:id="@+id/button_back_to_list"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/app_theme_color_sub1"
         android:text="목록으로"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

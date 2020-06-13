@@ -132,7 +132,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mBtnShowList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new PetcareListFragment());
+                replaceFragment(mPetcareListFragment);
             }
         });
 

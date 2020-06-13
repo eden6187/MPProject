@@ -31,7 +31,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class ReservationActivity extends AppCompatActivity {
+public class Reservation2Activity extends AppCompatActivity {
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
@@ -66,13 +66,13 @@ public class ReservationActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_hamburger_menu);
         //햄버거 메뉴 아이콘 설정
 
-        mBtnReserve = findViewById(R.id.button_DoReservation);
+        mBtnReserve = findViewById(R.id.button_DoReservation_2);
 
         mNv = findViewById(R.id.nav_view);
         mDl = findViewById(R.id.drawer_layout);
 
-        mtextViewIfAvailable = findViewById(R.id.Text_Reservation_IfAvailable);
-        mETAvailableWeek = findViewById(R.id.edittext_weekAvailable);
+        mtextViewIfAvailable = findViewById(R.id.Text_Reservation2_IfAvailable);
+        mETAvailableWeek = findViewById(R.id.edittext_weekAvailable_2);
 
         Calendar cal = Calendar.getInstance();
         mReserved_minute = cal.get(Calendar.MINUTE);
@@ -95,7 +95,7 @@ public class ReservationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation);
+        setContentView(R.layout.activity_reservation2);
         initView();
         Intent intent = getIntent();
         mPetcreInfo = (PetcareInfo) intent.getParcelableExtra("petcareinfo");
@@ -104,7 +104,7 @@ public class ReservationActivity extends AppCompatActivity {
         // 불가 요일 받아와서 보여주기.
         mETAvailableWeek.setText("요일");
 
-        CalendarView cal = (CalendarView)findViewById(R.id.Widget_Select_Date); // 예약 선택 달력에 리스너 달아주기 위한 CalendarView 객체 생성
+        CalendarView cal = (CalendarView)findViewById(R.id.Widget_Select_Date_2); // 예약 선택 달력에 리스너 달아주기 위한 CalendarView 객체 생성
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() { // 리스너 생성
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -114,7 +114,7 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
 
-        TimePicker timePicker = (TimePicker)findViewById(R.id.Widget_Select_Time); // 예약 선택 시간에 리스너 달아주기 위한 TimePicker 객체 생성
+        TimePicker timePicker = (TimePicker)findViewById(R.id.Widget_Select_Time_2); // 예약 선택 시간에 리스너 달아주기 위한 TimePicker 객체 생성
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() { // 리스너 생성
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
@@ -157,12 +157,12 @@ public class ReservationActivity extends AppCompatActivity {
             mtextViewIfAvailable.invalidate();
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // 알림창 띄우기위한 객체
             alertDialogBuilder.setMessage(mReserved_year + "년 " + (mReserved_month+1) + "월" + mReserved_day + "일, " + mReserved_hour + "시" +
-                    mReserved_minute + "분을 시작 시간으로 하시겠습니까?"); // 예약 확인 알림창 띄우기
-            alertDialogBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() { // 예약하기 결정되었을 때 이벤트 처리
+                    mReserved_minute + "분에 예약하시겠습니까?"); // 예약 확인 알림창 띄우기
+            alertDialogBuilder.setPositiveButton("예약", new DialogInterface.OnClickListener() { // 예약하기 결정되었을 때 이벤트 처리
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    // 다음 예약 창으로 이동하는 이벤트 구현
-                    Intent intent = new Intent(ReservationActivity.this, Reservation2Activity.class);
+                    // 결제하기 창으로 이동하는 이벤트 구현 필요
+                    Intent intent = new Intent(Reservation2Activity.this, PaymentActivity.class);
                     startActivity(intent);
                 }
             });
@@ -170,7 +170,7 @@ public class ReservationActivity extends AppCompatActivity {
             alertDialogBuilder.setNegativeButton("취소", new DialogInterface.OnClickListener() { // 예약 취소했을 때 이벤트 처리
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(ReservationActivity.this, "시간 설정이 취소되었습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Reservation2Activity.this, "예약이 취소되었습니다.", Toast.LENGTH_LONG).show();
                 }
             });
 
