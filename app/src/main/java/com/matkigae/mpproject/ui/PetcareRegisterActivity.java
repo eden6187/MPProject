@@ -45,8 +45,6 @@ public class PetcareRegisterActivity extends AppCompatActivity {
     private void initView(){
         mEtShopId = findViewById(R.id.edittext_register_servicename);
         mSwtichGPS = findViewById(R.id.switch_register_gpspermission);
-        mSpinnerServiceType = findViewById(R.id.spinner_regsiter_servicetype);
-        mRv = findViewById(R.id.recyclerview_petcare_register);
     }
 
     @Override
@@ -85,23 +83,6 @@ public class PetcareRegisterActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String shopId = mEtShopId.getText().toString();
-                int shopImage = R.drawable.ic_shopinfo_default;
-                /** 여기다 해당 상점에 대한 정보를 얻어 오는 코드를 넣어주면 된다. **/
-
-                PetcareInfo newInfo = new PetcareInfo(R.drawable.ic_shopinfo_default, shopId,1.1,0,1.1,1.1, UserInfo.getInstance().getmEmailAddress().toString());
-                DatabaseReference ref = mDb.getReference();
-                HashMap<String,Object> post = new HashMap<String,Object>();
-                post.put("/providers/" + newInfo.getmPetcareTitle(),newInfo.toMap());
-                ref.updateChildren(post);
-
-                /** Toast Message 띄어 줄 것 **/
             }
         });
 

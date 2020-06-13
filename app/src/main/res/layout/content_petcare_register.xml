@@ -1,64 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/app_bar_petcare_register"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:showIn="@layout/app_bar_petcare_register">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="187dp"
+        android:layout_height="179dp"
+        android:layout_marginTop="64dp"
+        app:srcCompat="@drawable/ic_shopinfo_default" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textview_register_shoptitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="업체 명"
+            android:textAllCaps="false"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/edittext_register_servicename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="업체 명을 입력해주세요."
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_register_shoptitle" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/textview_register_shoptitle"
-        android:layout_width="0dp"
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="10dp"
-        android:text="이름을 입력해 주세요."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        android:text="업체 소개" />
 
     <EditText
-        android:id="@+id/edittext_register_servicename"
-        android:layout_width="0dp"
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_register_shoptitle" />
+        android:hint="업체를 소개해주세요."
+        android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textview_register_servicetype"
-        android:layout_width="0dp"
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:paddingStart="10dp"
-        android:text="어떤 서비스를 제공하실 예정이신가요?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_register_servicename" />
+        android:text="업체 정보" />
 
-    <Spinner
-        android:id="@+id/spinner_regsiter_servicetype"
-        android:layout_width="409dp"
+    <EditText
+        android:id="@+id/editTextTextPersonName2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_register_servicetype" />
+        android:ems="10"
+        android:hint="업체 정보를 입력해주세요."
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="영업 날짜" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="시간당 금액" />
 
     <TextView
         android:id="@+id/textview_regiset_gpspermission"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:paddingStart="10dp"
         android:text="위치를 등록하기 위해서 GPS 정보 사용 동의가 필요합니다."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_regsiter_servicetype" />
+        tools:layout_editor_absoluteY="395dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -87,47 +113,21 @@
             android:paddingEnd="10dp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="187dp"
-        android:layout_height="179dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_shopinfo_default" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="39dp"
-        android:layout_height="39dp"
-        android:text="+"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2" />
-
     <Button
         android:id="@+id/button_regsiter_registertodb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="right"
         android:backgroundTint="@color/app_theme_color"
+        android:gravity="center"
         android:text="등록"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerview_petcare_register" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_petcare_register"
-        android:layout_width="408dp"
-        android:layout_height="129dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
