@@ -107,10 +107,8 @@ public class PetcareRegisterActivity extends AppCompatActivity {
         });
     }
     private void registerPetCareInfo(PetcareInfo newInfo){
-        DatabaseReference ref = mDb.getReference();
-        HashMap<String,Object> post = new HashMap<String,Object>();
-        post.put("/providers/" + newInfo.getmPetcareTitle(), newInfo.toMap());
-        ref.updateChildren(post);
+        DatabaseReference ref = mDb.getReference().child("providers");
+        ref.child(newInfo.getmPetcareTitle()).setValue(newInfo);
     }
 
 
