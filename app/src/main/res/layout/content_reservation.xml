@@ -22,26 +22,26 @@
         android:layout_width="83dp"
         android:layout_height="44dp"
         android:layout_marginTop="21dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="68dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@android:color/holo_blue_dark"
-        android:text="예약하기"
+        android:text="다음 단계"
         android:textColor="@color/design_default_color_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Widget_Select_Time"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.7" />
 
     <TextView
         android:id="@+id/Text_Select_Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="원하는 날짜를 선택하세요."
+        android:layout_marginTop="36dp"
+        android:text="원하는 시작 날짜를 선택하세요."
         android:textColor="@color/design_default_color_on_secondary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.176"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="원하는 시간을 선택하세요."
+        android:text="원하는 시작 시간을 선택하세요."
         android:textColor="@color/design_default_color_on_secondary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,5 +86,20 @@
         app:layout_constraintVertical_bias="0.0">
 
     </TimePicker>
+
+    <EditText
+        android:id="@+id/edittext_weekAvailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="(불가 요일)"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/Text_Select_Date"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

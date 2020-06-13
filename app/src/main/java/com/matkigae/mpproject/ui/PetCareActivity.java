@@ -115,16 +115,9 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
-
-        if(findViewById(R.id.petcare_fragment_container)!=null){
-            mPetcareListFragment = new PetcareListFragment();
-            mPetcareListFragment.setOnShopSelectedListener(this);
-            FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.petcare_fragment_container, mPetcareListFragment).commit();
-            if(savedInstanceState != null){
-                return;
-            }
-        }
+        mPetcareListFragment = new PetcareListFragment();
+        mPetcareListFragment.setOnShopSelectedListener(this);
+        replaceFragment(mPetcareListFragment);
 
         mBtnShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,16 +147,16 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
-        PetcareInfo info = new PetcareInfo();
-        info.setmAvailableDate("a");
-        info.setmPetcareInfo("abc");
-        info.setmPetcareIntro("aba");
-        info.setmPetcareTitle("holy");
-        info.setmPrice("100");
-        info.setmUserId("id");
-        info.setmXcoordinate(37.2763);
-        info.setmYcoordinate(127.0440);
-        mShopInfo.add(info);
+//        PetcareInfo info = new PetcareInfo();
+//        info.setmAvailableDate("a");
+//        info.setmPetcareInfo("abc");
+//        info.setmPetcareIntro("aba");
+//        info.setmPetcareTitle("holy");
+//        info.setmPrice("100");
+//        info.setmUserId("id");
+//        info.setmXcoordinate(37.2763);
+//        info.setmYcoordinate(127.0440);
+//        mShopInfo.add(info);
 
     }
 
@@ -172,8 +165,11 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.petcare_fragment_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void onShopSelected(int position){
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -187,7 +183,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         return super.onOptionsItemSelected(item);
     }
 
-    // 지도 관련 함수들
+    /*** 지도 관련 함수들 ***/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

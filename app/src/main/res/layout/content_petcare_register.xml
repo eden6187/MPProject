@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_marginTop="56dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,83 +17,183 @@
     tools:showIn="@layout/app_bar_petcare_register">
 
     <ImageView
+        android:layout_marginBottom="10dp"
         android:id="@+id/imageView2"
         android:layout_width="187dp"
         android:layout_height="179dp"
-        android:layout_marginTop="64dp"
+        android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/ic_shopinfo_default" />
 
     <LinearLayout
+        android:weightSum="4"
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <TextView
+            android:layout_weight="1"
             android:id="@+id/textview_register_shoptitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="업체 명"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="업체명"
             android:textAllCaps="false"
-            android:gravity="center"/>
+            android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/edittext_register_servicename"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:background="@drawable/roundrect_background"
+            android:id="@+id/edittext_register_petcareinfotitle"
+            android:layout_height="match_parent"
             android:hint="업체 명을 입력해주세요."
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_register_shoptitle" />
+            android:inputType="textPersonName" />
+
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="업체 소개" />
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="업체 소개"
+        android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/edittext_register_petcareinfointro"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_height="100dp"
+        android:background="@drawable/roundrect_background"
+        android:layout_margin="10dp"
         android:hint="업체를 소개해주세요."
+        android:gravity="center"
         android:inputType="textPersonName" />
 
     <TextView
+        android:gravity="center"
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="업체 정보" />
+        android:textStyle="bold"
+        android:text="업체 정보"
+        android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/edittext_register_petcareinfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="업체 정보를 입력해주세요."
+        android:layout_height="200dp"
+        android:background="@drawable/roundrect_background"
+        android:layout_margin="10dp"
+        android:hint="업체를 소개해주세요."
+        android:gravity="center"
         android:inputType="textPersonName" />
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="영업 날짜" />
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="영업 가능하신 날짜를 선택해 주세요" />
+
+    <LinearLayout
+        android:weightSum="7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ToggleButton
+            android:id="@+id/togglebutton_register_mon"
+            android:layout_weight="1"
+            android:textOn="월"
+            android:textOff="월"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ToggleButton
+            android:id="@+id/togglebutton_register_tue"
+            android:textOn="화"
+            android:textOff="화"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ToggleButton
+            android:id="@+id/togglebutton_register_wend"
+            android:textOn="수"
+            android:textOff="수"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ToggleButton
+            android:id="@+id/togglebutton_register_thur"
+            android:textOn="목"
+            android:textOff="목"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ToggleButton
+            android:id="@+id/togglebutton_register_fri"
+            android:textOn="금"
+            android:textOff="금"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ToggleButton
+            android:id="@+id/togglebutton_register_sat"
+            android:textOn="토"
+            android:textOff="토"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ToggleButton
+            android:id="@+id/togglebutton_register_sun"
+            android:textOn="일"
+            android:textOff="일"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <TextView
+        android:layout_marginTop="10dp"
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textStyle="bold"
         android:text="시간당 금액" />
 
-    <TextView
-        android:id="@+id/textview_regiset_gpspermission"
+    <LinearLayout
+        android:weightSum="5"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:text="위치를 등록하기 위해서 GPS 정보 사용 동의가 필요합니다."
-        tools:layout_editor_absoluteY="395dp" />
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/edittext_register_price"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
+
+        <TextView
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="KRW"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -95,23 +204,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_regiset_gpspermission">
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:paddingStart="10dp"
-            android:text="GPS 정보 사용 동의" />
-
-        <Switch
-            android:id="@+id/switch_register_gpspermission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingEnd="10dp" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textview_regiset_gpspermission"/>
 
     <Button
         android:id="@+id/button_regsiter_registertodb"
@@ -128,6 +221,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 </LinearLayout>
+</ScrollView>
