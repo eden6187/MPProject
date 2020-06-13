@@ -11,10 +11,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.util.MapUtils;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.fragments.PetcareListFragment;
 import com.matkigae.mpproject.R;
@@ -69,6 +78,13 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     Toolbar mTb;
     GoogleMap mMap;
 
+    ArrayList<PetcareInfo> mInfos = new ArrayList<PetcareInfo>();
+
+    Context mContext = this;
+    TextView title;
+
+    private Marker currentMarker = null;
+
     private static final String tag = "googlemap_location";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
@@ -78,16 +94,15 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     Location mCurrentLocation;
-    LatLng currentPosition = new LatLng(32.2834, 127.0456);
+    LatLng mCurrentPosition;
 
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
+
     private View mLayout;
-    private ArrayList<PetcareInfo> mShopInfo = new ArrayList<>();
 
-
-
+    private boolean mMapStarted = false;
 
 
     public void initView(){
@@ -132,10 +147,13 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             }
         });
 
+        initializeDataFromDB();
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mLayout = findViewById(R.id.petcare_layout);
         locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
 
@@ -168,11 +186,29 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         return super.onOptionsItemSelected(item);
     }
 
+
+    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("providers");
+    Query query = ref;
+    query.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            for(DataSnapshot data : dataSnapshot.getChildren()){
+                mInfos.add(data.getValue(PetcareInfo.class));
+            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Toast.makeText(PetCareActivity.this,"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+        }
+    });
+    }
     /*** 지도 관련 함수들 ***/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        setDefaultLocation();
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -180,7 +216,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED){
             //퍼미션 확인
             startLocationUpdates();
-
         }else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])){ //사용자가 거부한 적이 있는 경우
                 Snackbar.make(mLayout, "이 화면을 실행하려면 위치 접근 권한이 필요합니다.", Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener(){
@@ -197,7 +232,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-        setShopMarkers(mShopInfo);
+        setShopMarkers(mInfos);
 
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -209,16 +244,22 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 return false;
             }
         });
+
+        mMap.setOnMarkerClickListener(this);
     }
 
-    LocationCallback locationCallback = new LocationCallback(){
+    LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
+
             List<Location> locationList = locationResult.getLocations();
-            if(locationList.size()>0){
+
+            if (locationList.size() > 0) {
                 location = locationList.get(locationList.size()-1);
-                currentPosition = new LatLng(location.getAltitude(), location.getLongitude());
+                mCurrentPosition = new LatLng(location.getAltitude(), location.getLongitude());
+
+                setCurrentLocation(location);
                 mCurrentLocation = location;
             }
         }
@@ -270,7 +311,42 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    // 아래부턴 런타임 퍼미션 처리를 위한 메소드.
+    public void setCurrentLocation(Location location) {
+
+        if (currentMarker != null) currentMarker.remove();
+
+        if(mMapStarted == false) {
+
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
+            mMap.moveCamera(cameraUpdate);
+        }
+        mMapStarted = true;
+    }
+
+    public void setDefaultLocation() {
+
+        //디폴트 위치, Seoul
+        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
+        String markerTitle = "위치정보 가져올 수 없음";
+        String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
+
+        if (currentMarker != null) currentMarker.remove();
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(DEFAULT_LOCATION);
+        markerOptions.title(markerTitle);
+        markerOptions.snippet(markerSnippet);
+        markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        currentMarker = mMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
+        mMap.moveCamera(cameraUpdate);
+    }
+
+    /*** 아래부턴 런타임 퍼미션 처리를 위한 메소드. ***/
 
     private boolean checkPermission() {
 
@@ -344,7 +420,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
-    // 아래부턴 GPS 활성화를 위한 메소드들.
+    /*** 아래부턴 GPS 활성화를 위한 메소드들. ***/
 
     private void showDialogForLocationServiceSetting() {
 
@@ -385,6 +461,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
+    /*** Marker 생성 및 설정 ***/
+
     public void setShopMarkers(ArrayList<PetcareInfo> Info){
         for(int i=0;i<Info.size();i++){
             MarkerOptions markerOptions = new MarkerOptions();
@@ -399,14 +477,14 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        for(int i=0;i<mShopInfo.size();i++){
-            if(marker.getTitle() == mShopInfo.get(i).getmPetcareTitle()){
+        for(int i=0;i<mInfos.size();i++){
+            if(marker.getTitle().equals(mInfos.get(i).getmPetcareTitle())){
                 Intent intent = new Intent(this, PetcareinfoActivity.class);
-                intent.putExtra("petcareinfo", mShopInfo.get(i));
+                intent.putExtra("petcareinfo", mInfos.get(i));
                 startActivity(intent);
-                return true;
             }
         }
+
         return false;
     }
 
