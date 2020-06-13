@@ -1,6 +1,7 @@
 package com.matkigae.mpproject.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -67,7 +68,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     DrawerLayout mDl;
     Toolbar mTb;
     GoogleMap mMap;
-    private Marker currentMarker = null;
 
     private static final String tag = "googlemap_location";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -78,15 +78,14 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     Location mCurrentLocation;
-    LatLng currentPosition;
+    LatLng currentPosition = new LatLng(32.2834, 127.0456);
 
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
     private Location location;
-
     private View mLayout;
-
     private ArrayList<PetcareInfo> mShopInfo = new ArrayList<>();
+
 
 
 
@@ -147,17 +146,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
-//        PetcareInfo info = new PetcareInfo();
-//        info.setmAvailableDate("a");
-//        info.setmPetcareInfo("abc");
-//        info.setmPetcareIntro("aba");
-//        info.setmPetcareTitle("holy");
-//        info.setmPrice("100");
-//        info.setmUserId("id");
-//        info.setmXcoordinate(37.2763);
-//        info.setmYcoordinate(127.0440);
-//        mShopInfo.add(info);
-
     }
 
 
@@ -168,9 +156,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         transaction.commit();
     }
 
-    public void onShopSelected(int position){
-
-    }
 
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
@@ -195,6 +180,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         if(hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED){
             //퍼미션 확인
             startLocationUpdates();
+
         }else{
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])){ //사용자가 거부한 적이 있는 경우
                 Snackbar.make(mLayout, "이 화면을 실행하려면 위치 접근 권한이 필요합니다.", Snackbar.LENGTH_INDEFINITE).setAction("확인", new View.OnClickListener(){
@@ -211,7 +197,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-
         setShopMarkers(mShopInfo);
 
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
@@ -220,6 +205,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
                 mMap.animateCamera(cameraUpdate);
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                 return false;
             }
         });
@@ -233,9 +219,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             if(locationList.size()>0){
                 location = locationList.get(locationList.size()-1);
                 currentPosition = new LatLng(location.getAltitude(), location.getLongitude());
-                String markerTitle = getCurrentAddress(currentPosition);
-                String markerSnippet = "위도:"+ location.getAltitude() +"\n경도:"+ location.getLongitude();
-
                 mCurrentLocation = location;
             }
         }
@@ -277,30 +260,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         super.onStop();
         if(mFusedLocationClient!=null){
             mFusedLocationClient.removeLocationUpdates(locationCallback);
-        }
-    }
-
-    public String getCurrentAddress(LatLng latlng){
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault()); // 지오코더로 gps를 주소로 변환.
-        List<Address> addresses;
-
-        try{
-            addresses = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1);
-        } catch(IOException ioException){
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
-            return "지오코더 서비스 사용불가";
-        } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
-            return "잘못된 GPS 좌표";
-        }
-
-        if(addresses == null|| addresses.size() == 0){
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
-            return "주소 미발견";
-
-        } else {
-            Address address = addresses.get(0);
-            return address.getAddressLine(0);
         }
     }
 
