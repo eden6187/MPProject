@@ -111,16 +111,9 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
-
-        if(findViewById(R.id.petcare_fragment_container)!=null){
-            mPetcareListFragment = new PetcareListFragment();
-            mPetcareListFragment.setOnShopSelectedListener(this);
-            FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction().add(R.id.petcare_fragment_container, mPetcareListFragment).commit();
-            if(savedInstanceState != null){
-                return;
-            }
-        }
+        mPetcareListFragment = new PetcareListFragment();
+        mPetcareListFragment.setOnShopSelectedListener(this);
+        replaceFragment(mPetcareListFragment);
 
         mBtnShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +125,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mBtnShowList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(new PetcareListFragment());
+                replaceFragment(mPetcareListFragment);
             }
         });
 
@@ -157,7 +150,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.petcare_fragment_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -176,11 +168,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         return super.onOptionsItemSelected(item);
     }
 
-    /* 지도 관련 함수들
-     *
-     *
-     *
-     */
+    /*** 지도 관련 함수들 ***/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
