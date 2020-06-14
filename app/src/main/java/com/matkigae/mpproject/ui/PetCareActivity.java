@@ -200,21 +200,22 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
 
     private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("providers");
-    Query query = ref;
-    query.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for(DataSnapshot data : dataSnapshot.getChildren()){
-                mInfos.add(data.getValue(PetcareInfo.class));
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("providers");
+        Query query = ref;
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    mInfos.add(data.getValue(PetcareInfo.class));
+                }
             }
-        }
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            Toast.makeText(PetCareActivity.this,"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
-        }
-    });
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(PetCareActivity.this,"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+            }
+        });
     }
+
     /*** 지도 관련 함수들 ***/
 
     @Override

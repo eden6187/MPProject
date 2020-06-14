@@ -3,9 +3,10 @@ package com.matkigae.mpproject.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Comparator;
 import java.util.HashMap;
 
-public class PetcareInfo implements Parcelable {
+public class PetcareInfo implements Parcelable, Comparable<PetcareInfo> {
 
     private String mUserId = "ANONYMOUS";
     private double mXcoordinate = 0.1;
@@ -120,5 +121,15 @@ public class PetcareInfo implements Parcelable {
         post.put("mAddress",this.mAddress);
 
         return post;
+    }
+
+    @Override
+    public int compareTo(PetcareInfo o) {
+        if(Integer.parseInt(this.mPrice) > Integer.parseInt(o.getmPrice())){
+            return 1;
+        }else if(Integer.parseInt(this.mPrice) < Integer.parseInt(o.getmPrice())){
+            return -1;
+        }
+        return 0;
     }
 }

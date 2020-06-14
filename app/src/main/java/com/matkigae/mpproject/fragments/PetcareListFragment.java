@@ -27,6 +27,9 @@ import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.listeners.PetcareListViewAdapter;
 import com.matkigae.mpproject.ui.PetCareActivity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class PetcareListFragment extends ListFragment {
     OnShopSelectedListener mCallback;
     PetcareListViewAdapter adapter;
@@ -55,76 +58,30 @@ public class PetcareListFragment extends ListFragment {
         adapter = new PetcareListViewAdapter(getActivity());
         setListAdapter(adapter);
         initializeDataFromDB();
-        setDataBaseAdapter();
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
+
         DatabaseReference ref = mDb.getReference().child("providers");
-        Query query = ref;
-        query.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 for(DataSnapshot provider : dataSnapshot.getChildren()){
                     PetcareInfo info = provider.getValue(PetcareInfo.class);
                     adapter.addItem(info);
+                    adapter.sortByPrice();
                 }
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+
             }
         });
+
     }
-
-
-    /**
-    ** 현재 Provider tree에 있는 정보를 전부 가져와서 Adapter에 추가시켜주는 Method
-     * 정상작
-    **/
-    public void setDataBaseAdapter(){
-        DatabaseReference ref = mDb.getReference().child("providers");
-        ref.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
     public void addItem(PetcareInfo info){
         adapter.addItem(info);
     }

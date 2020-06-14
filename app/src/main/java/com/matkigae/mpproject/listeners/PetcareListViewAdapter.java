@@ -10,11 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.firebase.DataCollectionDefaultChange;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.ui.PetcareRegisterActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PetcareListViewAdapter extends BaseAdapter {
     private ArrayList<PetcareInfo> itemList = new ArrayList<PetcareInfo>();
@@ -23,8 +26,16 @@ public class PetcareListViewAdapter extends BaseAdapter {
 
     GPSTracker mGPSTracker;
 
+    public void sortByPrice(){
+        Collections.sort(this.itemList);
+    }
+
     public PetcareListViewAdapter(Context context) {
         mGPSTracker = new GPSTracker(context);
+    }
+
+    public void clearAll(){
+        itemList.clear();
     }
 
     @Override
