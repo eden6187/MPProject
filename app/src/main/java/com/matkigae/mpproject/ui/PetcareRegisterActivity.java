@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -100,7 +101,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                     if(button.isChecked()){ availableDate = availableDate + "1"; }
                     else{ availableDate = availableDate + "0"; }
                 }
-                Toast.makeText(PetcareRegisterActivity.this,availableDate,Toast.LENGTH_SHORT).show();
+                Toast.makeText(PetcareRegisterActivity.this, "등록이 성공적으로 처리되었습니다!",Toast.LENGTH_SHORT).show();
 
                 String petCareTitle = mEtPetcareTitle.getText().toString();
                 String petCareInfo = mEtPetcareInfo.getText().toString();
@@ -115,10 +116,14 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                 newInfo.setmPetcareIntro(petCareIntro);
                 newInfo.setmPetcareTitle(petCareTitle);
                 newInfo.setmPrice(petCarePrice);
+
                 newInfo.setmXcoordinate(petCareAddress.latitude);
                 newInfo.setmYcoordinate(petCareAddress.longitude);
 
                 registerPetCareInfo(newInfo);
+
+                Intent intent = new Intent(PetcareRegisterActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
