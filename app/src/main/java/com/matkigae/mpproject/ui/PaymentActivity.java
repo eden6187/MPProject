@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,9 @@ import com.matkigae.mpproject.data.UserInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class PaymentActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
@@ -50,6 +53,11 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
     PetcareInfo mPetcareInfo;
     String mStartTime;
     String mEndTime;
+    TextView mTvProviderName;
+    TextView mTvProviderlocation;
+    TextView mTvProvidedStarttime;
+    TextView mTvProvidedEndtime;
+
 
     private BillingProcessor bp;
     public static ArrayList<SkuDetails> products;
@@ -70,6 +78,10 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mDl = findViewById(R.id.drawer_layout);
         mBtnDoPayment = findViewById(R.id.button_payment_confirmPayment);
         mBtnCancelPayment = findViewById(R.id.button_payment_cancelPayment);
+        mTvProviderName = findViewById(R.id.text_providerName);
+        mTvProviderlocation = findViewById(R.id.textview_payment_providerLocation);
+        mTvProvidedStarttime = findViewById(R.id.textview_payment_starttime);
+        mTvProvidedEndtime = findViewById(R.id.textview_payment_endtime);
 
     }
 
@@ -84,6 +96,26 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mPetcareInfo = intent.getParcelableExtra("petcareinfo");
         final String mStartTime = intent.getStringExtra("startdate");
         final String mEndTime = intent.getStringExtra("enddate");
+
+        // 업체 정보 가져와서 보여주기
+        String mName = mPetcareInfo.getmPetcareTitle();
+//        String location =
+        mTvProviderName.setText(mName + "에 예약이 진행됩니다.");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+        String start = "";
+        String end = "";
+        try {
+            Date date1 = simpleDateFormat.parse(mStartTime);
+            Date date2 = simpleDateFormat.parse(mEndTime);
+            start = simpleDateFormat2.format(date1);
+            end = simpleDateFormat2.format(date2);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        mTvProviderlocation.setText("업체의 주소는 ");
+        mTvProvidedStarttime.setText("예약된 시작 시간은 " + start + "입니다.");
+        mTvProvidedEndtime.setText("예약된 종료 시간은 " + end + "입니다.");
 
         bp = new BillingProcessor(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZIEcCAx7aRVH0Cz9d95oz+96cKc/Op/Yg87KZnhSAz3uajnfr3XJ9r5a9RzGBImRPt/18HIyn1N8zussnijARvj8CfgPCVriOI0LP8sPJYnD6+sSnnUrzKYMdsGDy4YUEOETfn05TXPT68nqF05aXInEYjMu9NPKFI5tI7zyqmKUNgsgnY38y2SIwrEQqfysaZhEuOXdn+lUB/9ZTSYP+yoLi45yUwgZ2XAsfoOJQjtYnWBnNs3gpba5f2yg0X4OvceN26DPlhWEM57LSmqCXFIYL78cOhbb3mVSBF/8SpAgxSTH2VyMH6RkgdPVS0oe8smyumybu9DmaPO3SeYAQIDAQAB", this);
         bp.initialize();
