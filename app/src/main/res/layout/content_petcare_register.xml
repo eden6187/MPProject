@@ -194,7 +194,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -202,26 +201,37 @@
             android:textSize="20sp"
             android:text="주소 입력" />
 
-        <EditText
-            android:id="@+id/edittext_register_address"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/roundrect_background"
-            android:layout_margin="10dp"
-            android:hint="주소를 입력해주세요."
-            android:gravity="center"
-            android:inputType="textPersonName" />
-
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textview_regiset_gpspermission"/>
+            app:layout_constraintTop_toBottomOf="@+id/textview_regiset_gpspermission">
+
+            <EditText
+                android:id="@+id/edittext_register_address"
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/roundrect_background"
+                android:gravity="center"
+                android:hint="주소를 입력해주세요."
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/button_register_check_address"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:backgroundTint="@color/app_theme_color"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="주소 확인" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_regsiter_registertodb"
@@ -238,5 +248,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
+
     </LinearLayout>
 </ScrollView>
