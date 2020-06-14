@@ -18,9 +18,14 @@ import java.util.ArrayList;
 
 public class PetcareListViewAdapter extends BaseAdapter {
     private ArrayList<PetcareInfo> itemList = new ArrayList<PetcareInfo>();
-    private PetcareRegisterActivity mPetcareRegisterActivity = new PetcareRegisterActivity();
     private Double mX;
     private Double mY;
+
+    GPSTracker mGPSTracker;
+
+    public PetcareListViewAdapter(Context context) {
+        mGPSTracker = new GPSTracker(context);
+    }
 
     @Override
     public int getCount() {
@@ -43,13 +48,12 @@ public class PetcareListViewAdapter extends BaseAdapter {
         TextView titleTextView = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_title);
         TextView priceTextView = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_price);
         TextView distanceTextview = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_distance);
-      //  mPetcareRegisterActivity.getLastLocation();
         titleTextView.setText(listViewItem.getmPetcareTitle());
         priceTextView.setText(listViewItem.getmPrice());
-     //   Double x = Math.abs(listViewItem.getmXcoordinate()-mPetcareRegisterActivity.getAddressLatLng().latitude);
-     //   Double y = Math.abs(listViewItem.getmYcoordinate()-mPetcareRegisterActivity.getAddressLatLng().longitude);
-     //   String distance = String.valueOf(Math.sqrt(x*x+y*y));
-        distanceTextview.setText("distance");
+        Double x = Math.abs(listViewItem.getmXcoordinate()-mGPSTracker.getLatitude());
+        Double y = Math.abs(listViewItem.getmYcoordinate()-mGPSTracker.getLongitude());
+        String distance = String.valueOf(Math.sqrt(x*x+y*y));
+        distanceTextview.setText(distance);
 
         return view;
     }
