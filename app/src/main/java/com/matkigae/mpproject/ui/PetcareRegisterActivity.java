@@ -136,7 +136,6 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                     newInfo.setmPrice(petCarePrice);
                     newInfo.setmXcoordinate(mAddressLatLng.latitude);
                     newInfo.setmYcoordinate(mAddressLatLng.longitude);
-
                     registerPetCareInfo(newInfo);
                 }
             }
@@ -170,7 +169,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                 mLatLng = new LatLng(mLat, mLng);
                 mCheckAddress = true;
                 popupMessage(mCheckAddress);
-                mAddress = list.get(0).getAddressLine(0);
+                mAddress = list.get(0).getAddressLine(0).toString();
             }
         }
         return mLatLng;
@@ -197,5 +196,4 @@ public class PetcareRegisterActivity extends AppCompatActivity {
     public LatLng getAddressLatLng(){
         return mAddressLatLng;
     }
-
 }
