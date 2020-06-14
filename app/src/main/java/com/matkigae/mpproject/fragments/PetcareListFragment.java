@@ -52,7 +52,7 @@ public class PetcareListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        adapter = new PetcareListViewAdapter();
+        adapter = new PetcareListViewAdapter(getActivity());
         setListAdapter(adapter);
         initializeDataFromDB();
         setDataBaseAdapter();

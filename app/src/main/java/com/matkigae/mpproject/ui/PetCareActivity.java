@@ -104,6 +104,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     private boolean mMapStarted = false;
 
+    private static final String TAG = "googlemap_example";
+
 
     public void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -156,29 +158,25 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-
         builder.addLocationRequest(locationRequest);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
-//        PetcareInfo info = new PetcareInfo();
-//        info.setmAvailableDate("a");
-//        info.setmPetcareInfo("abc");
-//        info.setmPetcareIntro("aba");
-//        info.setmPetcareTitle("holy");
-//        info.setmPrice("100");
-//        info.setmUserId("id");
-//        info.setmXcoordinate(37.2763);
-//        info.setmYcoordinate(127.0440);
-//        mShopInfo.add(info);
-
     }
 
-
     public void replaceFragment(Fragment fragment){
+        if(fragment.equals(mMapFragment)){
+            locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+            builder.addLocationRequest(locationRequest);
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            mMapFragment = SupportMapFragment.newInstance();
+            mMapFragment.getMapAsync(this);
+        }
+        if(fragment.equals(mPetcareListFragment)){
+            mMapStarted = false;
+        }
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.petcare_fragment_container, fragment);
@@ -221,6 +219,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.e(TAG, "onMapReady :");
         mMap = googleMap;
         setDefaultLocation();
 
@@ -305,6 +304,22 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     @Override
     protected void onStart() {
         super.onStart();
+        if(mFusedLocationClient!=null){
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(mFusedLocationClient!=null){
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         if(mFusedLocationClient!=null){
             mFusedLocationClient.removeLocationUpdates(locationCallback);
         }
