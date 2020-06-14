@@ -39,7 +39,7 @@ public class ReservationActivity extends AppCompatActivity {
     Toolbar mTb;
     Button mBtnReserve;
     EditText mtextViewIfAvailable;
-    EditText mETAvailableWeek;
+    TextView mETAvailableWeek;
     PetcareInfo mPetcareInfo;
 
     String mAvailableWeek;
