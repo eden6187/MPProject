@@ -105,6 +105,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     private boolean mMapStarted = false;
 
+    private static final String TAG = "googlemap_example";
+
 
     public void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -134,23 +136,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mPetcareListFragment.setOnShopSelectedListener(this);
         replaceFragment(mPetcareListFragment);
 
-        initializeDataFromDB();
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        mLayout = findViewById(R.id.petcare_layout);
-        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
-
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-
-        builder.addLocationRequest(locationRequest);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        mMapFragment = SupportMapFragment.newInstance();
-        mMapFragment.getMapAsync(this);
-
         mBtnShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,25 +147,37 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             @Override
             public void onClick(View v) {
                 replaceFragment(mPetcareListFragment);
-
             }
         });
 
-//        PetcareInfo info = new PetcareInfo();
-//        info.setmAvailableDate("a");
-//        info.setmPetcareInfo("abc");
-//        info.setmPetcareIntro("aba");
-//        info.setmPetcareTitle("holy");
-//        info.setmPrice("100");
-//        info.setmUserId("id");
-//        info.setmXcoordinate(37.2763);
-//        info.setmYcoordinate(127.0440);
-//        mShopInfo.add(info);
+        initializeDataFromDB();
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        mLayout = findViewById(R.id.petcare_layout);
+        locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(locationRequest);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mMapFragment = SupportMapFragment.newInstance();
+        mMapFragment.getMapAsync(this);
 
     }
 
-
     public void replaceFragment(Fragment fragment){
+        if(fragment.equals(mMapFragment)){
+            locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+            LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+            builder.addLocationRequest(locationRequest);
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            mMapFragment = SupportMapFragment.newInstance();
+            mMapFragment.getMapAsync(this);
+        }
+        if(fragment.equals(mPetcareListFragment)){
+            mMapStarted = false;
+        }
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.petcare_fragment_container, fragment);
@@ -199,7 +196,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 mDl.openDrawer(mNv); //Drawer의 NavigationView가 튀어나오도록 해준다.
                 break;
         }
-
         return true;
     }
 
@@ -224,6 +220,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.e(TAG, "onMapReady :");
         mMap = googleMap;
         setDefaultLocation();
 
@@ -314,6 +311,22 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(mFusedLocationClient!=null){
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mFusedLocationClient!=null){
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if(mFusedLocationClient!=null){
@@ -345,7 +358,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     public void setDefaultLocation() {
 
         //디폴트 위치, Seoul
-        LatLng DEFAULT_LOCATION = new LatLng(37.28, 127.0465);
+        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
         String markerTitle = "위치정보 가져올 수 없음";
         String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
 
