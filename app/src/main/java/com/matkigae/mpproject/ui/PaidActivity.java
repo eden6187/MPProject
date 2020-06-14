@@ -1,6 +1,7 @@
 package com.matkigae.mpproject.ui;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -101,7 +102,7 @@ public class PaidActivity extends AppCompatActivity {
         mBtnGoToList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaidActivity.this, PetCareActivity.class);
+                Intent intent = new Intent(PaidActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
