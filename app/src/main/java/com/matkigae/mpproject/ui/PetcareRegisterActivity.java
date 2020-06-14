@@ -1,5 +1,6 @@
 package com.matkigae.mpproject.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -86,7 +87,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                     if(button.isChecked()){ availableDate = availableDate + "1"; }
                     else{ availableDate = availableDate + "0"; }
                 }
-                Toast.makeText(PetcareRegisterActivity.this,availableDate,Toast.LENGTH_SHORT).show();
+                Toast.makeText(PetcareRegisterActivity.this, "등록이 성공적으로 처리되었습니다!",Toast.LENGTH_SHORT).show();
 
                 String petCareTitle = mEtPetcareTitle.getText().toString();
                 String petCareInfo = mEtPetcareInfo.getText().toString();
@@ -102,6 +103,9 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                 newInfo.setmPrice(petCarePrice);
 
                 registerPetCareInfo(newInfo);
+
+                Intent intent = new Intent(PetcareRegisterActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
