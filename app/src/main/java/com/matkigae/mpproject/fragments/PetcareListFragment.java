@@ -1,5 +1,6 @@
 package com.matkigae.mpproject.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,9 +35,9 @@ public class PetcareListFragment extends ListFragment {
 
 
 
-    public PetcareListFragment() {
+    public PetcareListFragment(Context context) {
         // Required empty public constructor
-
+        adapter = new PetcareListViewAdapter(context);
     }
 
     public void setOnShopSelectedListener(OnShopSelectedListener listener){
@@ -52,7 +53,7 @@ public class PetcareListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        adapter = new PetcareListViewAdapter(getActivity());
+
         setListAdapter(adapter);
         initializeDataFromDB();
         setDataBaseAdapter();

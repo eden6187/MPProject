@@ -2,6 +2,9 @@ package com.matkigae.mpproject.listeners;
 
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.android.gms.maps.model.LatLng;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.ui.PetcareRegisterActivity;
@@ -18,8 +22,8 @@ import java.util.ArrayList;
 
 public class PetcareListViewAdapter extends BaseAdapter {
     private ArrayList<PetcareInfo> itemList = new ArrayList<PetcareInfo>();
-    private Double mX;
-    private Double mY;
+
+    private static final String tag = "googlemap_location";
 
     GPSTracker mGPSTracker;
 
@@ -50,9 +54,12 @@ public class PetcareListViewAdapter extends BaseAdapter {
         TextView distanceTextview = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_distance);
         titleTextView.setText(listViewItem.getmPetcareTitle());
         priceTextView.setText(listViewItem.getmPrice());
-        Double x = Math.abs(listViewItem.getmXcoordinate()-mGPSTracker.getLatitude());
-        Double y = Math.abs(listViewItem.getmYcoordinate()-mGPSTracker.getLongitude());
-        String distance = String.valueOf(Math.sqrt(x*x+y*y));
+        Location currentLocation = mGPSTracker.getLocation();
+        Log.e(tag, "GPSlocation:"+mGPSTracker.getLatitude()+"  "+mGPSTracker.getLongitude());
+        Location shopLocation = new Location("shopPoint");
+        shopLocation.setLatitude(listViewItem.getmXcoordinate());
+        shopLocation.setLongitude(listViewItem.getmYcoordinate());
+        String distance = String.valueOf(currentLocation.distanceTo(shopLocation));
         distanceTextview.setText(distance);
 
         return view;
@@ -72,8 +79,4 @@ public class PetcareListViewAdapter extends BaseAdapter {
         itemList.add(item);
     }
 
-    public void setXY(Double x, Double y){
-        mX = x;
-        mY = y;
-    }
 }
