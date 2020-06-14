@@ -100,7 +100,7 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
 
         // 업체 정보 가져와서 보여주기
         String mName = mPetcareInfo.getmPetcareTitle();
-//        String location =
+        String location = mPetcareInfo.getmAddress();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
         String start = "";
@@ -114,7 +114,7 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
             ex.printStackTrace();
         }
         mTvProviderName.setText(mName + "에 예약이 진행됩니다.");
-        mTvProviderlocation.setText("업체의 주소는 ");
+        mTvProviderlocation.setText("업체의 주소는 \n" + location + "입니다.");
         mTvProvidedStarttime.setText("시작 시간은 " + start + "입니다.");
         mTvProvidedEndtime.setText("종료 시간은 " + end + "입니다.");
         mTvCost.setText(mPetcareInfo.getmPrice());

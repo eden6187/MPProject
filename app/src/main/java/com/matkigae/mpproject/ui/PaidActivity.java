@@ -57,7 +57,7 @@ public class PaidActivity extends AppCompatActivity {
         mTvName = findViewById(R.id.text_paid_provName);
         mTvLocation = findViewById(R.id.text_paid_provLocation);
         mTvStart = findViewById(R.id.text_paid_provStart);
-        mTvEnd = findViewById(R.id.text_paid_provEnd);
+//        mTvEnd = findViewById(R.id.text_paid_provEnd);
 
 
     }
@@ -78,7 +78,7 @@ public class PaidActivity extends AppCompatActivity {
         System.out.println(mEndTime);
 
         mTvName.setText(mPetcareInfo.getmPetcareTitle() + "에 예약이 완료되었습니다!");
-//        mTvLocation.setText(mPetcareInfo.getmUserId() + "의 주소는\n" + );
+        mTvLocation.setText(mPetcareInfo.getmPetcareTitle() + "의 주소는\n" + mPetcareInfo.getmAddress() + "입니다.");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
         String start = "";
@@ -95,8 +95,8 @@ public class PaidActivity extends AppCompatActivity {
         System.out.println(start);
         System.out.println(end);
 
-        mTvStart.setText("예약은 " + start + "에 시작되고");
-        mTvEnd.setText(end + "에 종료됩니다.");
+        mTvStart.setText("예약은 " + start + "에 시작되고\n            " + end + "에 종료됩니다.");
+//        mTvEnd.setText(end + "에 종료됩니다.");
         mTvCost.setText("총 " + mPetcareInfo.getmPrice() + "원이 결제되었습니다.");
 
         mBtnGoToList.setOnClickListener(new View.OnClickListener() {
