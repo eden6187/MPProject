@@ -197,7 +197,6 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         // productId: 구매한 sku (ex) no_ads)
         // details: 결제 관련 정보
         SkuDetails sku = bp.getPurchaseListingDetails(productId);
-        // 하트 100개 구매에 성공하였습니다! 메세지 띄우기
         String purchaseMessage = sku.title + "결제가 완료되었습니다!\n결제확인 페이지로 넘어갑니다.";
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("예약 알림").setMessage(purchaseMessage);

@@ -1,7 +1,9 @@
 package com.matkigae.mpproject.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -126,7 +128,6 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                     String petCareIntro = mEtPetcareIntro.getText().toString();
                     String petCarePrice = mEtPrice.getText().toString();
 
-
                     PetcareInfo newInfo = new PetcareInfo();
                     newInfo.setmUserId(FirebaseAuth.getInstance().getUid());
                     newInfo.setmAvailableDate(availableDate);
@@ -138,6 +139,11 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                     newInfo.setmYcoordinate(mAddressLatLng.longitude);
                     newInfo.setmAddress(mAddress);
                     registerPetCareInfo(newInfo);
+
+                    Toast.makeText(PetcareRegisterActivity.this, "등록이 성공적으로 처리되었습니다.", Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent(PetcareRegisterActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
