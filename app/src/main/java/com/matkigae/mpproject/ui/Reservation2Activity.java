@@ -2,6 +2,7 @@ package com.matkigae.mpproject.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,8 +94,6 @@ public class Reservation2Activity extends AppCompatActivity {
         mCurr_day = cal.get(Calendar.DAY_OF_MONTH);
         mCurr_year = cal.get(Calendar.YEAR);
         mCurr_month = cal.get(Calendar.MONTH);
-
-
 
     }
 
@@ -213,10 +212,14 @@ public class Reservation2Activity extends AppCompatActivity {
 
     public void open(View w){
         if (availableTime != true) {
-            mtextViewIfAvailable.setText("예약이 불가능한 시간입니다.");
+            mtextViewIfAvailable.setText("예약 불가 시간입니다.");
+            String textColorToRed = "#ff0000";
+            mtextViewIfAvailable.setTextColor(Color.parseColor(textColorToRed));
             mtextViewIfAvailable.invalidate();
         } else {
             mtextViewIfAvailable.setText("예약 가능한 시간입니다!");
+            String textColorToBlack = "#000000";
+            mtextViewIfAvailable.setTextColor(Color.parseColor(textColorToBlack));
             mtextViewIfAvailable.invalidate();
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this); // 알림창 띄우기위한 객체
             alertDialogBuilder.setMessage(mReserved_year + "년 " + (mReserved_month+1) + "월" + mReserved_day + "일, " + mReserved_hour + "시" +

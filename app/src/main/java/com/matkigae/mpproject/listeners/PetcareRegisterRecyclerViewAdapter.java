@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.data.MatchingInfo;
 import com.matkigae.mpproject.data.PetcareInfo;
