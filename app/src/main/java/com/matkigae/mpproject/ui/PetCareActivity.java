@@ -197,7 +197,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 mDl.openDrawer(mNv); //Drawer의 NavigationView가 튀어나오도록 해준다.
                 break;
         }
-
         return true;
     }
 

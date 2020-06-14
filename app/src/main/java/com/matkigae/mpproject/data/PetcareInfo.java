@@ -15,6 +15,7 @@ public class PetcareInfo implements Parcelable {
     private String mPetcareIntro = "NONE";
     private String mAvailableDate ="0000000";
     private String mPrice = "0";
+    private String mAddress = "수원시";
 
     public PetcareInfo(){ } // 지우지 마세요 Firebase 연동시 필요합니다.
 
@@ -51,6 +52,14 @@ public class PetcareInfo implements Parcelable {
 
     public void setmPrice(String mPrice) { this.mPrice = mPrice; }
 
+    public void setmAddress(String mAddress){
+        this.mAddress = mAddress;
+    }
+
+    public String getmAddress(){
+        return mAddress;
+    }
+
     /*** Parcel ***/
 
     @Override
@@ -79,6 +88,7 @@ public class PetcareInfo implements Parcelable {
         mPetcareIntro = src.readString();
         mAvailableDate = src.readString();
         mPrice = src.readString();
+        mAddress = src.readString();
     }
 
     @Override
@@ -91,6 +101,7 @@ public class PetcareInfo implements Parcelable {
         dest.writeString(mPetcareIntro);
         dest.writeString(mAvailableDate);
         dest.writeString(mPrice);
+        dest.writeString(mAddress);
     }
 
     /*** FirebasePost ***/
@@ -106,6 +117,7 @@ public class PetcareInfo implements Parcelable {
         post.put("mPetcareIntro",this.mPetcareIntro);
         post.put("mAvailableDate",this.mAvailableDate);
         post.put("mPrice",this.mPrice);
+        post.put("mAddress",this.mAddress);
 
         return post;
     }

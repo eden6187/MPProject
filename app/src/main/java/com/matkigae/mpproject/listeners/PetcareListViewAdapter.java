@@ -12,11 +12,15 @@ import android.widget.TextView;
 
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.ui.PetcareRegisterActivity;
 
 import java.util.ArrayList;
 
 public class PetcareListViewAdapter extends BaseAdapter {
     private ArrayList<PetcareInfo> itemList = new ArrayList<PetcareInfo>();
+    private PetcareRegisterActivity mPetcareRegisterActivity = new PetcareRegisterActivity();
+    private Double mX;
+    private Double mY;
 
     @Override
     public int getCount() {
@@ -39,11 +43,13 @@ public class PetcareListViewAdapter extends BaseAdapter {
         TextView titleTextView = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_title);
         TextView priceTextView = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_price);
         TextView distanceTextview = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_distance);
-
+      //  mPetcareRegisterActivity.getLastLocation();
         titleTextView.setText(listViewItem.getmPetcareTitle());
         priceTextView.setText(listViewItem.getmPrice());
-        String distance = String.valueOf(listViewItem.getmXcoordinate()) + String.valueOf(listViewItem.getmYcoordinate());
-        distanceTextview.setText(distance);
+     //   Double x = Math.abs(listViewItem.getmXcoordinate()-mPetcareRegisterActivity.getAddressLatLng().latitude);
+     //   Double y = Math.abs(listViewItem.getmYcoordinate()-mPetcareRegisterActivity.getAddressLatLng().longitude);
+     //   String distance = String.valueOf(Math.sqrt(x*x+y*y));
+        distanceTextview.setText("distance");
 
         return view;
     }
@@ -60,5 +66,10 @@ public class PetcareListViewAdapter extends BaseAdapter {
 
     public void addItem(PetcareInfo item){
         itemList.add(item);
+    }
+
+    public void setXY(Double x, Double y){
+        mX = x;
+        mY = y;
     }
 }
