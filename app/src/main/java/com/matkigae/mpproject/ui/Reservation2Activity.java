@@ -93,8 +93,6 @@ public class Reservation2Activity extends AppCompatActivity {
         mCurr_year = cal.get(Calendar.YEAR);
         mCurr_month = cal.get(Calendar.MONTH);
 
-
-
     }
 
     @Override

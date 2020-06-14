@@ -42,6 +42,10 @@ public class PetcareinfoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mIvShopIcon.setImageResource(R.drawable.ic_shopinfo_default);
+        mTvShopIntro.setText(mPetcareInfo.getmPetcareIntro());
+        mTvShopInfo.setText(mPetcareInfo.getmPetcareInfo());
     }
 
 

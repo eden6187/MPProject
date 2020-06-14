@@ -96,9 +96,9 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
 //                }
 //                bp.purchase(PaymentActivity.this, "payment_1");
 
-                MatchingInfo matchingInfo = new MatchingInfo(PaymentActivity.this.mPetcareInfo,mStartTime,mEndTime);
+                MatchingInfo matchingInfo = new MatchingInfo(PaymentActivity.this.mPetcareInfo,mStartTime,mEndTime,FirebaseAuth.getInstance().getUid());;
                 DatabaseReference ref = mDb.getReference().child("matchinginfo");
-                ref.child(PaymentActivity.this.mPetcareInfo.getmUserId()).setValue(matchingInfo);
+                ref.push().setValue(matchingInfo);
             }
 
         });

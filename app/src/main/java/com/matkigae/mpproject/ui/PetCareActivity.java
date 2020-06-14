@@ -94,9 +94,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     private ArrayList<PetcareInfo> mShopInfo = new ArrayList<>();
 
-
-
-
     public void initView(){
         mTb = findViewById(R.id.toolbar);
         setSupportActionBar(mTb);
@@ -108,7 +105,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         //햄버거 메뉴 아이콘 설정
 
         mNv = findViewById(R.id.nav_view);
-        mDl = findViewById(R.id.drawer_layout);
+        mDl = findViewById(R.id.petcare_layout);
         mBtnShowList = findViewById(R.id.button_petcare_showlist);
         mBtnShowMap = findViewById(R.id.button_petcare_showmap);
 
@@ -172,17 +169,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
 
-//        PetcareInfo info = new PetcareInfo();
-//        info.setmAvailableDate("a");
-//        info.setmPetcareInfo("abc");
-//        info.setmPetcareIntro("aba");
-//        info.setmPetcareTitle("holy");
-//        info.setmPrice("100");
-//        info.setmUserId("id");
-//        info.setmXcoordinate(37.2763);
-//        info.setmYcoordinate(127.0440);
-//        mShopInfo.add(info);
-
     }
 
 
@@ -205,7 +191,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 mDl.openDrawer(mNv); //Drawer의 NavigationView가 튀어나오도록 해준다.
                 break;
         }
-        return super.onOptionsItemSelected(item);
+
+        return true;
     }
 
     /*** 지도 관련 함수들 ***/
