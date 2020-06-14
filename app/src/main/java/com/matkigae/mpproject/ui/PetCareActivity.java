@@ -69,7 +69,7 @@ import java.util.Locale;
 public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.OnShopSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener
 {
-    PetcareListFragment mPetcareListFragment = new PetcareListFragment();
+    PetcareListFragment mPetcareListFragment = new PetcareListFragment(this);
     SupportMapFragment mMapFragment;
     Button mBtnShowList;
     Button mBtnShowMap;
@@ -78,6 +78,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     Toolbar mTb;
     GoogleMap mMap;
 
+    private static final String tag = "googlemap_location";
+
     ArrayList<PetcareInfo> mInfos = new ArrayList<PetcareInfo>();
 
     Context mContext = this;
@@ -85,7 +87,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     private Marker currentMarker = null;
 
-    private static final String tag = "googlemap_location";
+
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int UPDATE_INTERVAL_MS = 1000;  // 1초
     private static final int FASTEST_UPDATE_INTERVAL_MS = 500; // 0.5초
@@ -131,7 +133,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
-        mPetcareListFragment = new PetcareListFragment();
+        mPetcareListFragment = new PetcareListFragment(this);
         mPetcareListFragment.setOnShopSelectedListener(this);
         replaceFragment(mPetcareListFragment);
 
@@ -166,6 +168,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     }
 
     public void replaceFragment(Fragment fragment){
+        mMapStarted = false;
         if(fragment.equals(mMapFragment)){
             locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -173,9 +176,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
             mMapFragment = SupportMapFragment.newInstance();
             mMapFragment.getMapAsync(this);
-        }
-        if(fragment.equals(mPetcareListFragment)){
-            mMapStarted = false;
         }
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -220,7 +220,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.e(TAG, "onMapReady :");
+
         mMap = googleMap;
         setDefaultLocation();
 
@@ -275,6 +275,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
                 setCurrentLocation(location);
                 mCurrentLocation = location;
+
+                Log.e(tag, "GPSlocation:"+location.getLatitude()+"  "+location.getLongitude());
             }
         }
     };
@@ -358,7 +360,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     public void setDefaultLocation() {
 
         //디폴트 위치, Seoul
-        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
+        LatLng DEFAULT_LOCATION = new LatLng(37.28346, 127.0465);
         String markerTitle = "위치정보 가져올 수 없음";
         String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,9 @@ import com.matkigae.mpproject.data.UserInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class PaymentActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
@@ -50,6 +53,11 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
     PetcareInfo mPetcareInfo;
     String mStartTime;
     String mEndTime;
+    TextView mTvProviderName;
+    TextView mTvProviderlocation;
+    TextView mTvProvidedStarttime;
+    TextView mTvProvidedEndtime;
+    TextView mTvCost;
 
     private BillingProcessor bp;
     public static ArrayList<SkuDetails> products;
@@ -70,6 +78,11 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mDl = findViewById(R.id.drawer_layout);
         mBtnDoPayment = findViewById(R.id.button_payment_confirmPayment);
         mBtnCancelPayment = findViewById(R.id.button_payment_cancelPayment);
+        mTvProviderName = findViewById(R.id.textview_payment_providername);
+        mTvProviderlocation = findViewById(R.id.textview_payment_providerLocation);
+        mTvProvidedStarttime = findViewById(R.id.textview_payment_starttime);
+        mTvProvidedEndtime = findViewById(R.id.textview_payment_endtime);
+        mTvCost = findViewById(R.id.textview_priceTag);
 
     }
 
@@ -82,8 +95,29 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
 
         Intent intent = getIntent();
         mPetcareInfo = intent.getParcelableExtra("petcareinfo");
-        final String mStartTime = intent.getStringExtra("startdate");
-        final String mEndTime = intent.getStringExtra("enddate");
+        mStartTime = intent.getStringExtra("startdate");
+        mEndTime = intent.getStringExtra("enddate");
+
+        // 업체 정보 가져와서 보여주기
+        String mName = mPetcareInfo.getmPetcareTitle();
+        String location = mPetcareInfo.getmAddress();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분");
+        String start = "";
+        String end = "";
+        try {
+            Date date1 = simpleDateFormat.parse(mStartTime);
+            Date date2 = simpleDateFormat.parse(mEndTime);
+            start = simpleDateFormat2.format(date1);
+            end = simpleDateFormat2.format(date2);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        mTvProviderName.setText(mName + "에 예약이 진행됩니다.");
+        mTvProviderlocation.setText("업체의 주소는 \n" + location + "입니다.");
+        mTvProvidedStarttime.setText("시작 시간은 " + start + "입니다.");
+        mTvProvidedEndtime.setText("종료 시간은 " + end + "입니다.");
+        mTvCost.setText(mPetcareInfo.getmPrice());
 
         bp = new BillingProcessor(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZIEcCAx7aRVH0Cz9d95oz+96cKc/Op/Yg87KZnhSAz3uajnfr3XJ9r5a9RzGBImRPt/18HIyn1N8zussnijARvj8CfgPCVriOI0LP8sPJYnD6+sSnnUrzKYMdsGDy4YUEOETfn05TXPT68nqF05aXInEYjMu9NPKFI5tI7zyqmKUNgsgnY38y2SIwrEQqfysaZhEuOXdn+lUB/9ZTSYP+yoLi45yUwgZ2XAsfoOJQjtYnWBnNs3gpba5f2yg0X4OvceN26DPlhWEM57LSmqCXFIYL78cOhbb3mVSBF/8SpAgxSTH2VyMH6RkgdPVS0oe8smyumybu9DmaPO3SeYAQIDAQAB", this);
         bp.initialize();
@@ -106,8 +140,23 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnCancelPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaymentActivity.this, PetCareActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PaymentActivity.this);
+                builder.setTitle("취소 알림").setMessage("예약을 취소하고 메인 페이지로 돌아갑니다.");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
@@ -148,7 +197,6 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         // productId: 구매한 sku (ex) no_ads)
         // details: 결제 관련 정보
         SkuDetails sku = bp.getPurchaseListingDetails(productId);
-        // 하트 100개 구매에 성공하였습니다! 메세지 띄우기
         String purchaseMessage = sku.title + "결제가 완료되었습니다!\n결제확인 페이지로 넘어갑니다.";
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("예약 알림").setMessage(purchaseMessage);
@@ -156,6 +204,11 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(PaymentActivity.this, PaidActivity.class);
+                intent.putExtra("petcareinfo", mPetcareInfo);
+                intent.putExtra("startdate", mStartTime);
+                intent.putExtra("enddate", mEndTime);
+                System.out.println("결제창 : " + mStartTime);
+                System.out.println("결제창 : " + mEndTime);
                 startActivity(intent);
             }
         });

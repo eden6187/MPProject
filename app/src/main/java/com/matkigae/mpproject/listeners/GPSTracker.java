@@ -1,6 +1,5 @@
 package com.matkigae.mpproject.listeners;
 
-
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
@@ -156,6 +155,5 @@ public class GPSTracker extends Service implements LocationListener {
             locationManager.removeUpdates(GPSTracker.this);
         }
     }
-
 
 }

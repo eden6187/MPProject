@@ -9,92 +9,86 @@
     tools:showIn="@layout/app_bar_donereservation">
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="389dp"
+        android:layout_height="357dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/button_back_to_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.72">
+
+        <TextView
+            android:id="@+id/text_paid_cost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/text_paid_provName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/text_paid_provLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/text_paid_provStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/button_back_to_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/app_theme_color_sub1"
-        android:text="목록으로"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.973" />
-
-    <TextView
-        android:id="@+id/text_providerName"
-        android:layout_width="103dp"
-        android:layout_height="42dp"
-        android:gravity="center"
-        android:text="업체명"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/text_doneReserve"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.189" />
-
-    <TextView
-        android:id="@+id/text5"
-        android:layout_width="125dp"
-        android:layout_height="43dp"
-        android:gravity="center|start"
-        android:text="원 입니다."
-        android:textColor="#000000"
-        android:textSize="18sp"
+        android:text="메인 화면으로
+"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/text_reservedPriced"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.321" />
-
-    <TextView
-        android:id="@+id/text_reservedPriced"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
-        android:gravity="center|start"
-        android:text="30000"
-        android:textColor="#000000"
-        android:textSize="28sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/text_priceIs"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.323" />
-
-    <TextView
-        android:id="@+id/text_doneReserve"
-        android:layout_width="235dp"
-        android:layout_height="41dp"
-        android:gravity="center|left"
-        android:text="에 예약이 완료되었습니다."
-        android:textColor="#000000"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.823"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.189" />
+        app:layout_constraintVertical_bias="0.931" />
 
     <TextView
-        android:id="@+id/text_priceIs"
-        android:layout_width="123dp"
-        android:layout_height="41dp"
-        android:gravity="center"
-        android:text="결제 금액은"
+        android:id="@+id/textView9"
+        android:layout_width="164dp"
+        android:layout_height="45dp"
+        android:text="결제 완료"
         android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintHorizontal_bias="0.165"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.325" />
+        app:layout_constraintVertical_bias="0.565" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
