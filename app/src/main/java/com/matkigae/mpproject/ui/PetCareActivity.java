@@ -42,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.fragments.PetcareListFragment;
 import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.fragments.PetcareMapFragment;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -133,20 +134,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mPetcareListFragment.setOnShopSelectedListener(this);
         replaceFragment(mPetcareListFragment);
 
-        mBtnShowMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(mMapFragment);
-            }
-        });
-
-        mBtnShowList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                replaceFragment(mPetcareListFragment);
-            }
-        });
-
         initializeDataFromDB();
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -163,6 +150,21 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
+
+        mBtnShowMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(mMapFragment);
+            }
+        });
+
+        mBtnShowList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(mPetcareListFragment);
+
+            }
+        });
 
 //        PetcareInfo info = new PetcareInfo();
 //        info.setmAvailableDate("a");
@@ -343,7 +345,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     public void setDefaultLocation() {
 
         //디폴트 위치, Seoul
-        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
+        LatLng DEFAULT_LOCATION = new LatLng(37.28, 127.0465);
         String markerTitle = "위치정보 가져올 수 없음";
         String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
 

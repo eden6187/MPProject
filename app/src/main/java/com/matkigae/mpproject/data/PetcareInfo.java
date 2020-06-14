@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.HashMap;
 
-public class PetcareInfo implements Parcelable {
+public class  PetcareInfo implements Parcelable {
 
     private String mUserId = "ANONYMOUS";
     private double mXcoordinate = 0.1;
