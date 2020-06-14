@@ -56,13 +56,13 @@ public class PetcareListFragment extends ListFragment {
 
         setListAdapter(adapter);
         initializeDataFromDB();
-        setDataBaseAdapter();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
         DatabaseReference ref = mDb.getReference().child("providers");
+        adapter.clearAll();
         Query query = ref;
         query.addValueEventListener(new ValueEventListener() {
             @Override

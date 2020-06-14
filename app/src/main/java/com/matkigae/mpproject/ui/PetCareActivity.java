@@ -42,7 +42,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.fragments.PetcareListFragment;
 import com.matkigae.mpproject.R;
-import com.matkigae.mpproject.fragments.PetcareMapFragment;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;

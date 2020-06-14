@@ -65,6 +65,10 @@ public class PetcareListViewAdapter extends BaseAdapter {
         return view;
     }
 
+    public void clearAll(){
+        this.itemList.clear();
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
