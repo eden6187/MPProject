@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageview_petcareinfo_shopicon"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
+        android:layout_width="102dp"
+        android:layout_height="95dp"
         android:layout_gravity="center"
         android:layout_marginTop="52dp"
         android:src="@drawable/ic_close_cross"
@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.305" />
+        app:layout_constraintVertical_bias="0.72" />
 
     <TextView
         android:id="@+id/imageview_petcareinfo_intro_name"
@@ -37,10 +37,10 @@
 
     <TextView
         android:id="@+id/textview_petcareinfo_intro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
         android:text="TextView"
         android:textColor="#000000"
@@ -48,6 +48,7 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/textView_shop_info_name"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -67,8 +68,8 @@
 
     <TextView
         android:id="@+id/textview_petacareinfo_info"
-        android:layout_width="407dp"
-        android:layout_height="96dp"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
         android:layout_gravity="center"
         android:layout_marginBottom="48dp"
         android:gravity="center_horizontal"
@@ -93,5 +94,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_shop_info_toGoogleMap"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/app_theme_color_sub1"
+        android:text="구글 맵으로 위치 확인"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_petcareinfo_gotoreservation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_petacareinfo_info" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
