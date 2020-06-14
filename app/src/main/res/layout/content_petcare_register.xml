@@ -107,6 +107,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ToggleButton
+            android:id="@+id/togglebutton_register_sun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="일"
+            android:textOn="일" />
+
+        <ToggleButton
             android:id="@+id/togglebutton_register_mon"
             android:layout_weight="1"
             android:textOn="월"
@@ -149,13 +157,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <ToggleButton
-            android:id="@+id/togglebutton_register_sun"
-            android:textOn="일"
-            android:textOff="일"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
@@ -193,25 +194,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:text="주소 입력" />
-
-    <EditText
-        android:id="@+id/edittext_register_address"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/roundrect_background"
-        android:layout_margin="10dp"
-        android:hint="주소를 입력해주세요."
-        android:gravity="center"
-        android:inputType="textPersonName" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -225,7 +207,7 @@
 
     <Button
         android:id="@+id/button_regsiter_registertodb"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:backgroundTint="@color/app_theme_color"

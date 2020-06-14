@@ -1,5 +1,6 @@
 package com.matkigae.mpproject.ui;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -38,14 +40,19 @@ public class ReservationActivity extends AppCompatActivity {
     Button mBtnReserve;
     EditText mtextViewIfAvailable;
     EditText mETAvailableWeek;
-    PetcareInfo mPetcreInfo;
+    PetcareInfo mPetcareInfo;
+
+    String mAvailableWeek;
+    public static Context context_reservation; // context 변수 선언
 
     private int mReserved_year = 0;
     private int mReserved_month = 0;
     private int mReserved_day = 0;
-
+    private int mReserverd_weekDay;
     private int mReserved_hour = 0;
     private int mReserved_minute = 0;
+
+
     private int mCurr_year = 0;
     private int mCurr_month = 0;
     private int mCurr_day = 0;
@@ -55,6 +62,7 @@ public class ReservationActivity extends AppCompatActivity {
 
     private boolean availableTime;
     String mSelectedTime;
+    ArrayList<String> mWeekDayArray = new ArrayList<String>();
 
     private void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -84,6 +92,7 @@ public class ReservationActivity extends AppCompatActivity {
         mReserved_day = cal.get(Calendar.DAY_OF_MONTH);
         mReserved_year = cal.get(Calendar.YEAR);
         mReserved_month = cal.get(Calendar.MONTH);
+        mReserverd_weekDay = cal.get(Calendar.DAY_OF_WEEK);
         mCurr_day = cal.get(Calendar.DAY_OF_MONTH);
         mCurr_year = cal.get(Calendar.YEAR);
         mCurr_month = cal.get(Calendar.MONTH);
@@ -98,13 +107,30 @@ public class ReservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation);
         initView();
         Intent intent = getIntent();
-        mPetcreInfo = (PetcareInfo) intent.getParcelableExtra("petcareinfo");
+        mPetcareInfo = (PetcareInfo) intent.getParcelableExtra("petcareinfo");
+        mAvailableWeek = mPetcareInfo.getmAvailableDate();
+        System.out.println("파이어베이스로부터 데이터가 제대로 들어오는지 확인 : " + mAvailableWeek);
+
+        context_reservation = this;
 
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
         // 불가 요일 받아와서 보여주기.
-        mETAvailableWeek.setText("요일");
 
-        CalendarView cal = (CalendarView)findViewById(R.id.Widget_Select_Date); // 예약 선택 달력에 리스너 달아주기 위한 CalendarView 객체 생성
+        String[] weekDay = {"일", "월", "화", "수", "목", "금", "토"};
+        String totalWeekDay = "";
+
+        for (int i=0; i<mAvailableWeek.length(); i++){
+            if (mAvailableWeek.charAt(i) == '1'){
+               totalWeekDay = totalWeekDay + " " + weekDay[i];
+               System.out.println("예약 가능 요일 책정 : " + weekDay[i]);
+               mWeekDayArray.add(weekDay[i]);
+            }
+        }
+        System.out.println("요일 구분 제대로 되는지 확인 : " + totalWeekDay);
+        mETAvailableWeek.setText(totalWeekDay+"요일에만 예약이 가능합니다.");
+        mETAvailableWeek.invalidate();
+
+        final CalendarView cal = (CalendarView)findViewById(R.id.Widget_Select_Date); // 예약 선택 달력에 리스너 달아주기 위한 CalendarView 객체 생성
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() { // 리스너 생성
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -134,6 +160,42 @@ public class ReservationActivity extends AppCompatActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
                     String now = dateFormat.format(currdate);
                     int compare = now.compareTo(mSelectedTime);
+
+                    // 요일 구분
+                    Date nDate = dateFormat.parse(mSelectedTime);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(nDate);
+                    int dayNum = calendar.get(Calendar.DAY_OF_WEEK);
+                    // 1~7 : 일월화수목금토
+                    System.out.println("제대로 요일이 나오는가?? : " + dayNum);
+                    String day = "";
+                    switch(dayNum){
+                        case 1:
+                            day = "일";
+                            break ;
+                        case 2:
+                            day = "월";
+                            break ;
+                        case 3:
+                            day = "화";
+                            break ;
+                        case 4:
+                            day = "수";
+                            break ;
+                        case 5:
+                            day = "목";
+                            break ;
+                        case 6:
+                            day = "금";
+                            break ;
+                        case 7:
+                            day = "토";
+                            break ;
+                    }
+                    if (mWeekDayArray.indexOf(day) < 0){
+                        compare = 1;
+                    };
+
 //                    Log.d("TEST", "compare 값 : " + compare + "선택 값 : " + mSelectedTime + "오늘 날짜 : " + now);
                     if (compare <= 0){
                         availableTime = true;
@@ -143,6 +205,7 @@ public class ReservationActivity extends AppCompatActivity {
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+
                 open(v);
             }
         });
@@ -163,6 +226,8 @@ public class ReservationActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     // 다음 예약 창으로 이동하는 이벤트 구현
                     Intent intent = new Intent(ReservationActivity.this, Reservation2Activity.class);
+                    intent.putExtra("petcareinfo", mPetcareInfo);
+                    intent.putExtra("startdate", mSelectedTime);
                     startActivity(intent);
                 }
             });

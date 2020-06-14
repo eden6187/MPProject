@@ -3,13 +3,11 @@ package com.matkigae.mpproject.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -24,12 +22,12 @@ import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
 import com.google.android.material.navigation.NavigationView;
 
-import org.w3c.dom.Text;
+import com.matkigae.mpproject.ui.ReservationActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class Reservation2Activity extends AppCompatActivity {
     NavigationView mNv;
@@ -38,7 +36,10 @@ public class Reservation2Activity extends AppCompatActivity {
     Button mBtnReserve;
     EditText mtextViewIfAvailable;
     EditText mETAvailableWeek;
-    PetcareInfo mPetcreInfo;
+    PetcareInfo mPetcareInfo;
+
+    String mAvailableWeek;
+    String startTime;
 
     private int mReserved_year = 0;
     private int mReserved_month = 0;
@@ -46,6 +47,7 @@ public class Reservation2Activity extends AppCompatActivity {
 
     private int mReserved_hour = 0;
     private int mReserved_minute = 0;
+    private int mReserverd_weekDay;
     private int mCurr_year = 0;
     private int mCurr_month = 0;
     private int mCurr_day = 0;
@@ -54,7 +56,10 @@ public class Reservation2Activity extends AppCompatActivity {
     private int mCurr_minute = 0;
 
     private boolean availableTime;
-    String mSelectedTime;
+    String mSelectedTime2;
+    ArrayList<String> mWeekDayArray = new ArrayList<String>();
+
+    ReservationActivity reservationActivity;
 
     private void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -98,11 +103,23 @@ public class Reservation2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation2);
         initView();
         Intent intent = getIntent();
-        mPetcreInfo = (PetcareInfo) intent.getParcelableExtra("petcareinfo");
+        mPetcareInfo = (PetcareInfo) intent.getParcelableExtra("petcareinfo");
+        mAvailableWeek = mPetcareInfo.getmAvailableDate();
 
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
         // 불가 요일 받아와서 보여주기.
-        mETAvailableWeek.setText("요일");
+        String[] weekDay = {"일", "월", "화", "수", "목", "금", "토"};
+        String totalWeekDay = "";
+        for (int i=0; i<mAvailableWeek.length(); i++){
+            if (mAvailableWeek.charAt(i) == '1'){
+                totalWeekDay = totalWeekDay + " " + weekDay[i];
+                System.out.println("예약 가능 요일 책정 : " + weekDay[i]);
+                mWeekDayArray.add(weekDay[i]);
+            }
+        }
+        System.out.println("요일 구분 제대로 되는지 확인 : " + totalWeekDay);
+        mETAvailableWeek.setText(totalWeekDay+"요일에만 예약이 가능합니다.");
+        mETAvailableWeek.invalidate();
 
         CalendarView cal = (CalendarView)findViewById(R.id.Widget_Select_Date_2); // 예약 선택 달력에 리스너 달아주기 위한 CalendarView 객체 생성
         cal.setOnDateChangeListener(new CalendarView.OnDateChangeListener() { // 리스너 생성
@@ -128,16 +145,61 @@ public class Reservation2Activity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
 
-                    mSelectedTime = String.format("%04d%02d%02d%02d%02d", mReserved_year, mReserved_month+1,
+                    mSelectedTime2 = String.format("%04d%02d%02d%02d%02d", mReserved_year, mReserved_month+1,
                             mReserved_day, mReserved_hour, mReserved_minute);
                     Date currdate = Calendar.getInstance().getTime();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
                     String now = dateFormat.format(currdate);
-                    int compare = now.compareTo(mSelectedTime);
+                    int compare = now.compareTo(mSelectedTime2);
+
+                    startTime = ((ReservationActivity)ReservationActivity.context_reservation).mSelectedTime;
+
+                    System.out.println(startTime);
+                    int compare2 = startTime.compareTo(mSelectedTime2);
+
 //                    Log.d("TEST", "compare 값 : " + compare + "선택 값 : " + mSelectedTime + "오늘 날짜 : " + now);
+
+                    // 요일 구분
+                    Date nDate = dateFormat.parse(mSelectedTime2);
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(nDate);
+                    int dayNum = calendar.get(Calendar.DAY_OF_WEEK);
+                    // 1~7 : 일월화수목금토
+                    System.out.println("제대로 요일이 나오는가?? : " + dayNum);
+                    String day = "";
+                    switch(dayNum){
+                        case 1:
+                            day = "일";
+                            break ;
+                        case 2:
+                            day = "월";
+                            break ;
+                        case 3:
+                            day = "화";
+                            break ;
+                        case 4:
+                            day = "수";
+                            break ;
+                        case 5:
+                            day = "목";
+                            break ;
+                        case 6:
+                            day = "금";
+                            break ;
+                        case 7:
+                            day = "토";
+                            break ;
+                    }
+                    if (mWeekDayArray.indexOf(day) < 0){
+                        compare = 1;
+                    };
+
                     if (compare <= 0){
                         availableTime = true;
                     } else {
+                        availableTime = false;
+                    }
+                    if (compare2 > 0) {
                         availableTime = false;
                     }
                 } catch (Exception ex) {
@@ -163,6 +225,9 @@ public class Reservation2Activity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     // 결제하기 창으로 이동하는 이벤트 구현 필요
                     Intent intent = new Intent(Reservation2Activity.this, PaymentActivity.class);
+                    intent.putExtra("petcareinfo", mPetcareInfo);
+                    intent.putExtra("startdate", startTime);
+                    intent.putExtra("enddate", mSelectedTime2);
                     startActivity(intent);
                 }
             });

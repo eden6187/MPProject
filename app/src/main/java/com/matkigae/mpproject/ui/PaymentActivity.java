@@ -1,5 +1,6 @@
 package com.matkigae.mpproject.ui;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +48,8 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
     Button mBtnDoPayment;
     Button mBtnCancelPayment;
     PetcareInfo mPetcareInfo;
+    String mStartTime;
+    String mEndTime;
 
     private BillingProcessor bp;
     public static ArrayList<SkuDetails> products;
@@ -76,6 +80,10 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
+        Intent intent = getIntent();
+        mPetcareInfo = intent.getParcelableExtra("petcareinfo");
+        final String mStartTime = intent.getStringExtra("startdate");
+        final String mEndTime = intent.getStringExtra("enddate");
 
         bp = new BillingProcessor(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZIEcCAx7aRVH0Cz9d95oz+96cKc/Op/Yg87KZnhSAz3uajnfr3XJ9r5a9RzGBImRPt/18HIyn1N8zussnijARvj8CfgPCVriOI0LP8sPJYnD6+sSnnUrzKYMdsGDy4YUEOETfn05TXPT68nqF05aXInEYjMu9NPKFI5tI7zyqmKUNgsgnY38y2SIwrEQqfysaZhEuOXdn+lUB/9ZTSYP+yoLi45yUwgZ2XAsfoOJQjtYnWBnNs3gpba5f2yg0X4OvceN26DPlhWEM57LSmqCXFIYL78cOhbb3mVSBF/8SpAgxSTH2VyMH6RkgdPVS0oe8smyumybu9DmaPO3SeYAQIDAQAB", this);
         bp.initialize();
@@ -83,26 +91,14 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnDoPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bp.isPurchased("payment_1")) {
-                    bp.consumePurchase("payment_1");
-                }
-                bp.purchase(PaymentActivity.this, "payment_1");
+//                if (bp.isPurchased("payment_1")) {
+//                    bp.consumePurchase("payment_1");
+//                }
+//                bp.purchase(PaymentActivity.this, "payment_1");
 
-//                DatabaseReference ref = mDb.getReference().child("providers");
-//                Query query = ref.orderByChild("mUserId");
-//                query = query.equalTo(mPetcareInfo.getmUserId());
-//                query.addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        mDb.getReference().child("matching").push().setValue(new MatchingInfo(mPetcareInfo.getmPetcareTitle(),UserInfo.getInstance().getmEmailAddress()));
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-
+                MatchingInfo matchingInfo = new MatchingInfo(PaymentActivity.this.mPetcareInfo,mStartTime,mEndTime);
+                DatabaseReference ref = mDb.getReference().child("matchinginfo");
+                ref.child(PaymentActivity.this.mPetcareInfo.getmUserId()).setValue(matchingInfo);
             }
 
         });

@@ -35,13 +35,10 @@ public class PetcareListViewAdapter extends BaseAdapter {
 
         PetcareInfo listViewItem = itemList.get(position);
 
-        ImageView iconImageView = (ImageView) view.findViewById(R.id.petcare_image_petcarelistview_item);
-        ImageView starImageView = (ImageView) view.findViewById(R.id.petcare_star_petcarelistview_item);
-        TextView titleTextView = (TextView) view.findViewById(R.id.petcare_title_petcarelistview_item);
-        TextView ratingnumTextView = (TextView) view.findViewById(R.id.petcare_rating_num_petcarelistview_item);
-        TextView reviewCountTextView = (TextView) view.findViewById(R.id.petcare_reviewcount_petcarelistview_item);
-        TextView distanceTextView = (TextView) view.findViewById(R.id.petcare_distance_petcarelistview_item);
-
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.imageview_petcareinfo_shopicon);
+        TextView titleTextView = (TextView) view.findViewById(R.id.textview_register_shoptitle);
+        TextView distanceTextView = (TextView) view.findViewById(R.id.textview_petacareinfo_distance);
+        TextView priceTextView = (TextView) view.findViewById(R.id.textview_petacareinfo_price);
 
         return view;
     }
