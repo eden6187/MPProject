@@ -1,6 +1,7 @@
 package com.matkigae.mpproject.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +11,12 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.util.MapUtils;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,6 +77,12 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     DrawerLayout mDl;
     Toolbar mTb;
     GoogleMap mMap;
+
+    ArrayList<PetcareInfo> mInfos = new ArrayList<PetcareInfo>();
+
+    Context mContext = this;
+    TextView title;
+
     private Marker currentMarker = null;
 
     private static final String tag = "googlemap_location";
@@ -84,7 +94,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     Location mCurrentLocation;
-    LatLng currentPosition;
+    LatLng mCurrentPosition;
 
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationRequest locationRequest;
@@ -92,7 +102,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     private View mLayout;
 
-    private ArrayList<PetcareInfo> mShopInfo = new ArrayList<>();
+    private boolean mMapStarted = false;
+
 
     public void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -109,25 +120,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mBtnShowList = findViewById(R.id.button_petcare_showlist);
         mBtnShowMap = findViewById(R.id.button_petcare_showmap);
 
-    }
-
-    ArrayList<PetcareInfo> mInfos = new ArrayList<PetcareInfo>();
-    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("providers");
-        Query query = ref;
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    mInfos.add(data.getValue(PetcareInfo.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(PetCareActivity.this,"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -155,10 +147,13 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
             }
         });
 
+        initializeDataFromDB();
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mLayout = findViewById(R.id.petcare_layout);
         locationRequest = new LocationRequest().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY).setInterval(UPDATE_INTERVAL_MS).setFastestInterval(FASTEST_UPDATE_INTERVAL_MS);
+
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
 
@@ -168,6 +163,17 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         mMapFragment = SupportMapFragment.newInstance();
         mMapFragment.getMapAsync(this);
+
+//        PetcareInfo info = new PetcareInfo();
+//        info.setmAvailableDate("a");
+//        info.setmPetcareInfo("abc");
+//        info.setmPetcareIntro("aba");
+//        info.setmPetcareTitle("holy");
+//        info.setmPrice("100");
+//        info.setmUserId("id");
+//        info.setmXcoordinate(37.2763);
+//        info.setmYcoordinate(127.0440);
+//        mShopInfo.add(info);
 
     }
 
@@ -195,11 +201,29 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         return true;
     }
 
+
+    private void initializeDataFromDB(){ /** 이상 없이 잘 작동함 **/
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("providers");
+    Query query = ref;
+    query.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            for(DataSnapshot data : dataSnapshot.getChildren()){
+                mInfos.add(data.getValue(PetcareInfo.class));
+            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Toast.makeText(PetCareActivity.this,"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
+        }
+    });
+    }
     /*** 지도 관련 함수들 ***/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        setDefaultLocation();
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -223,8 +247,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-
-        setShopMarkers(mShopInfo);
+        setShopMarkers(mInfos);
 
         mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
             @Override
@@ -232,22 +255,26 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 LatLng currentLatLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
                 mMap.animateCamera(cameraUpdate);
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                 return false;
             }
         });
+
+        mMap.setOnMarkerClickListener(this);
     }
 
-    LocationCallback locationCallback = new LocationCallback(){
+    LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
-            List<Location> locationList = locationResult.getLocations();
-            if(locationList.size()>0){
-                location = locationList.get(locationList.size()-1);
-                currentPosition = new LatLng(location.getAltitude(), location.getLongitude());
-                String markerTitle = getCurrentAddress(currentPosition);
-                String markerSnippet = "위도:"+ location.getAltitude() +"\n경도:"+ location.getLongitude();
 
+            List<Location> locationList = locationResult.getLocations();
+
+            if (locationList.size() > 0) {
+                location = locationList.get(locationList.size()-1);
+                mCurrentPosition = new LatLng(location.getAltitude(), location.getLongitude());
+
+                setCurrentLocation(location);
                 mCurrentLocation = location;
             }
         }
@@ -292,30 +319,6 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
-    public String getCurrentAddress(LatLng latlng){
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault()); // 지오코더로 gps를 주소로 변환.
-        List<Address> addresses;
-
-        try{
-            addresses = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1);
-        } catch(IOException ioException){
-            Toast.makeText(this, "지오코더 서비스 사용불가", Toast.LENGTH_LONG).show();
-            return "지오코더 서비스 사용불가";
-        } catch (IllegalArgumentException illegalArgumentException) {
-            Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
-            return "잘못된 GPS 좌표";
-        }
-
-        if(addresses == null|| addresses.size() == 0){
-            Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
-            return "주소 미발견";
-
-        } else {
-            Address address = addresses.get(0);
-            return address.getAddressLine(0);
-        }
-    }
-
     public boolean checkLocationServicesStatus() {
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -323,7 +326,42 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    // 아래부턴 런타임 퍼미션 처리를 위한 메소드.
+    public void setCurrentLocation(Location location) {
+
+        if (currentMarker != null) currentMarker.remove();
+
+        if(mMapStarted == false) {
+
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(currentLatLng);
+            mMap.moveCamera(cameraUpdate);
+        }
+        mMapStarted = true;
+    }
+
+    public void setDefaultLocation() {
+
+        //디폴트 위치, Seoul
+        LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
+        String markerTitle = "위치정보 가져올 수 없음";
+        String markerSnippet = "위치 퍼미션과 GPS 활성 요부 확인하세요";
+
+        if (currentMarker != null) currentMarker.remove();
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(DEFAULT_LOCATION);
+        markerOptions.title(markerTitle);
+        markerOptions.snippet(markerSnippet);
+        markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        currentMarker = mMap.addMarker(markerOptions);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 15);
+        mMap.moveCamera(cameraUpdate);
+    }
+
+    /*** 아래부턴 런타임 퍼미션 처리를 위한 메소드. ***/
 
     private boolean checkPermission() {
 
@@ -397,7 +435,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
-    // 아래부턴 GPS 활성화를 위한 메소드들.
+    /*** 아래부턴 GPS 활성화를 위한 메소드들. ***/
 
     private void showDialogForLocationServiceSetting() {
 
@@ -438,6 +476,8 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         }
     }
 
+    /*** Marker 생성 및 설정 ***/
+
     public void setShopMarkers(ArrayList<PetcareInfo> Info){
         for(int i=0;i<Info.size();i++){
             MarkerOptions markerOptions = new MarkerOptions();
@@ -452,21 +492,21 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        for(int i=0;i<mShopInfo.size();i++){
-            if(marker.getTitle() == mShopInfo.get(i).getmPetcareTitle()){
+        for(int i=0;i<mInfos.size();i++){
+            if(marker.getTitle().equals(mInfos.get(i).getmPetcareTitle())){
                 Intent intent = new Intent(this, PetcareinfoActivity.class);
-                intent.putExtra("petcareinfo", mShopInfo.get(i));
+                intent.putExtra("petcareinfo", mInfos.get(i));
                 startActivity(intent);
-                return true;
             }
         }
+
         return false;
     }
 
     @Override
     public void onShopSelected(PetcareInfo item) {
-        Intent intent = new Intent(this, PetcareinfoActivity.class);
-        intent.putExtra("petcareinfo", item);
+        Intent intent = new Intent(this,PetcareinfoActivity.class);
+        intent.putExtra("petcareinfo",item);
         startActivity(intent);
     }
 }

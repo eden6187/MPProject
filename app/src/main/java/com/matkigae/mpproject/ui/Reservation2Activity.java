@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class Reservation2Activity extends AppCompatActivity {
     Toolbar mTb;
     Button mBtnReserve;
     EditText mtextViewIfAvailable;
-    EditText mETAvailableWeek;
+    TextView mETAvailableWeek;
     PetcareInfo mPetcareInfo;
 
     String mAvailableWeek;
