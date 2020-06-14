@@ -1,6 +1,7 @@
 package com.matkigae.mpproject.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,7 @@ import com.matkigae.mpproject.listeners.PetcareRegisterRecyclerViewAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,6 +62,12 @@ public class PetcareRegisterActivity extends AppCompatActivity {
     ActionBar mActionbar;
     ToggleButton[] toggleButtons= new ToggleButton[7];
     PetcareRegisterRecyclerViewAdapter mPetcareRegisterRecyclerViewAdapter;
+    Button mBtnCheckAddress;
+    String mAddress;
+
+    private View mLayout;
+    LatLng mAddressLatLng;
+    private boolean mCheckAddress = false;
 
 
     private void initView(){
@@ -81,6 +90,8 @@ public class PetcareRegisterActivity extends AppCompatActivity {
         toggleButtons[5] = findViewById(R.id.togglebutton_register_sat);
         toggleButtons[6] = findViewById(R.id.togglebutton_register_sun);
 
+        mBtnCheckAddress = findViewById(R.id.button_register_check_address);
+        mLayout = findViewById(R.id.petcare_register_layout);
     }
 
     @Override
@@ -90,35 +101,44 @@ public class PetcareRegisterActivity extends AppCompatActivity {
 
 
         initView();
+        mBtnCheckAddress.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mAddressLatLng = getLastLocation();
+            }
+        });
 
         mBtnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String availableDate = "";
-                for(ToggleButton button : toggleButtons){
-                    if(button.isChecked()){ availableDate = availableDate + "1"; }
-                    else{ availableDate = availableDate + "0"; }
+                if(!mCheckAddress){
+                    popupMessage(mCheckAddress);
+                }else{
+                    String availableDate = "";
+                    for(ToggleButton button : toggleButtons){
+                        if(button.isChecked()){ availableDate = availableDate + "1"; }
+                        else{ availableDate = availableDate + "0"; }
+                    }
+
+                    String petCareTitle = mEtPetcareTitle.getText().toString();
+                    String petCareInfo = mEtPetcareInfo.getText().toString();
+                    String petCareIntro = mEtPetcareIntro.getText().toString();
+                    String petCarePrice = mEtPrice.getText().toString();
+
+
+                    PetcareInfo newInfo = new PetcareInfo();
+                    newInfo.setmUserId(FirebaseAuth.getInstance().getUid());
+                    newInfo.setmAvailableDate(availableDate);
+                    newInfo.setmPetcareInfo(petCareInfo);
+                    newInfo.setmPetcareIntro(petCareIntro);
+                    newInfo.setmPetcareTitle(petCareTitle);
+                    newInfo.setmPrice(petCarePrice);
+                    newInfo.setmXcoordinate(mAddressLatLng.latitude);
+                    newInfo.setmYcoordinate(mAddressLatLng.longitude);
+
+                    registerPetCareInfo(newInfo);
                 }
-                Toast.makeText(PetcareRegisterActivity.this,availableDate,Toast.LENGTH_SHORT).show();
-
-                String petCareTitle = mEtPetcareTitle.getText().toString();
-                String petCareInfo = mEtPetcareInfo.getText().toString();
-                String petCareIntro = mEtPetcareIntro.getText().toString();
-                String petCarePrice = mEtPrice.getText().toString();
-                LatLng petCareAddress = getLastLocation();
-
-                PetcareInfo newInfo = new PetcareInfo();
-                newInfo.setmUserId(FirebaseAuth.getInstance().getUid());
-                newInfo.setmAvailableDate(availableDate);
-                newInfo.setmPetcareInfo(petCareInfo);
-                newInfo.setmPetcareIntro(petCareIntro);
-                newInfo.setmPetcareTitle(petCareTitle);
-                newInfo.setmPrice(petCarePrice);
-                newInfo.setmXcoordinate(petCareAddress.latitude);
-                newInfo.setmYcoordinate(petCareAddress.longitude);
-
-                registerPetCareInfo(newInfo);
             }
         });
     }
@@ -127,7 +147,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
         ref.child(newInfo.getmPetcareTitle()).setValue(newInfo);
     }
 
-    private LatLng getLastLocation(){
+    public LatLng getLastLocation(){
         final Geocoder geocoder = new Geocoder(this);
         String str = mEtPetcareAddress.getText().toString();
         List<Address> list = null;
@@ -141,16 +161,41 @@ public class PetcareRegisterActivity extends AppCompatActivity {
         }
         if(list!=null){
             if(list.size()==0){
-                Toast.makeText(getApplicationContext(), "해당되는 주소가 없습니다.", Toast.LENGTH_LONG).show();
+                mCheckAddress = false;
+                popupMessage(mCheckAddress);
             }
             else{
                 mLat = list.get(0).getLatitude();
                 mLng = list.get(0).getLongitude();
                 mLatLng = new LatLng(mLat, mLng);
+                mCheckAddress = true;
+                popupMessage(mCheckAddress);
+                mAddress = list.get(0).getAddressLine(0);
             }
         }
         return mLatLng;
     }
 
+    void popupMessage(boolean check){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if(check){
+            builder.setMessage("확인되었습니다.");
+        }else{
+            builder.setMessage("주소가 올바르지 않습니다.");
+        }
+        builder.setNeutralButton("확인",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.show();
+    }
+
+    public String getAddress(){
+        return mAddress;
+    }
+    public LatLng getAddressLatLng(){
+        return mAddressLatLng;
+    }
 
 }
