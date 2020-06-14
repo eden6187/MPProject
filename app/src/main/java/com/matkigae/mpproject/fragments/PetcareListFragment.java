@@ -35,9 +35,9 @@ public class PetcareListFragment extends ListFragment {
 
 
 
-    public PetcareListFragment(Context context) {
+    public PetcareListFragment() {
         // Required empty public constructor
-        adapter = new PetcareListViewAdapter(context);
+        //adapter = new PetcareListViewAdapter(context);
     }
 
     public void setOnShopSelectedListener(OnShopSelectedListener listener){
@@ -53,10 +53,10 @@ public class PetcareListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        adapter = new PetcareListViewAdapter();
 
         setListAdapter(adapter);
         initializeDataFromDB();
-        setDataBaseAdapter();
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -87,44 +87,6 @@ public class PetcareListFragment extends ListFragment {
     ** 현재 Provider tree에 있는 정보를 전부 가져와서 Adapter에 추가시켜주는 Method
      * 정상작
     **/
-    public void setDataBaseAdapter(){
-        DatabaseReference ref = mDb.getReference().child("providers");
-        ref.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-//                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    adapter.addItem(data.getValue(PetcareInfo.class));
-                }
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"서버에 문제가 발생하였습니다.",Toast.LENGTH_LONG).show();
-            }
-        });
-    }
 
     public void addItem(PetcareInfo info){
         adapter.addItem(info);

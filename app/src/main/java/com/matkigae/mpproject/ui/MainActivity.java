@@ -1,12 +1,15 @@
 package com.matkigae.mpproject.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.data.UserInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
@@ -22,12 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
@@ -37,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     View mNavHeaderView;
     UserInfo mUserInfo;
     FirebaseDatabase mDb;
+    private View mLayout;
+
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
 
     private void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         mTvUserId = mNavHeaderView.findViewById(R.id.textview_navheader_userid);
         mBtnGotoProvideService = findViewById(R.id.button_main_gotoprovideservice);
         mBtnGotoCareService = (Button)findViewById(R.id.button_main_gotocareactivity);
+        mLayout = findViewById(R.id.main_layout);
     }
 
     @Override
@@ -103,4 +112,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE) {
+            // Request for camera permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted. Start camera preview Activity.
+                Snackbar.make(mLayout, "",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                // Permission request was denied.
+                Snackbar.make(mLayout,"",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
 }

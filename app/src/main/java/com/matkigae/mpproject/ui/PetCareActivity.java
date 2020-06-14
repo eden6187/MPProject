@@ -69,7 +69,7 @@ import java.util.Locale;
 public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.OnShopSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener
 {
-    PetcareListFragment mPetcareListFragment = new PetcareListFragment(this);
+    PetcareListFragment mPetcareListFragment = new PetcareListFragment();
     SupportMapFragment mMapFragment;
     Button mBtnShowList;
     Button mBtnShowMap;
@@ -131,9 +131,17 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_petcare);
 
+        if (!checkLocationServicesStatus()) {
+
+            showDialogForLocationServiceSetting();
+        }else {
+
+            checkRunTimePermission();
+        }
+
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
-        mPetcareListFragment = new PetcareListFragment(this);
+        mPetcareListFragment = new PetcareListFragment();
         mPetcareListFragment.setOnShopSelectedListener(this);
         replaceFragment(mPetcareListFragment);
 
@@ -379,13 +387,57 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
     /*** 아래부턴 런타임 퍼미션 처리를 위한 메소드. ***/
 
+    void checkRunTimePermission(){
+
+        //런타임 퍼미션 처리
+        // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(PetCareActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(PetCareActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+
+        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
+
+            // 2. 이미 퍼미션을 가지고 있다면
+            // ( 안드로이드 6.0 이하 버전은 런타임 퍼미션이 필요없기 때문에 이미 허용된 걸로 인식합니다.)
+
+
+            // 3.  위치 값을 가져올 수 있음
+
+
+
+        } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
+
+            // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
+            if (ActivityCompat.shouldShowRequestPermissionRationale(PetCareActivity.this, REQUIRED_PERMISSIONS[0])) {
+
+                // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
+                Toast.makeText(PetCareActivity.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+                ActivityCompat.requestPermissions(PetCareActivity.this, REQUIRED_PERMISSIONS,
+                        PERMISSIONS_REQUEST_CODE);
+
+
+            } else {
+                // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
+                // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+                ActivityCompat.requestPermissions(PetCareActivity.this, REQUIRED_PERMISSIONS,
+                        PERMISSIONS_REQUEST_CODE);
+            }
+
+        }
+
+    }
+
+
     private boolean checkPermission() {
 
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
-
 
         return hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
                 hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED;

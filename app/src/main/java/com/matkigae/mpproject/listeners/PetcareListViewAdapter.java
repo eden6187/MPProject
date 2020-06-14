@@ -25,10 +25,10 @@ public class PetcareListViewAdapter extends BaseAdapter {
 
     private static final String tag = "googlemap_location";
 
-    GPSTracker mGPSTracker;
 
-    public PetcareListViewAdapter(Context context) {
-        mGPSTracker = new GPSTracker(context);
+
+    public PetcareListViewAdapter() {
+    //    mGPSTracker = new GPSTracker(context);
     }
 
     @Override
@@ -54,13 +54,13 @@ public class PetcareListViewAdapter extends BaseAdapter {
         TextView distanceTextview = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_distance);
         titleTextView.setText(listViewItem.getmPetcareTitle());
         priceTextView.setText(listViewItem.getmPrice());
-        Location currentLocation = mGPSTracker.getLocation();
-        Log.e(tag, "GPSlocation:"+mGPSTracker.getLatitude()+"  "+mGPSTracker.getLongitude());
-        Location shopLocation = new Location("shopPoint");
-        shopLocation.setLatitude(listViewItem.getmXcoordinate());
-        shopLocation.setLongitude(listViewItem.getmYcoordinate());
-        String distance = String.valueOf(currentLocation.distanceTo(shopLocation));
-        distanceTextview.setText(distance);
+    //    Location currentLocation = mGPSTracker.getLocation();
+    //    Log.e(tag, "GPSlocation:"+mGPSTracker.getLatitude()+"  "+mGPSTracker.getLongitude());
+    //    Location shopLocation = new Location("shopPoint");
+    //    shopLocation.setLatitude(listViewItem.getmXcoordinate());
+    //    shopLocation.setLongitude(listViewItem.getmYcoordinate());
+    //    String distance = String.valueOf(currentLocation.distanceTo(shopLocation));
+    //    distanceTextview.setText(distance);
 
         return view;
     }
