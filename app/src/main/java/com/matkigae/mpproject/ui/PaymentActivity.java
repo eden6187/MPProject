@@ -48,6 +48,8 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
     Button mBtnDoPayment;
     Button mBtnCancelPayment;
     PetcareInfo mPetcareInfo;
+    String mStartTime;
+    String mEndTime;
 
     private BillingProcessor bp;
     public static ArrayList<SkuDetails> products;
@@ -79,10 +81,9 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
 
         Intent intent = getIntent();
-        intent.getParcelableExtra("petcareinfo");
-        String start = intent.getStringExtra("startdate");
-        String end = intent.getStringExtra("enddate");
-        System.out.println("데이터 전달 확인용 : " + start + "~" + end);
+        mPetcareInfo = intent.getParcelableExtra("petcareinfo");
+        final String mStartTime = intent.getStringExtra("startdate");
+        final String mEndTime = intent.getStringExtra("enddate");
 
         bp = new BillingProcessor(this, "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZIEcCAx7aRVH0Cz9d95oz+96cKc/Op/Yg87KZnhSAz3uajnfr3XJ9r5a9RzGBImRPt/18HIyn1N8zussnijARvj8CfgPCVriOI0LP8sPJYnD6+sSnnUrzKYMdsGDy4YUEOETfn05TXPT68nqF05aXInEYjMu9NPKFI5tI7zyqmKUNgsgnY38y2SIwrEQqfysaZhEuOXdn+lUB/9ZTSYP+yoLi45yUwgZ2XAsfoOJQjtYnWBnNs3gpba5f2yg0X4OvceN26DPlhWEM57LSmqCXFIYL78cOhbb3mVSBF/8SpAgxSTH2VyMH6RkgdPVS0oe8smyumybu9DmaPO3SeYAQIDAQAB", this);
         bp.initialize();
@@ -95,11 +96,9 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
 //                }
 //                bp.purchase(PaymentActivity.this, "payment_1");
 
-                mPetcareInfo = new PetcareInfo();
-                mPetcareInfo.setmPetcareTitle("final");
-                MatchingInfo matchingInfo = new MatchingInfo( mPetcareInfo, "0101", "0102");
+                MatchingInfo matchingInfo = new MatchingInfo(PaymentActivity.this.mPetcareInfo,mStartTime,mEndTime);
                 DatabaseReference ref = mDb.getReference().child("matchinginfo");
-                ref.child(mPetcareInfo.getmUserId()).push().setValue(matchingInfo);
+                ref.child(PaymentActivity.this.mPetcareInfo.getmUserId()).setValue(matchingInfo);
             }
 
         });

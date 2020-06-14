@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.data.MatchingInfo;
+import com.matkigae.mpproject.data.PetcareInfo;
+
 import java.util.ArrayList;
 
 public class PetcareRegisterRecyclerViewAdapter extends RecyclerView.Adapter {
@@ -21,17 +23,23 @@ public class PetcareRegisterRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     public static class RvViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView;
-        private TextView textView;
+        private TextView clientId;
+        private TextView starttime;
+        private TextView enttime;
 
         private RvViewHolder(@NonNull View itemView) {
             super(itemView);
 
-             textView = itemView.findViewById(R.id.petcare_title_petcarelistview_item);
+            enttime = itemView.findViewById(R.id.recyclerview_myinfo_end_time);
+            starttime = itemView.findViewById(R.id.recyclerview_myinfo_start_time);
+            clientId = itemView.findViewById(R.id.recyclerview_myinfo_item_client);
+
         }
 
         private void onBind(MatchingInfo info){
-//            textView.setText(info.getConsumerId());
+            enttime.setText(info.getEndTime());
+            starttime.setText(info.getStartTime());
+            PetcareInfo inform = info.getInfo();
         }
     }
 
@@ -43,7 +51,7 @@ public class PetcareRegisterRecyclerViewAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.petcarelistview_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.myinfo_recyclerview_item,parent,false);
         return new RvViewHolder(view);
     }
 
