@@ -92,28 +92,28 @@ public class PetcareListFragment extends ListFragment {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-//                    adapter.addItem(data.getValue(PetcareInfo.class));
+                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
+                    adapter.addItem(data.getValue(PetcareInfo.class));
                 }
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
+                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
                     adapter.addItem(data.getValue(PetcareInfo.class));
                 }
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
+                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
                     adapter.addItem(data.getValue(PetcareInfo.class));
                 }
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
+                for(DataSnapshot data : dataSnapshot.child("providers").getChildren()){
                     adapter.addItem(data.getValue(PetcareInfo.class));
                 }
                 adapter.notifyDataSetChanged();
