@@ -69,7 +69,7 @@ import java.util.Locale;
 public class PetCareActivity extends AppCompatActivity implements PetcareListFragment.OnShopSelectedListener,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener
 {
-    PetcareListFragment mPetcareListFragment = new PetcareListFragment();
+    PetcareListFragment mPetcareListFragment = new PetcareListFragment(this);
     SupportMapFragment mMapFragment;
     Button mBtnShowList;
     Button mBtnShowMap;
@@ -141,7 +141,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
 
         initView();
         mNv.setNavigationItemSelectedListener(new NavigationViewItemListener(this));
-        mPetcareListFragment = new PetcareListFragment();
+        mPetcareListFragment = new PetcareListFragment(this );
         mPetcareListFragment.setOnShopSelectedListener(this);
         replaceFragment(mPetcareListFragment);
 

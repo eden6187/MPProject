@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         mNv = findViewById(R.id.nav_view);
         mTvUserId = mNv.findViewById(R.id.textview_navheader_userid);
-        mDl = findViewById(R.id.drawer_layout);
+        mDl = findViewById(R.id.main_layout);
         mNavHeaderView = mNv.getHeaderView(0);
         mTvUserId = mNavHeaderView.findViewById(R.id.textview_navheader_userid);
         mBtnGotoProvideService = findViewById(R.id.button_main_gotoprovideservice);
