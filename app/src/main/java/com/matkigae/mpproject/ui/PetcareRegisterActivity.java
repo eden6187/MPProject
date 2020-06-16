@@ -56,6 +56,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 public class PetcareRegisterActivity extends AppCompatActivity {
     FirebaseDatabase mDb = FirebaseDatabase.getInstance();
     Button mBtnRegister;
+    Button mBtnCancel;
     EditText mEtPrice;
     EditText mEtPetcareInfo;
     EditText mEtPetcareIntro;
@@ -79,6 +80,7 @@ public class PetcareRegisterActivity extends AppCompatActivity {
         mActionbar.setHomeButtonEnabled(true);
 
         mBtnRegister = findViewById(R.id.button_regsiter_registertodb);
+        mBtnCancel = findViewById(R.id.button_regsiter_cancel);
         mEtPetcareInfo = findViewById(R.id.edittext_register_petcareinfo);
         mEtPetcareIntro = findViewById(R.id.edittext_register_petcareinfointro);
         mEtPetcareTitle = findViewById(R.id.edittext_register_petcareinfotitle);
@@ -145,6 +147,15 @@ public class PetcareRegisterActivity extends AppCompatActivity {
                     Intent intent = new Intent(PetcareRegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
+            }
+        });
+
+        mBtnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PetcareRegisterActivity.this, "등록이 취소되었습니다.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(PetcareRegisterActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

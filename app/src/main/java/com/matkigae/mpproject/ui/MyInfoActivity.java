@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ public class MyInfoActivity extends AppCompatActivity {
     TextView mTvUserEmailAddress;
     Button mBtnLogout;
     Button mBtnWithdraw;
+    Button mBtnProvide;
     RecyclerView mRv;
     PetcareRegisterRecyclerViewAdapter mRvAdapter;
     ArrayList<MatchingInfo> mRequests = new ArrayList<MatchingInfo>();
@@ -44,6 +46,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
         mBtnLogout = findViewById(R.id.button_myinfo_logout);
         mBtnWithdraw = findViewById(R.id.button_myinfo_withdrawal);
+        mBtnProvide = findViewById(R.id.button_myinfo_provide);
         mTvUserEmailAddress = findViewById(R.id.textview_loginactivity_useremail);
         mTvUserEmailAddress.setText(mAuth.getCurrentUser().getEmail());
     }
@@ -95,6 +98,13 @@ public class MyInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 revokeAccess();;
                 finishAffinity();
+            }
+        });
+        mBtnProvide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyInfoActivity.this, PetcareRegisterActivity.class);
+                startActivity(intent);
             }
         });
     }
