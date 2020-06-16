@@ -130,6 +130,7 @@ public class PetCareActivity extends AppCompatActivity implements PetcareListFra
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_petcare);
+//        checkRunTimePermission();
 
         if (!checkLocationServicesStatus()) {
 

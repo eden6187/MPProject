@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.matkigae.mpproject.R;
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import java.util.HashMap;
@@ -66,6 +68,23 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkRunTimePermission();
+
+//        // 위치 권한
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.ACCESS_COARSE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+//            } else {
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+//                        PERMISSIONS_REQUEST_CODE);
+//            }
+//        }
+
 
         // User 객체 Singleton 으로 생성
         mUserInfo = UserInfo.getInstance();
@@ -118,15 +137,76 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission has been granted. Start camera preview Activity.
-                Snackbar.make(mLayout, "",
+                Snackbar.make(mLayout, "위치 사용이 승인되었습니다",
                         Snackbar.LENGTH_SHORT)
                         .show();
             } else {
                 // Permission request was denied.
-                Snackbar.make(mLayout,"",
+                Snackbar.make(mLayout,"위치 사용",
                         Snackbar.LENGTH_SHORT)
                         .show();
             }
         }
     }
+
+    /*** 아래부턴 런타임 퍼미션 처리를 위한 메소드. ***/
+
+    void checkRunTimePermission(){
+
+        //런타임 퍼미션 처리
+        // 1. 위치 퍼미션을 가지고 있는지 체크합니다.
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+
+        if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
+
+            // 2. 이미 퍼미션을 가지고 있다면
+            // ( 안드로이드 6.0 이하 버전은 런타임 퍼미션이 필요없기 때문에 이미 허용된 걸로 인식합니다.)
+
+
+            // 3.  위치 값을 가져올 수 있음
+
+
+
+        } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
+
+            // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS[0])) {
+
+                // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
+                Toast.makeText(MainActivity.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
+                // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+                ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
+                        PERMISSIONS_REQUEST_CODE);
+
+
+            } else {
+                // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
+                // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
+                ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
+                        PERMISSIONS_REQUEST_CODE);
+            }
+
+        }
+
+    }
+
+
+    private boolean checkPermission() {
+
+        int hasFineLocationPermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        return hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+
 }
