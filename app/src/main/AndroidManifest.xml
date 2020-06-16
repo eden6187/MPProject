@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
@@ -19,8 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ui.PetcareinfoActivity"></activity>
         <activity
-            android:name="com.matkigae.mpproject.ui.PetcareRegisterActivity"
+            android:name=".ui.PetcareRegisterActivity"
             android:label="@string/title_activity_pecare_register"
             android:theme="@style/NoActionBar"></activity>
         <!--
@@ -49,9 +49,9 @@
         </activity>
         <activity android:name="com.matkigae.mpproject.ui.PetCareActivity" />
         <activity android:name="com.matkigae.mpproject.ui.ReservationActivity" />
+        <activity android:name="com.matkigae.mpproject.ui.Reservation2Activity" />
         <activity android:name="com.matkigae.mpproject.ui.MyInfoActivity" />
         <activity android:name="com.matkigae.mpproject.ui.PaymentActivity" />
-        <activity android:name="com.matkigae.mpproject.ui.TestActivity" />
         <activity android:name="com.matkigae.mpproject.ui.PaidActivity" />
     </application>
 

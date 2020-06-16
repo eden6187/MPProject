@@ -1,67 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout android:background="@drawable/roundrect_background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:weightSum="6"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
+        android:layout_margin="5dp"
+        android:padding="1dp"
+        android:cropToPadding="true"
+        android:scaleType="centerInside"
+        android:background="@drawable/ic_shopinfo_default"
         android:id="@+id/petcare_image_petcarelistview_item"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="100dp"
-        android:layout_weight="3" />
+        android:layout_weight="2" />
+
     <LinearLayout
+        android:layout_margin="5dp"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_weight="4">
 
         <TextView
-            android:id="@+id/petcare_title_petcarelistview_item"
+            android:id="@+id/texview_petcareinfolistviewitem_title"
+            android:text="-"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:textSize="24sp"
+            android:layout_height="50dp"
+            android:layout_weight="2"
+            android:gravity="center"
             android:textColor="#000000"
-            android:gravity="center_vertical"
-            android:layout_weight="2" />
+            android:textSize="24sp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:layout_weight="4">
-
-            <ImageView
-                android:id="@+id/petcare_star_petcarelistview_item"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
+            android:weightSum="4">
 
             <TextView
-                android:id="@+id/petcare_rating_num_petcarelistview_item"
-                android:layout_width="50dp"
+                android:id="@+id/textview_petacareinfo_price_title"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TextView"
-                android:textSize="20sp" />
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:text="거리"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/petcare_reviewcount_petcarelistview_item"
-                android:layout_width="102dp"
+                android:id="@+id/texview_petcareinfolistviewitem_distance"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="TextView"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="-"
                 android:textColor="#000000"
-                android:textSize="15sp" />
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/petcare_distance_petcarelistview_item"
-                android:layout_width="match_parent"
+                android:id="@+id/textview_petacareinfo_distance_title"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:text="TextView"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="가격"
                 android:textColor="#000000"
-                android:textSize="15sp" />
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/texview_petcareinfolistviewitem_price"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="#000000"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
     </LinearLayout>
 

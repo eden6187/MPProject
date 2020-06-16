@@ -1,12 +1,15 @@
 package com.matkigae.mpproject.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.matkigae.mpproject.R;
 import com.matkigae.mpproject.data.UserInfo;
 import com.matkigae.mpproject.listeners.NavigationViewItemListener;
@@ -22,9 +25,13 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.HashMap;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
     NavigationView mNv;
     DrawerLayout mDl;
     Toolbar mTb;
@@ -34,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
     View mNavHeaderView;
     UserInfo mUserInfo;
     FirebaseDatabase mDb;
+    private View mLayout;
+
+    String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    private static final int PERMISSIONS_REQUEST_CODE = 100;
 
     private void initView(){
         mTb = findViewById(R.id.toolbar);
@@ -43,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         mNv = findViewById(R.id.nav_view);
         mTvUserId = mNv.findViewById(R.id.textview_navheader_userid);
-        mDl = findViewById(R.id.drawer_layout);
+        mDl = findViewById(R.id.main_layout);
         mNavHeaderView = mNv.getHeaderView(0);
         mTvUserId = mNavHeaderView.findViewById(R.id.textview_navheader_userid);
         mBtnGotoProvideService = findViewById(R.id.button_main_gotoprovideservice);
         mBtnGotoCareService = (Button)findViewById(R.id.button_main_gotocareactivity);
+        mLayout = findViewById(R.id.main_layout);
     }
 
     @Override
@@ -63,20 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
         //DataBase 초기화 User 정보 초기화 및 기존 사용자에 대한 정보는 추가하지 않도록 Query 작성
         mDb = FirebaseDatabase.getInstance();
-        DatabaseReference ref = mDb.getReference().child("userinfo");
-
-        Query query = ref.orderByChild("mEmailAddress").equalTo(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Object info = dataSnapshot.getValue();
-                if (info == null){
-                    addUserInfo();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
+        final DatabaseReference ref = mDb.getReference();
+        HashMap<String,Object> post = new HashMap<String, Object>();
+        post.put("/user_list/" + FirebaseAuth.getInstance().getUid(),UserInfo.toMap());
+        ref.updateChildren(post);
 
         initView();
 
@@ -98,10 +100,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void addUserInfo(){
-        DatabaseReference ref = mDb.getReference();
-        ref.child("userinfo").push().setValue(mUserInfo);
-    }
 
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
@@ -114,4 +112,21 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE) {
+            // Request for camera permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted. Start camera preview Activity.
+                Snackbar.make(mLayout, "",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                // Permission request was denied.
+                Snackbar.make(mLayout,"",
+                        Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        }
+    }
 }

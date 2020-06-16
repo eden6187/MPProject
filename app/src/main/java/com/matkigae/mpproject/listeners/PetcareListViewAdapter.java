@@ -2,6 +2,9 @@ package com.matkigae.mpproject.listeners;
 
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +13,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.firebase.DataCollectionDefaultChange;
+import com.google.android.gms.maps.model.LatLng;
 import com.matkigae.mpproject.data.PetcareInfo;
 import com.matkigae.mpproject.R;
+import com.matkigae.mpproject.ui.PetcareRegisterActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PetcareListViewAdapter extends BaseAdapter {
-    private ArrayList<PetcareInfo> ItemList = new ArrayList<PetcareInfo>();
+    private ArrayList<PetcareInfo> itemList = new ArrayList<PetcareInfo>();
+
+    private static final String tag = "googlemap_location";
+
+    GPSTracker mGPSTracker;
+
+    public void sortByPrice(){
+        Collections.sort(this.itemList);
+    }
+
+    public PetcareListViewAdapter(Context context) {
+        mGPSTracker = new GPSTracker(context);
+    }
+
+    public void clearAll(){
+        itemList.clear();
+    }
 
     @Override
     public int getCount() {
-        return ItemList.size();
+        return itemList.size();
     }
 
     @Override
@@ -33,24 +57,25 @@ public class PetcareListViewAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.petcarelistview_item, parent, false);
         }
 
-        PetcareInfo listViewItem = ItemList.get(position);
+        PetcareInfo listViewItem = itemList.get(position);
 
-        ImageView iconImageView = (ImageView) view.findViewById(R.id.petcare_image_petcarelistview_item);
-        ImageView starImageView = (ImageView) view.findViewById(R.id.petcare_star_petcarelistview_item);
-        TextView titleTextView = (TextView) view.findViewById(R.id.petcare_title_petcarelistview_item);
-        TextView ratingnumTextView = (TextView) view.findViewById(R.id.petcare_rating_num_petcarelistview_item);
-        TextView reviewCountTextView = (TextView) view.findViewById(R.id.petcare_reviewcount_petcarelistview_item);
-        TextView distanceTextView = (TextView) view.findViewById(R.id.petcare_distance_petcarelistview_item);
-
-        iconImageView.setImageResource(listViewItem.getIcon());
-        starImageView.setImageResource(listViewItem.getStar());
-        titleTextView.setText(listViewItem.getTitle());
-        ratingnumTextView.setText(listViewItem.getRatingnum());
-        reviewCountTextView.setText(listViewItem.getReviewcount());
-        distanceTextView.setText(listViewItem.getDistance());
+        ImageView iconImageView = (ImageView) view.findViewById(R.id.imageview_petcareinfo_shopicon);
+        TextView titleTextView = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_title);
+        TextView priceTextView = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_price);
+        TextView distanceTextview = (TextView) view.findViewById(R.id.texview_petcareinfolistviewitem_distance);
+        titleTextView.setText(listViewItem.getmPetcareTitle());
+        priceTextView.setText(listViewItem.getmPrice());
+        Location currentLocation = mGPSTracker.getLocation();
+        Log.e(tag, "GPSlocation:"+mGPSTracker.getLatitude()+"  "+mGPSTracker.getLongitude());
+        Location shopLocation = new Location("shopPoint");
+        shopLocation.setLatitude(listViewItem.getmXcoordinate());
+        shopLocation.setLongitude(listViewItem.getmYcoordinate());
+        String distance = String.valueOf(currentLocation.distanceTo(shopLocation));
+        distanceTextview.setText(distance);
 
         return view;
     }
+
 
     @Override
     public long getItemId(int position) {
@@ -59,10 +84,11 @@ public class PetcareListViewAdapter extends BaseAdapter {
 
     @Override
     public PetcareInfo getItem(int position) {
-        return ItemList.get(position);
+        return itemList.get(position);
     }
 
     public void addItem(PetcareInfo item){
-        ItemList.add(item);
+        itemList.add(item);
     }
+
 }
