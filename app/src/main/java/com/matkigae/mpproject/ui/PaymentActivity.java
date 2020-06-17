@@ -125,10 +125,10 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         mBtnDoPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bp.isPurchased("test_1")) {
-                    bp.consumePurchase("test_1");
+                if (bp.isPurchased("for_submission")) {
+                    bp.consumePurchase("for_submission");
                 }
-                bp.purchase(PaymentActivity.this, "test_1");
+                bp.purchase(PaymentActivity.this, "for_submission");
 
                 MatchingInfo matchingInfo = new MatchingInfo(PaymentActivity.this.mPetcareInfo,mStartTime,mEndTime,FirebaseAuth.getInstance().getUid());;
                 DatabaseReference ref = mDb.getReference().child("matchinginfo");
@@ -196,6 +196,7 @@ public class PaymentActivity extends AppCompatActivity implements BillingProcess
         // * 구매 완료시 호출
         // productId: 구매한 sku (ex) no_ads)
         // details: 결제 관련 정보
+        bp.consumePurchase("for_submission");
         SkuDetails sku = bp.getPurchaseListingDetails(productId);
         String purchaseMessage = sku.title + "결제가 완료되었습니다!\n결제확인 페이지로 넘어갑니다.";
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
